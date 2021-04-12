@@ -1,51 +1,73 @@
-package gov.nih.ncats.clinicaltrial;
+package gov.nih.ncats.clinicaltrial.utils;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
+import gov.nih.ncats.clinicaltrial.ClinicalTrialEntityService;
 import gov.nih.ncats.clinicaltrial.models.ClinicalTrial;
-import org.junit.jupiter.api.Test;
-import org.springframework.boot.test.context.SpringBootTest;
+import gsrs.service.AbstractGsrsEntityService;
+import org.springframework.beans.factory.annotation.Autowired;
 
-import gsrs.startertests.GsrsEntityTestConfiguration;
-import gsrs.startertests.GsrsJpaTest;
-import org.junit.jupiter.api.io.TempDir;
-
-
-
-import java.net.*;
-import java.io.*;
-import java.util.*;
-import java.lang.String;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Optional;
 
+public class ClinicalTrialSourceDownloader {
 
-@SpringBootTest
-class ClinicalTrialSourceDownload {
     final String urlTemplate= "https://clinicaltrials.gov/ct2/results/download_fields?down_flds=all&down_count=%s&down_fmt=tsv&down_chunk=%s";
     final int downCount= 100;
     final int downChunk= 1;
-    @Test
-    void test() {
-        List<LinkedHashMap<String, Object>> list = loadChunk();
-        ClinicalTrialEntityService cts = new ClinicalTrialEntityService();
-        String s = null;
-        for (LinkedHashMap hm: list) {
-            s = String.valueOf(hm.get("NCT Number"));
-            System.out.println(s +" ... ");
+    // alex trying this
+    @Autowired
+    private ClinicalTrialEntityService cts;
 
-            Optional<ClinicalTrial> t = cts.get(s);
-            if(t.isPresent()) {
-                System.out.println(s +" ... Present");
+
+
+    public void download() {
+        ObjectMapper objectMapper = new ObjectMapper();
+        List<LinkedHashMap<String, Object>> list = loadChunk();
+//        ClinicalTrialEntityService cts = new ClinicalTrialEntityService();
+        String trialNumber = null;
+        String title = null;
+        int c=0;
+        for (LinkedHashMap hm: list) {
+            System.out.println(c);
+            trialNumber = String.valueOf(hm.get("NCT Number"));
+            title = String.valueOf(hm.get("Title"));
+            System.out.println(trialNumber +" ... ");
+            System.out.println(title +" ... ");
+            ClinicalTrial clinicalTrial = new ClinicalTrial();
+            clinicalTrial.setTrialNumber(trialNumber);
+            clinicalTrial.setTitle(title);
+
+            AbstractGsrsEntityService.CreationResult<ClinicalTrial> result = null;
+            try {
+                result = cts.createEntity(objectMapper.valueToTree(clinicalTrial));
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            if (result.isCreated()) {
+                System.out.println("After save");
+                Optional<ClinicalTrial> t = cts.get(trialNumber);
+                if (t.isPresent()) {
+                    System.out.println("present");
+                } else {
+                    System.out.println("not present");
+                }
             } else {
-                System.out.println(s + "... not present");
+                System.out.println("not created");
             }
 
-//            for (String s: _fieldNames()) {
-  //              System.out.print(String.valueOf(hm.get(s)));
-    //        }
-            System.out.println("");
+
         }
     }
 
 
-    @Test
     public List<LinkedHashMap<String, Object>> loadChunk() {
         List<LinkedHashMap<String, Object>> list = new ArrayList<LinkedHashMap<String, Object>>();
         String urlString = String.format(urlTemplate,downCount,downChunk);
@@ -93,8 +115,8 @@ class ClinicalTrialSourceDownload {
                     }
                     list.add(cleanedMap);
                 } catch (IOException e) {
-                e.printStackTrace();
-            }
+                    e.printStackTrace();
+                }
 
 //                System.out.println(cleanedMap.toString());
 //                String test = String.valueOf(cleanedMap.get("Last Update Posted"));
@@ -112,7 +134,7 @@ class ClinicalTrialSourceDownload {
 //        LocalDate date = LocalDate.parse("2018-05-05");
 //        int dom = date.getDayOfMonth();
 //        System.out.println("dom: "+dom);
-            return list;
+        return list;
     }
 
     public static String[] _dateFields() {
@@ -170,4 +192,6 @@ class ClinicalTrialSourceDownload {
     else
         create
      */
+
+
 }

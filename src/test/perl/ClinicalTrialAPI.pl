@@ -270,7 +270,7 @@ if (1) {
 	};
 	test_put($args);
 }
-# exit;
+ exit;
 
 # Try to update with duplicate substanceUuids
 {    

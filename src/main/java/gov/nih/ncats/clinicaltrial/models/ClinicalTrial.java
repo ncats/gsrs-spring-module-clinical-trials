@@ -39,14 +39,16 @@ public class ClinicalTrial extends AbstractGsrsEntity {
     @Id
     // @GeneratedValue
     public String trialNumber;
+
     @Indexable
-    private String title;
+    @Column(name = "TITLE", length=4000)
+    public String title;
 
     @Column(name = "RECRUITMENT", length=4000)
     public String recruitment;
 
     @Column(name = "RESULTS_FIRST_RECEIVED", length=4000)
-    public String resultsFirstRecieved;
+    public String resultsFirstReceived;
 
     @Column(name = "CONDITIONS", length=4000)
     public String conditions;
@@ -89,6 +91,9 @@ public class ClinicalTrial extends AbstractGsrsEntity {
 
     @Column(name = "ACRONYM", length=4000)
     public String acronym;
+
+    @Column(name = "STATUS", length=500)
+    public String status;
 
     @Column(name = "START_DATE")
     public Date startDate;
@@ -148,7 +153,6 @@ public class ClinicalTrial extends AbstractGsrsEntity {
             // System.out.println("HERE3");
             for ( ClinicalTrialDrug ctd : clinicalTrialDrugs )
             {
-                // o is the reference to the currently selected object
                 // System.out.println("HERE4");
                 ctd.setOwner(this);
                 // System.out.println("HERE5");
@@ -181,7 +185,7 @@ public class ClinicalTrial extends AbstractGsrsEntity {
 
     @JsonIgnore
     @Indexable(facet= true, name = "Has Substances")
-    public String getHasSubtances() {
+    public String getHasSubstances() {
         if (this.clinicalTrialDrug!= null && !this.clinicalTrialDrug.isEmpty()) {
             return "Has Substances";
         }

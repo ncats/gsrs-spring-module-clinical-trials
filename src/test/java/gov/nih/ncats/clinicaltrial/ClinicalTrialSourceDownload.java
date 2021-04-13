@@ -1,12 +1,8 @@
 package gov.nih.ncats.clinicaltrial;
-import gov.nih.ncats.clinicaltrial.models.ClinicalTrial;
+import gov.nih.ncats.clinicaltrial.us.models.ClinicalTrial;
+import gov.nih.ncats.clinicaltrial.us.services.ClinicalTrialEntityService;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
-
-import gsrs.startertests.GsrsEntityTestConfiguration;
-import gsrs.startertests.GsrsJpaTest;
-import org.junit.jupiter.api.io.TempDir;
-
 
 
 import java.net.*;

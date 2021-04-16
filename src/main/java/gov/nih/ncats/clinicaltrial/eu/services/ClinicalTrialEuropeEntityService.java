@@ -15,13 +15,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.io.*;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.nio.charset.StandardCharsets;
-import java.time.LocalDate;
-import java.time.YearMonth;
-import java.time.ZoneId;
-import java.time.format.DateTimeFormatter;
 import java.util.*;
 import java.util.regex.Pattern;
 
@@ -51,7 +44,6 @@ public class ClinicalTrialEuropeEntityService extends AbstractGsrsEntityService<
 
     @Override
     protected ClinicalTrialEurope fromNewJson(JsonNode json) throws IOException {
-        // return CTUtils.adaptSingleRecord(json, objectMapper, true);
         return objectMapper.convertValue(json, ClinicalTrialEurope.class);
 
     }
@@ -90,21 +82,18 @@ public class ClinicalTrialEuropeEntityService extends AbstractGsrsEntityService<
 
     @Override
     protected List<ClinicalTrialEurope> fromNewJsonList(JsonNode list) throws IOException {
-        // return CTUtils.adaptList(list, objectMapper, true);
         return null;
     }
 
 
     @Override
     protected ClinicalTrialEurope fromUpdatedJson(JsonNode json) throws IOException {
-        // return CTUtils.adaptSingleRecord(json, objectMapper, false);
         return objectMapper.convertValue(json, ClinicalTrialEurope.class);
 
     }
 
     @Override
     protected List<ClinicalTrialEurope> fromUpdatedJsonList(JsonNode list) throws IOException {
-        // return CTUtils.adaptList(list, objectMapper, false);
         return null;
     }
 

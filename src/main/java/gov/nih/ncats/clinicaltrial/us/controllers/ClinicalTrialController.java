@@ -2,6 +2,7 @@ package gov.nih.ncats.clinicaltrial.us.controllers;
 
 import gov.nih.ncats.clinicaltrial.us.models.ClinicalTrial;
 import gov.nih.ncats.clinicaltrial.us.services.ClinicalTrialEntityService;
+import gov.nih.ncats.clinicaltrial.us.services.ClinicalTrialMetaUpdaterService;
 import gov.nih.ncats.clinicaltrial.us.services.ClinicalTrialLegacySearchService;
 import gsrs.controller.*;
 import gsrs.legacy.LegacyGsrsSearchService;
@@ -37,6 +38,8 @@ public class ClinicalTrialController extends EtagLegacySearchEntityController<Cl
     @Autowired
     private ClinicalTrialEntityService clinicalTrialEntityService;
 
+    @Autowired
+    private ClinicalTrialMetaUpdaterService clinicalTrialMetaUpdaterService;
 
     @Autowired
     private EntityLinks entityLinks;
@@ -67,9 +70,7 @@ public class ClinicalTrialController extends EtagLegacySearchEntityController<Cl
   public JSONObject sayHello()
   {
       System.out.println("Running Clinical Trials Meta Updater");
-//      ClinicalTrialSourceDownloader dl = new ClinicalTrialSourceDownloader();
-//      dl.download();
-      clinicalTrialEntityService.download();
+      clinicalTrialMetaUpdaterService.download();
 
       Map<String, String> hm = new Hashtable<String, String>();
       hm.put("one", "a");

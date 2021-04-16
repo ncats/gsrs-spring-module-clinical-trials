@@ -3,10 +3,7 @@ package gov.nih.ncats.clinicaltrial.us.controllers;
 import gov.nih.ncats.clinicaltrial.us.models.ClinicalTrial;
 import gov.nih.ncats.clinicaltrial.us.services.ClinicalTrialEntityService;
 import gov.nih.ncats.clinicaltrial.us.services.ClinicalTrialLegacySearchService;
-import gsrs.controller.EtagLegacySearchEntityController;
-import gsrs.controller.GetGsrsRestApiMapping;
-import gsrs.controller.GsrsRestApiController;
-import gsrs.controller.IdHelpers;
+import gsrs.controller.*;
 import gsrs.legacy.LegacyGsrsSearchService;
 //import org.hibernate.search.backend.lucene.LuceneExtension;
 //import org.hibernate.search.engine.search.predicate.dsl.BooleanPredicateClausesStep;
@@ -22,13 +19,17 @@ import org.springframework.hateoas.server.ExposesResourceFor;
 
 import java.util.Hashtable;
 import java.util.Map;
+import java.util.stream.Stream;
 
 /**
  * GSRS Rest API controller for the {@link ClinicalTrial} entity.
  */
 @GsrsRestApiController(context = ClinicalTrialEntityService.CONTEXT,  idHelper = IdHelpers.NUMBER)
 @ExposesResourceFor(ClinicalTrial.class)
+
 public class ClinicalTrialController extends EtagLegacySearchEntityController<ClinicalTrialController, ClinicalTrial, String> {
+
+
     @Autowired
     private ClinicalTrialLegacySearchService clinicalTrialLegacySearchService;
 
@@ -46,11 +47,23 @@ public class ClinicalTrialController extends EtagLegacySearchEntityController<Cl
         return clinicalTrialLegacySearchService;
     }
 
+
+
     public ClinicalTrialController() {
 
     }
 
-  @GetGsrsRestApiMapping("/@lf")
+    @Override
+    protected  ClinicalTrialEntityService getEntityService() {
+        return clinicalTrialEntityService;
+    }
+
+    protected Stream<ClinicalTrial> filterStream(Stream<ClinicalTrial> stream, boolean publicOnly, Map<String, String> parameters) {
+        return stream;
+    }
+
+
+    @GetGsrsRestApiMapping("/@lf")
   public JSONObject sayHello()
   {
       System.out.println("Running Clinical Trials Meta Updater");

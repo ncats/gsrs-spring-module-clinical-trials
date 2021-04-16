@@ -48,7 +48,7 @@ public class ClinicalTrialSourceDownloader {
             AbstractGsrsEntityService.CreationResult<ClinicalTrial> result = null;
             try {
                 result = cts.createEntity(objectMapper.valueToTree(clinicalTrial));
-            } catch (IOException e) {
+            } catch (Exception e) {
                 e.printStackTrace();
             }
             if (result.isCreated()) {

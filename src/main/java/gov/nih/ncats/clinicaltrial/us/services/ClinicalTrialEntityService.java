@@ -5,6 +5,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import gov.nih.ncats.clinicaltrial.us.repositories.ClinicalTrialRepository;
 import gov.nih.ncats.clinicaltrial.us.models.ClinicalTrial;
 import gov.nih.ncats.clinicaltrial.us.utils.importmapper.SourceToTargetField;
+import gsrs.events.AbstractEntityCreatedEvent;
+import gsrs.events.AbstractEntityUpdatedEvent;
 import gsrs.service.AbstractGsrsEntityService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -29,7 +31,7 @@ public class ClinicalTrialEntityService extends AbstractGsrsEntityService<Clinic
     public static final String  CONTEXT = "clinicaltrial";
 
     public ClinicalTrialEntityService() {
-        super("clinicaltrial", Pattern.compile("^NCT\\d+$"));
+        super("clinicaltrial", Pattern.compile("^NCT\\d+$"), null, null, null);
     }
 
     @Autowired
@@ -70,6 +72,16 @@ public class ClinicalTrialEntityService extends AbstractGsrsEntityService<Clinic
     protected ClinicalTrial update(ClinicalTrial clinicalTrial) {
         System.out.println("\n\n ==== Updating ====XX  \n\n");
         return repository.saveAndFlush(clinicalTrial);
+    }
+
+    @Override
+    protected AbstractEntityUpdatedEvent<ClinicalTrial> newUpdateEvent(ClinicalTrial updatedEntity) {
+        return null;
+    }
+
+    @Override
+    protected AbstractEntityCreatedEvent<ClinicalTrial> newCreationEvent(ClinicalTrial createdEntity) {
+        return null;
     }
 
     @Override
@@ -194,7 +206,7 @@ public class ClinicalTrialEntityService extends AbstractGsrsEntityService<Clinic
             try {
                 ctNew = applyCTApiV1TsvHashMapToClinicalTrial(lhm, ctNew);
                 createEntity(objectMapper.valueToTree(ctNew));
-            } catch (IOException e) {
+            } catch (Exception e) {
                 e.printStackTrace();
             }
         } else {

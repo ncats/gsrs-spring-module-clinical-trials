@@ -54,7 +54,7 @@ public class ClinicalTrialEuropeProduct extends AbstractGsrsEntity {
     // @JsonIgnore
     @ToString.Exclude
     @JoinColumn(name = "PRODUCT_ID", referencedColumnName = "ID")
-    @OneToMany(fetch=FetchType.LAZY, cascade = CascadeType.ALL)
+    @OneToMany(fetch=FetchType.EAGER, cascade = CascadeType.ALL)
     public List<ClinicalTrialEuropeDrug> clinicalTrialEuropeDrugList = new ArrayList<>();
 
     public ClinicalTrialEuropeProduct () {}

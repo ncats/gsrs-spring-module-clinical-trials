@@ -3,7 +3,11 @@ package gov.nih.ncats.clinicaltrial.eu.services;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import gov.nih.ncats.clinicaltrial.eu.models.ClinicalTrialEurope;
+import gov.nih.ncats.clinicaltrial.eu.models.ClinicalTrialEuropeProduct;
 import gov.nih.ncats.clinicaltrial.eu.repositories.ClinicalTrialEuropeRepository;
+import gov.nih.ncats.clinicaltrial.us.models.ClinicalTrial;
+import gsrs.events.AbstractEntityCreatedEvent;
+import gsrs.events.AbstractEntityUpdatedEvent;
 import gsrs.service.AbstractGsrsEntityService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -26,7 +30,7 @@ public class ClinicalTrialEuropeEntityService extends AbstractGsrsEntityService<
     public static final String  CONTEXT = "clinicaltrialeurope";
 
     public ClinicalTrialEuropeEntityService() {
-        super("clinicaltrialeurope", Pattern.compile("^[-a-z0-9]+$"));
+        super("clinicaltrialeurope", Pattern.compile("^NCT\\d+$"), null, null, null);
     }
 
     @Autowired
@@ -68,6 +72,16 @@ public class ClinicalTrialEuropeEntityService extends AbstractGsrsEntityService<
         System.out.println("\n\n ==== Updating ====XX  \n\n");
         return repository.saveAndFlush(clinicalTrialEurope);
     }
+    @Override
+    protected AbstractEntityUpdatedEvent<ClinicalTrialEurope> newUpdateEvent(ClinicalTrialEurope updatedEntity) {
+        return null;
+    }
+
+    @Override
+    protected AbstractEntityCreatedEvent<ClinicalTrialEurope> newCreationEvent(ClinicalTrialEurope createdEntity) {
+        return null;
+    }
+
 
     @Override
     public String getIdFrom(ClinicalTrialEurope entity) {

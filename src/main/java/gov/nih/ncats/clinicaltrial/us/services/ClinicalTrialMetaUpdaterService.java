@@ -31,7 +31,7 @@ public class ClinicalTrialMetaUpdaterService {
     private ObjectMapper objectMapper;
 
     // create chunk stream either from string, file, or url-web
-    // applyMetaData to existing trials or create when then don't exist
+    // applyMetaData to existing trials or create when they don't exist
     // provide feedback to task manager or UI.
 
     // ui example.
@@ -60,16 +60,34 @@ public class ClinicalTrialMetaUpdaterService {
         System.out.print("Doing compare " + compareLastUpdated(date1, date2));
         */
         sourceToTargetFieldsMapper.dumpExtendedSourceToTargetFieldsMap();
-        ObjectMapper objectMapper = new ObjectMapper();
         BufferedReader in = prepareCTApiV1StreamFromWeb(downCount, downChunk, nctNumber);
         List<LinkedHashMap<String, Object>> list = processCTApiV1StreamChunk(in);
         for (LinkedHashMap lhm : list) {
-            // AbstractGsrsEntityService.CreationResult<ClinicalTrial> result = null;
             createOrUpdateEntityFromMetaData(lhm);
         }
     }
+    public void download2() {
+        int downChunk = 0;
+        int downCount = 1000;
+        int processedRows = 0;
+        String nctNumber = null;
+        while (true) {
+            downChunk++;
+            BufferedReader in = prepareCTApiV1StreamFromWeb(downCount, downChunk, nctNumber);
 
-    public void createOrUpdateEntityFromMetaData(LinkedHashMap lhm) {
+            if (in == null || downChunk>2) break;
+            List<LinkedHashMap<String, Object>> list = processCTApiV1StreamChunk(in);
+            for (LinkedHashMap lhm : list) {
+                processedRows++;
+                createOrUpdateEntityFromMetaData(lhm);
+            }
+
+        }
+        System.out.println("Processed rows: "+processedRows);
+    }
+
+
+        public void createOrUpdateEntityFromMetaData(LinkedHashMap lhm) {
         // takes linked hashmap derived from clinicaltrials.gov api v1 tsv format.
         // Either creates or updates the metadata for a trial.
         // But only updates if the lastUpdated values are different.

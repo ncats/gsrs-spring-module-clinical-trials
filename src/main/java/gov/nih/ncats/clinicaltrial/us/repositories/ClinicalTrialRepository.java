@@ -1,6 +1,6 @@
-package gov.nih.ncats.clinicaltrial;
+package gov.nih.ncats.clinicaltrial.us.repositories;
 
-import gov.nih.ncats.clinicaltrial.models.ClinicalTrial;
+import gov.nih.ncats.clinicaltrial.us.models.ClinicalTrial;
 import gsrs.repository.GsrsRepository;
 import org.springframework.stereotype.Service;
 import java.util.Optional;

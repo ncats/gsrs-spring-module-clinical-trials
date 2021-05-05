@@ -1,28 +1,25 @@
-package gov.nih.ncats.clinicaltrial.validators;
+package gov.nih.ncats.clinicaltrial.eu.validators;
 
-import gov.nih.ncats.clinicaltrial.models.ClinicalTrial;
-import gov.nih.ncats.clinicaltrial.ClinicalTrialRepository;
+import gov.nih.ncats.clinicaltrial.eu.models.ClinicalTrialEurope;
+import gov.nih.ncats.clinicaltrial.eu.repositories.ClinicalTrialEuropeRepository;
 import gsrs.validator.ValidatorConfig;
-import ix.core.validator.GinasProcessingMessage;
 import ix.core.validator.ValidatorCallback;
 import ix.ginas.utils.validation.ValidatorPlugin;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import java.util.Optional;
-
-public class DuplicateTitleValidator implements ValidatorPlugin<ClinicalTrial> {
+public class DuplicateTitleValidator implements ValidatorPlugin<ClinicalTrialEurope> {
     @Autowired
-    private ClinicalTrialRepository repository;
+    private ClinicalTrialEuropeRepository repository;
 
     @Override
-    public boolean supports(ClinicalTrial newValue, ClinicalTrial oldValue, ValidatorConfig.METHOD_TYPE methodType) {
+    public boolean supports(ClinicalTrialEurope newValue, ClinicalTrialEurope oldValue, ValidatorConfig.METHOD_TYPE methodType) {
         return methodType != ValidatorConfig.METHOD_TYPE.BATCH;
     }
 
 
     // this is just an example, change to something more relevant later.
     @Override
-    public void validate(ClinicalTrial objnew, ClinicalTrial objold, ValidatorCallback callback) {
+    public void validate(ClinicalTrialEurope objnew, ClinicalTrialEurope objold, ValidatorCallback callback) {
         System.out.println("Skipped, possible validator task with repository access here.");
         /*
         Optional<ClinicalTrial> found = repository.findByTitle(objnew.getTitle());

@@ -1,6 +1,7 @@
-package gov.nih.ncats.clinicaltrial;
+package gov.nih.ncats.clinicaltrial.us.services;
 
-import gov.nih.ncats.clinicaltrial.models.ClinicalTrial;
+import gov.nih.ncats.clinicaltrial.us.models.ClinicalTrial;
+import gov.nih.ncats.clinicaltrial.us.repositories.ClinicalTrialRepository;
 import gsrs.legacy.LegacyGsrsSearchService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

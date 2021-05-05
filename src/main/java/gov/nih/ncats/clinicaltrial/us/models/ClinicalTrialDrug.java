@@ -1,4 +1,4 @@
-package gov.nih.ncats.clinicaltrial.models;
+package gov.nih.ncats.clinicaltrial.us.models;
 import ix.core.SingleParent;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import gsrs.model.AbstractGsrsEntity;

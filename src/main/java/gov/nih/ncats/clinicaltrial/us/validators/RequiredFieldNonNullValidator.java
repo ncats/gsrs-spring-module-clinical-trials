@@ -1,6 +1,6 @@
-package gov.nih.ncats.clinicaltrial.validators;
+package gov.nih.ncats.clinicaltrial.us.validators;
 
-import gov.nih.ncats.clinicaltrial.models.ClinicalTrial;
+import gov.nih.ncats.clinicaltrial.us.models.ClinicalTrial;
 import gsrs.validator.ValidatorConfig;
 import ix.core.validator.GinasProcessingMessage;
 import ix.core.validator.ValidatorCallback;

@@ -1,6 +1,6 @@
-package gov.nih.ncats.clinicaltrial.indexers;
+package gov.nih.ncats.clinicaltrial.us.indexers;
 
-import gov.nih.ncats.clinicaltrial.models.ClinicalTrial;
+import gov.nih.ncats.clinicaltrial.us.models.ClinicalTrial;
 import ix.core.search.text.IndexValueMaker;
 import ix.core.search.text.IndexableValue;
 import org.springframework.stereotype.Component;

@@ -1,27 +1,29 @@
-package gov.nih.ncats.clinicaltrial;
+package gov.nih.ncats.clinicaltrial.us.services;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import gov.nih.ncats.clinicaltrial.models.ClinicalTrial;
+import gov.nih.ncats.clinicaltrial.us.repositories.ClinicalTrialRepository;
+import gov.nih.ncats.clinicaltrial.us.models.ClinicalTrial;
+import gsrs.events.AbstractEntityCreatedEvent;
+import gsrs.events.AbstractEntityUpdatedEvent;
 import gsrs.service.AbstractGsrsEntityService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import java.io.IOException;
-import java.util.List;
-import java.util.Optional;
+import java.io.*;
+import java.util.*;
 import java.util.regex.Pattern;
 
-
+import gov.nih.ncats.clinicaltrial.us.utils.importmapper.SourceToTargetFieldsMapper;
 
 @Service
 public class ClinicalTrialEntityService extends AbstractGsrsEntityService<ClinicalTrial, String> {
     public static final String  CONTEXT = "clinicaltrial";
 
     public ClinicalTrialEntityService() {
-        super("clinicaltrial", Pattern.compile("^NCT\\d+$"));
+        super("clinicaltrial", Pattern.compile("^NCT\\d+$"), null, null, null);
     }
 
     @Autowired
@@ -29,9 +31,6 @@ public class ClinicalTrialEntityService extends AbstractGsrsEntityService<Clinic
 
     @Autowired
     private ObjectMapper objectMapper;
-
-    // @Autowired
-    // private ClinicalTrialSearchService searchService;
 
     @Override
     public Class<ClinicalTrial> getEntityClass() {
@@ -45,14 +44,12 @@ public class ClinicalTrialEntityService extends AbstractGsrsEntityService<Clinic
 
     @Override
     protected ClinicalTrial fromNewJson(JsonNode json) throws IOException {
-        // return CTUtils.adaptSingleRecord(json, objectMapper, true);
         return objectMapper.convertValue(json, ClinicalTrial.class);
 
     }
 
     @Override
     public Page page(Pageable pageable) {
-
         return repository.findAll(pageable);
     }
 
@@ -68,27 +65,34 @@ public class ClinicalTrialEntityService extends AbstractGsrsEntityService<Clinic
     }
 
     @Override
+    protected AbstractEntityUpdatedEvent<ClinicalTrial> newUpdateEvent(ClinicalTrial updatedEntity) {
+        return null;
+    }
+
+    @Override
+    protected AbstractEntityCreatedEvent<ClinicalTrial> newCreationEvent(ClinicalTrial createdEntity) {
+        return null;
+    }
+
+    @Override
     public String getIdFrom(ClinicalTrial entity) {
         return entity.getTrialNumber();
     }
 
     @Override
     protected List<ClinicalTrial> fromNewJsonList(JsonNode list) throws IOException {
-        // return CTUtils.adaptList(list, objectMapper, true);
         return null;
     }
 
 
     @Override
     protected ClinicalTrial fromUpdatedJson(JsonNode json) throws IOException {
-        // return CTUtils.adaptSingleRecord(json, objectMapper, false);
         return objectMapper.convertValue(json, ClinicalTrial.class);
 
     }
 
     @Override
     protected List<ClinicalTrial> fromUpdatedJsonList(JsonNode list) throws IOException {
-        // return CTUtils.adaptList(list, objectMapper, false);
         return null;
     }
 
@@ -98,9 +102,10 @@ public class ClinicalTrialEntityService extends AbstractGsrsEntityService<Clinic
     }
 
     @Override
-    protected ClinicalTrial create(ClinicalTrial clinicalTrial) {
+    public ClinicalTrial create(ClinicalTrial clinicalTrial) {
         System.out.println("\n\n ==== Creating  ==== XX  \n\n");
         try {
+            // System.out.println(clinicalTrial.getTrialNumber());
             return repository.saveAndFlush(clinicalTrial);
         }catch(Throwable t){
             t.printStackTrace();
@@ -137,4 +142,7 @@ public class ClinicalTrialEntityService extends AbstractGsrsEntityService<Clinic
         return Optional.empty();
     }
 
+
 }
+
+

@@ -17,14 +17,9 @@ import javax.persistence.*;
 // import javax.persistence.Transient;
 // import javax.persistence.GeneratedValue;
 // import javax.persistence.Id;
-import java.util.Date;
-import java.util.List;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Arrays;
+import java.util.*;
+
 import gov.nih.ncats.common.util.TimeUtil;
-import java.util.LinkedHashSet;
-import java.util.Set;
 
 
 @Data
@@ -142,9 +137,9 @@ public class ClinicalTrial extends AbstractGsrsEntity {
     @Basic(fetch= FetchType.EAGER)
     // had to add this or I got circular references when string building.
     @ToString.Exclude
-    public Set<ClinicalTrialDrug> clinicalTrialDrug = new LinkedHashSet<ClinicalTrialDrug>();
+    public Set<ClinicalTrialDrug> clinicalTrialDrug = new HashSet<ClinicalTrialDrug>();
 
-    public void setClinicalTrialDrug(LinkedHashSet<ClinicalTrialDrug> clinicalTrialDrugs) {
+    public void setClinicalTrialDrug(Set<ClinicalTrialDrug> clinicalTrialDrugs) {
         // System.out.println("HERE0");
         // System.out.println("HERE1");
         this.clinicalTrialDrug = clinicalTrialDrugs;
@@ -158,7 +153,8 @@ public class ClinicalTrial extends AbstractGsrsEntity {
                 // System.out.println("HERE5");
             }
         }
-        // setIsDirty("ctds");
+        // setIsDirty("clinicalTrialDrug");
+
     }
 
 

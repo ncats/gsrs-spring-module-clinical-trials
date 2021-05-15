@@ -123,6 +123,15 @@ public class ClinicalTrialController extends EtagLegacySearchEntityController<Cl
         return substanceAPIService.getSubstanceDetailsFromName(name);
     }
 
+    @GetGsrsRestApiMapping("/@substanceQuickMatches")
+    public ResponseEntity<?> sayHello5()  {
+        System.out.println("getting substance substanceQuickMatches");
+        return substanceAPIService.getQuickResultMatchesByUuids();
+    }
+
+
+
+
 }
 
 

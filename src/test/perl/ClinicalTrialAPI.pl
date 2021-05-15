@@ -270,10 +270,49 @@ if (1) {
 	};
 	test_put($args);
 }
- exit;
+
+
+
+# Try to update with change one substance uuid
+{    
+	my $data_string = get_to_json($trialNumber_create);
+
+	my $decoded = $json->decode($data_string);
+	# $decoded->{recruitment} = 'XXXX';
+	# $decoded->{gsrsUpdated} = 0;
+
+	my $ctd = $decoded->{clinicalTrialDrug};	
+	pop(@{$ctd}); 
+	
+	my $new = {};
+	$new->{trialNumber} = $trialNumber_create;
+	$new->{substanceUuid} = $substanceUuid4;
+	
+	push(@{$ctd}, $new ); 
+
+	$decoded->{clinicalTrialDrug} = $ctd; 	
+	# print $json->encode($decoded);
+	my $condition = sub { 
+		my $decoded = shift;
+		return (!defined($decoded->{message})); 
+	};
+	my $args = {
+		expected_status => 200, 
+		data => $decoded,
+		dump => 0, 
+		dump_json => 0, 		
+		url => "$basePath/clinicaltrial",
+		condition => $condition,
+		message => 'Test put - Try to update with change one substance uuid'
+	};
+	test_put($args);
+}
+
 
 # Try to update with duplicate substanceUuids
-{    
+{   
+
+
     # 500 Internal Server Error if not change is made.
 	# my $data_string = $base_json;
 	my $data_string = get_to_json($trialNumber_create);
@@ -282,32 +321,46 @@ if (1) {
 	$decoded->{recruitment} = 'XXXX';
 	# $decoded->{gsrsUpdated} = 0;
 
-	my $ctd = $json->decode('{	
-		"clinicalTrialDrug": [{
+	# note this won't work if both ids are not set because hashset collapses into one row.  
+	# come back to this and maybe reconsider LinkedHashSet implementation.
+		my $ctd = $json->decode('{
+	"clinicalTrialDrug": [{
+		"id": 99,
 		"trialNumber": "'.$trialNumber_create.'",
 		"substanceUuid": "'.$substanceUuid3.'"
-		},
-		{
+	},{
+		"id": 98,
 		"trialNumber": "'.$trialNumber_create.'",
 		"substanceUuid": "'.$substanceUuid3.'"
-		}
+	}
 	]}');
+
+	
 	$decoded->{clinicalTrialDrug} = $ctd->{clinicalTrialDrug}; 	
 	# print $json->encode($decoded);
 	my $condition = sub { 
 		my $decoded = shift;
-		return (defined($decoded->{errors}) && $decoded->{errors}->[0] =~ /Duplicate substanceUuids/i); 
+		if(defined($decoded->{validationMessages})) {
+			for my $vm (@{$decoded->{validationMessages}}) {
+				if( $vm->{message} and $vm->{message} =~ /Substance .* a duplicate/i) { 
+					return 1;
+				}
+			}		
+		}
 	};
 	my $args = {
 		expected_status => 400, 
 		data => $decoded,
+		dump_request_json=>0,	
 		dump => 0, 
+		dump_json => 1,
 		url => "$basePath/clinicaltrial",
 		condition => $condition,
 		message => 'Test put - Try to update with duplicate substanceUuids'
 	};
 	test_put($args);
 }
+
 
 
 # Try to update with badly formatted NctNumber
@@ -344,6 +397,7 @@ if (1) {
 	};
 	test_put($args);
 }
+exit;
 
 # Update a record that does not exist.
 {    
@@ -556,7 +610,11 @@ sub test_put {
 	# print $json->encode($args->{data});
 	$client->addHeader('Accept', 'application/json');
 	$client->addHeader('Content-Type', 'application/json');
-	$client->PUT($args->{url}, $json->encode($args->{data}));
+	
+	my $request_json = $json->encode($args->{data});
+	print "\n=== request_json ====\n".$request_json."\n====n"  if($args->{dump_request_json});
+	
+	$client->PUT($args->{url}, $request_json);
 	
 	# print "\nDATA\n";
 	# print Data::Dumper->Dump([$args->{data}]);
@@ -569,9 +627,14 @@ sub test_put {
 	ok($client->responseCode() == $args->{expected_status}, "Status matched expected_status. EC: $expected / RC: $rc");
 	my $content = $client->responseContent();
 	if(!$content) { print "Content is empty\n" }
-	print $content if($args->{dump_json});
+	print "\n=== response content ====\n".$content."\n====\n"  if($args->{dump_json});
+
+	
 	my $decoded = $json->decode($client->responseContent());
 	print Data::Dumper->Dump([\$decoded]) if($args->{dump});
+	
+	
+	
 	ok($args->{condition}($decoded), $args->{message});
 }
 

@@ -15,6 +15,12 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 @EntityScan(basePackages ={"ix","gsrs", "gov.nih.ncats"} )
 @EnableJpaRepositories(basePackages ={"ix","gsrs", "gov.nih.ncats"} )
 // @EnableGsrsLegacyAuthentication
+@EnableGsrsLegacyCache
+@EnableGsrsLegacyPayload
+@EnableGsrsLegacySequenceSearch
+@EnableGsrsScheduler
+@EnableGsrsBackup
+
 public class GsrsSpringCTApplication {
 
     public static void main(String[] args) {

@@ -27,7 +27,7 @@
     </repositories>
     <properties>
         <java.version>1.8</java.version>
-        <gsrs.version>0.6.2-SNAPSHOT</gsrs.version>
+        <gsrs.version>0.6.3-SNAPSHOT</gsrs.version>
     </properties>
 
     <dependencies>
@@ -82,6 +82,11 @@
             <artifactId>gsrs-spring-starter-tests</artifactId>
             <version>${gsrs.version}</version>
             <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>gov.nih.ncats</groupId>
+            <artifactId>gsrs-module-substances-spring-boot-starter</artifactId>
+            <version>0.6.1-SNAPSHOT</version>
         </dependency>
     </dependencies>
 

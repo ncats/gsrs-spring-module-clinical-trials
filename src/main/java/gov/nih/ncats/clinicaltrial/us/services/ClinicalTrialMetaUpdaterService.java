@@ -52,13 +52,6 @@ public class ClinicalTrialMetaUpdaterService {
     final LinkedHashMap<String, SourceToTargetField> sourceToTargetFieldsLHM = sourceToTargetFieldsMapper.generateExtendedSourceToTargetFieldsMap();
 
     public void download() {
-        /* move to a test
-        Date date1 = null;
-        Date date2 = new Date(2014, 02, 11);
-        System.out.println("date1:" + date1);
-        System.out.println("date2:" + date2);
-        System.out.print("Doing compare " + compareLastUpdated(date1, date2));
-        */
         sourceToTargetFieldsMapper.dumpExtendedSourceToTargetFieldsMap();
         BufferedReader in = prepareCTApiV1StreamFromWeb(downCount, downChunk, nctNumber);
         List<LinkedHashMap<String, Object>> list = processCTApiV1StreamChunk(in);
@@ -66,6 +59,9 @@ public class ClinicalTrialMetaUpdaterService {
             createOrUpdateEntityFromMetaData(lhm);
         }
     }
+
+
+
     public void download2() {
         int downChunk = 0;
         int downCount = 1000;
@@ -130,7 +126,7 @@ public class ClinicalTrialMetaUpdaterService {
             return "DO_UPDATE_ON_DATE1_NULL";
         }
         if ((int) oldLastUpdated.compareTo(newLastUpdated) < 0) {
-            return "DO_UPDATE_DATE1_LT_DATE2)";
+            return "DO_UPDATE_DATE1_LT_DATE2";
         }
         return "SKIP_UPDATE";
     }
@@ -144,7 +140,7 @@ public class ClinicalTrialMetaUpdaterService {
             date = Date.from(localDate.atStartOfDay(ZoneId.systemDefault()).toInstant());
             return date;
         } catch (Exception ex) {
-            System.out.println("Date conversion error 1 occurred. Will try strategy 2 on:" + s);
+            System.out.println("Date x conversion error 1 occurred. Will try strategy 2 on:" + s);
         }
         try {
             YearMonth ym = YearMonth.parse(s, dateFormatter2);

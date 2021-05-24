@@ -51,9 +51,6 @@ public class ClinicalTrialBase extends AbstractGsrsEntity {
 
     public ClinicalTrialBase () {}
 
-
-
-
     @JsonIgnore
     public String ctRegion() {
         return "BASE";

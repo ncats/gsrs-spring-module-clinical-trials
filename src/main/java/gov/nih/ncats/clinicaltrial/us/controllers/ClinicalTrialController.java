@@ -53,8 +53,6 @@ public class ClinicalTrialController extends EtagLegacySearchEntityController<Cl
     @Autowired
     private EntityLinks entityLinks;
 
-
-
     @Override
     protected LegacyGsrsSearchService<ClinicalTrial> getlegacyGsrsSearchService() {
         return clinicalTrialLegacySearchService;
@@ -122,6 +120,15 @@ public class ClinicalTrialController extends EtagLegacySearchEntityController<Cl
         System.out.println("getting substance from name json");
         return substanceAPIService.getSubstanceDetailsFromName(name);
     }
+
+    @GetGsrsRestApiMapping("/@substanceQuickMatches")
+    public ResponseEntity<?> sayHello5()  {
+        System.out.println("getting substance substanceQuickMatches");
+        return substanceAPIService.getQuickResultMatchesByUuids();
+    }
+
+
+
 
 }
 

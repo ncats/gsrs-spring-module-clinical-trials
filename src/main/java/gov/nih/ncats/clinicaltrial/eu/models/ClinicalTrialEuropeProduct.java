@@ -27,7 +27,7 @@ public class ClinicalTrialEuropeProduct extends AbstractGsrsEntity {
 
     @ManyToOne
     @JsonIgnore
-    @JoinColumn(name="EUDRACT_NUMBER")
+    @JoinColumn(name="TRIAL_NUMBER")
     public ClinicalTrialEurope clinicalTrialEuropeForDrug;
 
     @Column(name="IMP_SECTION")

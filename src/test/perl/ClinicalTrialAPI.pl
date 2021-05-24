@@ -2,7 +2,6 @@ use strict;
 use warnings;
 use Test::More;
 use 5.10.0;
-# tests => 23;
 use Data::Dumper;
 use REST::Client;
 use JSON;
@@ -27,7 +26,6 @@ my $baseUrl = 'http://localhost:8080';
 my $basePath = '/api/v2';
 # $basePath = '/ginas/app';
 
-
 my $test_user_connection=0;
 
 
@@ -46,27 +44,27 @@ my $trialNumber_ne = 'NCT00000000';
 my $trialNumber_create = 'NCT99999999';
 my $trialNumber_delete = $trialNumber_create;
 
-my $substanceUuid_ne = '3345eae8-2d84-4a19-acf7-x6xx3xx022x5';  # made up uuid
-my $substanceUuid1;
-my $substanceUuid2;
-my $substanceUuid3;
-my $substanceUuid4;
+my $substanceKey_ne = '3345eae8-2d84-4a19-acf7-x6xx3xx022x5';  # made up uuid
+my $substanceKey1;
+my $substanceKey2;
+my $substanceKey3;
+my $substanceKey4;
 
 
 
 # These substances have to exists and be indexed to work!!!!!
 # These ones are in the ncts repo90.ginas test data set
 if ($repo90) {
-  $substanceUuid1="1db30542-0cc4-4098-9d89-8340926026e9"; #aspirin calcium
-  $substanceUuid2="fb0bb85e-36a8-49f5-b48c-fe84db45923c"; #LEUCOMYCIN A1 ACETATE
-  $substanceUuid3="cf8df6ce-b0c6-4570-a07a-118cd58a4e90"; #VERBESINA SATIVA WHOLE
-  $substanceUuid4="d42fd6c5-f0d5-49c0-bd81-502f161c1297"; #PANDANUS LOUREIROI WHOLE
+  $substanceKey1="1db30542-0cc4-4098-9d89-8340926026e9"; #aspirin calcium
+  $substanceKey2="fb0bb85e-36a8-49f5-b48c-fe84db45923c"; #LEUCOMYCIN A1 ACETATE
+  $substanceKey3="cf8df6ce-b0c6-4570-a07a-118cd58a4e90"; #VERBESINA SATIVA WHOLE
+  $substanceKey4="d42fd6c5-f0d5-49c0-bd81-502f161c1297"; #PANDANUS LOUREIROI WHOLE
 } else {
   # make edits here as needed.
-  $substanceUuid1="09b782d8-d7bf-4099-b432-7da505d81459"; #pentane
-  $substanceUuid2="46fca64d-6ff3-42d2-a2c0-92a1c6fc65ed"; #zinc acetate
-  $substanceUuid3="3fce2c72-3383-4511-9bc6-fcc646d0462f"; #palmitic acid
-  $substanceUuid4="bd3f6640-1845-472f-b743-c8d77367576f"; #CANNABIDIOL
+  $substanceKey1="09b782d8-d7bf-4099-b432-7da505d81459"; #pentane
+  $substanceKey2="46fca64d-6ff3-42d2-a2c0-92a1c6fc65ed"; #zinc acetate
+  $substanceKey3="3fce2c72-3383-4511-9bc6-fcc646d0462f"; #palmitic acid
+  $substanceKey4="bd3f6640-1845-472f-b743-c8d77367576f"; #CANNABIDIOL
 }
 
 my $base_json = '
@@ -91,10 +89,12 @@ my $base_json = '
 	"sponsorList": [],
 	"clinicalTrialDrug": [{
 		"trialNumber": "NCTNUMBER",
-		"substanceUuid": "SUBSTANCEUUID1"
+		"substanceKey": "SUBSTANCEUUID1",
+		"substanceKeyType": "UUID"
 	}, {
 		"trialNumber": "NCTNUMBER",
-		"substanceUuid": "SUBSTANCEUUID2"
+		"substanceKey": "SUBSTANCEUUID2",
+		"substanceKeyType": "UUID"
 	}],
 	"clinicalTrialApplicationList": []
 }
@@ -103,48 +103,41 @@ my $base_json = '
 #		"id": 104163,
 
 $base_json =~ s/NCTNUMBER/NCT99999999/g;
-$base_json =~ s/SUBSTANCEUUID1/$substanceUuid1/g;
-$base_json =~ s/SUBSTANCEUUID2/$substanceUuid2/g;
+$base_json =~ s/SUBSTANCEUUID1/$substanceKey1/g;
+$base_json =~ s/SUBSTANCEUUID2/$substanceKey2/g;
 
 #print $base_json;
 #	my $decoded = $json->decode($base_json);
 # exit;
 
 
-# delete_helper($trialNumber_1, $substanceUuid_1);
-# delete_helper($trialNumber_1, $substanceUuid_2);
-# delete_helper($trialNumber_1, $substanceUuid_3);
+# delete_helper($trialNumber_1, $substanceKey_1);
+# delete_helper($trialNumber_1, $substanceKey_2);
+# delete_helper($trialNumber_1, $substanceKey_3);
 
 # delete to make sure it does not exist.
 
 
-
-
 delete_helper($trialNumber_create);
 
-# exit;
-
-
-# {
-#  "message": "java.lang.reflect.InvocationTargetException",
-#  "status": 500
-# }
 
 ## Test user connection ##
 if (0) {
 
+    my $message = 'Test user profile';
 	my $condition = sub {
 		my $decoded = shift;
 		return (defined($decoded->{messages}) && $decoded->{messages}->[0] eq 'All is good!'); 
-	};
-	
+	};	
 	my $args = {
 		expected_status => 200, 
-		dump => 0, 
-		dump_json => 0,
+		dump_request_content => 0, 
+		dump_request_perl_data => 0, 
+		dump_response_content => 0, 	
+		dump_response_perl_data => 0, 
 		url => "/ginas/app/testUP",
 		condition => $condition,
-		message => 'Test user profile'
+		message => $message
 	};
 	if($test_user_connection) { 
 	 test_get($args);
@@ -152,48 +145,29 @@ if (0) {
 }
 
 
-## GET 1 and 2 ##
-if (0) {
-
-
-	my $condition = sub { 
-		my $decoded = shift;
-		return (defined($decoded->{trialNumber}) && $decoded->{trialNumber} eq $trialNumber_get); 
-	};
-	
-	my $args = {
-		expected_status => 200, 
-		dump => 0, 
-		dump_json => 0,
-		url => "$basePath/clinicaltrial($trialNumber_get)",
-		condition => $condition,
-		message => 'Get one that probably exists.'
-	};
-	test_get($args);
-		
-}
-
-# Get a non-existing record. 
-# Error 404 is probably not right but that is what gsrs returns and with an unhelpful message.
 {
+	my $message = 'Get a non-existing trialNumber';
 	my $condition = sub { 
 		my $decoded = shift;
 		return (defined($decoded->{message}) && $decoded->{message} eq "not found"); 
 	};	
 	my $args = {
 		expected_status => 404, 
-		dump => 0, 
+		dump_request_content => 0, 
+		dump_request_perl_data => 0, 
+		dump_response_content => 0, 	
+		dump_response_perl_data => 0, 
 		url => "$basePath/clinicaltrial($trialNumber_ne)",
 		condition => $condition,
-		message => 'Get a non-existing trialNumber'
+		message => $message
 	};
 	test_get($args);
 }
 
 
-# Get many. 
-# Error 404 is probably not right but that is what gsrs returns and with an unhelpful message.
+
 if (1) {
+	my $message = 'Get many (page)';
 	my $condition = sub { 
 		my $decoded = shift; 
 		return (
@@ -204,17 +178,20 @@ if (1) {
 	};
 	my $args = {
 		expected_status => 200, 
-		dump => 0, 
+		dump_request_content => 0, 
+		dump_request_perl_data => 0, 
+		dump_response_content => 0, 	
+		dump_response_perl_data => 0, 
 		url => "$basePath/clinicaltrial",
 		condition => $condition,
-		message => 'Get many (page)'
+		message => $message
 	};
 	
 	test_get($args);
 }
 
 
-# Create a new record (using post)
+
 {	
 	# to Danny: if record alredy exists should get 409 but we're getting a 500 in this case. https://stackoverflow.com/questions/3825990/http-response-code-for-post-when-resource-already-exists
 	# 'status' => 500,
@@ -222,6 +199,8 @@ if (1) {
     #      };
 	
     # 500 Internal Server Error if no change is made.
+	
+	my $message = 'Test post - Create a new record.';
 	my $data_string = $base_json;
 	my $decoded = $json->decode($data_string);
 	my $condition = sub {
@@ -234,27 +213,50 @@ if (1) {
 	my $args = {
 		expected_status => 201, 
 		data => $decoded,
-		dump => 0, 
-		dump_json => 0,
-			url => "$basePath/clinicaltrial",
+		dump_request_content => 0, 
+		dump_request_perl_data => 0, 
+		dump_response_content => 0, 	
+		dump_response_perl_data => 0, 
+	    url => "$basePath/clinicaltrial",
 		condition => $condition,
-		message => 'Test post - Create a new record.'
+		message => $message
 	};	
 	test_post($args);
 }
-# stop at post
 
-# Update the record just changing the recruitment value
+
+
+
 {
-    # 500 Internal Server Error if not change is made.
-	# my $data_string = $base_json;
+	my $message = 'Get many (page) when at least one exists';
+	my $condition = sub { 
+		my $decoded = shift; 
+		return (
+				defined($decoded->{content}) 
+				&& ref $decoded->{content} eq 'ARRAY'
+				&& scalar(@{$decoded->{content}}) ge 1
+		); 
+	};
+	my $args = {
+		expected_status => 200, 
+		dump_request_content => 0, 
+		dump_request_perl_data => 0, 
+		dump_response_content => 0, 	
+		dump_response_perl_data => 0, 
+		url => "$basePath/clinicaltrial",
+		condition => $condition,
+		message => $message
+	};
+	
+	test_get($args);
+}
+
+
+{
+	my $message = 'Test put - Update the record just created changing recruitment value.';
 	my $data_string = get_to_json($trialNumber_create);
-	
 	my $decoded = $json->decode($data_string);
-	$decoded->{recruitment} = 'XXXX';
-	# $decoded->{gsrsUpdated} = 0;
-	
-	
+	$decoded->{recruitment} = 'XXXX';	
 	my $condition = sub { 
 		my $decoded = shift;
 		return (defined($decoded->{trialNumber}) && $decoded->{trialNumber} eq $trialNumber_create && $decoded->{recruitment} eq 'XXXX'); 
@@ -262,104 +264,123 @@ if (1) {
 	my $args = {
 		expected_status => 200, 
 		data => $decoded,
-		dump_json => 0, 
-		dump => 0,
+		dump_request_content => 0, 
+		dump_request_perl_data => 0, 
+		dump_response_content => 0, 	
+		dump_response_perl_data => 0, 
 		url => "$basePath/clinicaltrial",
 		condition => $condition,
-		message => 'Test put - Update the record just created changing recruitment value.'
+		message => $message
 	};
 	test_put($args);
 }
- exit;
 
-# Try to update with duplicate substanceUuids
+
+
 {    
-    # 500 Internal Server Error if not change is made.
-	# my $data_string = $base_json;
+    my $message = 'Test put - Try to update with change one substance uuid';
 	my $data_string = get_to_json($trialNumber_create);
 
 	my $decoded = $json->decode($data_string);
-	$decoded->{recruitment} = 'XXXX';
+	# $decoded->{recruitment} = 'XXXX';
 	# $decoded->{gsrsUpdated} = 0;
 
-	my $ctd = $json->decode('{	
-		"clinicalTrialDrug": [{
-		"trialNumber": "'.$trialNumber_create.'",
-		"substanceUuid": "'.$substanceUuid3.'"
-		},
-		{
-		"trialNumber": "'.$trialNumber_create.'",
-		"substanceUuid": "'.$substanceUuid3.'"
-		}
-	]}');
-	$decoded->{clinicalTrialDrug} = $ctd->{clinicalTrialDrug}; 	
+	my $ctd = $decoded->{clinicalTrialDrug};	
+	pop(@{$ctd}); 
+	
+	my $new = {};
+	$new->{trialNumber} = $trialNumber_create;
+	$new->{substanceKey} = $substanceKey4;
+	$new->{substanceKeyType} = "UUID";
+	push(@{$ctd}, $new ); 
+	$decoded->{clinicalTrialDrug} = $ctd; 	
 	# print $json->encode($decoded);
 	my $condition = sub { 
 		my $decoded = shift;
-		return (defined($decoded->{errors}) && $decoded->{errors}->[0] =~ /Duplicate substanceUuids/i); 
+		return (!defined($decoded->{message})); 
 	};
 	my $args = {
-		expected_status => 400, 
+		expected_status => 200, 
 		data => $decoded,
-		dump => 0, 
+		dump_request_content => 0, 
+		dump_request_perl_data => 0, 
+		dump_response_content => 0, 	
+		dump_response_perl_data => 0, 
 		url => "$basePath/clinicaltrial",
 		condition => $condition,
-		message => 'Test put - Try to update with duplicate substanceUuids'
+		message => $message
 	};
 	test_put($args);
 }
 
 
-# Try to update with badly formatted NctNumber
 {   
-
-	my $trialNumber_badly = 'iambad.';
-    # 500 Internal Server Error if not change is made.
-	my $data_string = $base_json;
-	$data_string =~ s/$trialNumber_create/$trialNumber_badly/g;
-	
+	my $message = 'Test put - Try to update with duplicate substanceKeys';
+	my $data_string = get_to_json($trialNumber_create);
 	my $decoded = $json->decode($data_string);
-	$decoded->{recruitment} = 'XXXX';
-	my $ctd = $json->decode('{	
-		"clinicalTrialDrug": [{
-		"trialNumber": "'.$trialNumber_badly.'",
-		"substanceUuid": "'.$substanceUuid1.'"
-		}
+	$decoded->{recruitment} = 'DUPLICATE TEST';
+	# $decoded->{gsrsUpdated} = 0;
+
+	# note this won't work if both ids are not set because hashset collapses into one row.  
+	# come back to this and maybe reconsider LinkedHashSet implementation.
+		my $ctd = $json->decode('{
+	"clinicalTrialDrug": [{
+		"id": 99,
+		"trialNumber": "'.$trialNumber_create.'",
+		"substanceKey": "'.$substanceKey3.'",
+		"substanceKeyType": "UUID"		
+	},{
+		"id": 98,
+		"trialNumber": "'.$trialNumber_create.'",
+		"substanceKey": "'.$substanceKey3.'",
+		"substanceKeyType": "UUID"
+	}
 	]}');
+
+	
 	$decoded->{clinicalTrialDrug} = $ctd->{clinicalTrialDrug}; 	
-	
-	
 	# print $json->encode($decoded);
 	my $condition = sub { 
 		my $decoded = shift;
-		return (defined($decoded->{errors}) && $decoded->{errors}->[0] =~ /Invalid trialNumber/i); 
+		if(defined($decoded->{validationMessages})) {
+			for my $vm (@{$decoded->{validationMessages}}) {
+				if( $vm->{message} and $vm->{message} =~ /Substance .* a duplicate/i) { 
+					return 1;
+				}
+			}		
+		}
 	};
 	my $args = {
 		expected_status => 400, 
 		data => $decoded,
-		dump => 0, 
+		dump_request_content => 0, 
+		dump_request_perl_data => 0, 
+		dump_response_content => 0, 	
+		dump_response_perl_data => 0, 
 		url => "$basePath/clinicaltrial",
 		condition => $condition,
-		message => 'Test put - Try to update with badly formatted NctNumber.'
+		message => $message
 	};
 	test_put($args);
 }
 
-# Update a record that does not exist.
+
+
+
 {    
-    # 500 Internal Server Error if no change is made.
+    my $message = "Test PUT - Update a record that does not exist.";
 	my $data_string = get_to_json($trialNumber_create);
 	$data_string =~ s/$trialNumber_create/$trialNumber_ne/g;
 	my $decoded = $json->decode($data_string);
-
-
 	my $ctd = $json->decode('{
 	"clinicalTrialDrug": [{
 		"trialNumber": "'.$trialNumber_ne.'",
-		"substanceUuid": "'.$substanceUuid1.'"
+		"substanceKey": "'.$substanceKey1.'",
+		"substanceKeyType": "UUID"
 	},{
 		"trialNumber": "'.$trialNumber_ne.'",
-		"substanceUuid": "'.$substanceUuid2.'"
+		"substanceKey": "'.$substanceKey2.'",
+		"substanceKeyType": "UUID"
 	}
 	]}');
 	$decoded->{clinicalTrialDrug} = $ctd->{clinicalTrialDrug}; 	
@@ -367,27 +388,31 @@ if (1) {
 	my $condition = sub { 
 		my $decoded = shift;
 		
-		return (defined($decoded->{errors}) && $decoded->{errors}->[0] =~ /ClinicalTrial does not exist/i); 
-		# return (defined($decoded->{message}) && $decoded->{message} =~ /Error updating record/i); 
+		return (defined($decoded->{message}) && $decoded->{message} =~ /No value present/i); 
 		
 		
 	};
 	
 	my $args = {
-		expected_status => 400, 
+		expected_status => 500, 
 		data => $decoded,
-		dump => 0,		
+		dump_request_content => 0, 
+		dump_request_perl_data => 0, 
+		dump_response_content => 0, 	
+		dump_response_perl_data => 0, 
 		url => "$basePath/clinicaltrial",
 		condition => $condition,
-		message => 'Test put -- Update a record that does not exist.'
+		message => $message
 	};
 	test_put($args);
 }
 
-# Update again with changed recruitment value but change the ClinicalTrialDrug Object by removing one ct drug
+
 {    
     # 500 Internal Server Error if not change is made.
 	# my $data_string = $base_json;
+		
+    my $message = "Test put - Update again with a changed recruitment value but change the ClinicalTrialDrug Object by removing one ct drug.";
 	my $data_string = get_to_json($trialNumber_create);
 	my $decoded = $json->decode($data_string);
 	$decoded->{recruitment} = 'XXXX';
@@ -395,7 +420,8 @@ if (1) {
 		"clinicalTrialDrug": [{
 		"id": 104162,
 		"trialNumber": "'.$trialNumber_create.'",
-		"substanceUuid": "'.$substanceUuid1.'"
+		"substanceKey": "'.$substanceKey1.'",
+		"substanceKeyType": "UUID"
 	}
 	]}');
 	
@@ -415,25 +441,24 @@ if (1) {
 	my $args = {
 		expected_status => 200, 
 		data => $decoded,
-		dump_json => 0,
-		dump => 0, 
+		dump_request_content => 0, 
+		dump_request_perl_data => 0, 
+		dump_response_content => 0, 	
+		dump_response_perl_data => 0, 
 		url => "$basePath/clinicaltrial",
 		condition => $condition,
-		message => 'Test put - Update again by removing one ct drug'
+		message => $message
 	};
 	test_put($args);
 }
 
 
 
-# Update again with changed recruitment value but change the ClinicalTrialDrug Object by adding one ct drug
 {
     
-    # 500 Internal Server Error if no change is made.
-
-	# my $data_string = $base_json;
+	my $message = 'Test put - Update again by adding one ct drug';
 	my $data_string = get_to_json($trialNumber_create);
-
+	
 	my $decoded = $json->decode($data_string);
 	$decoded->{recruitment} = 'XXXX';
 	
@@ -442,10 +467,12 @@ if (1) {
 		"clinicalTrialDrug": [{
 		"id": 104162,
 		"trialNumber": "'.$trialNumber_create.'",
-		"substanceUuid": "'.$substanceUuid1.'"
+		"substanceKey": "'.$substanceKey1.'",
+		"substanceKeyType": "UUID"
 	},{
 		"trialNumber": "'.$trialNumber_create.'",
-		"substanceUuid": "'.$substanceUuid2.'"
+		"substanceKey": "'.$substanceKey2.'",
+		"substanceKeyType": "UUID"		
 	}
 	]}');
 	$decoded->{clinicalTrialDrug} = $ctd->{clinicalTrialDrug}; 	
@@ -455,25 +482,27 @@ if (1) {
 		my $decoded = shift;
 		return (defined($decoded->{trialNumber}) && $decoded->{trialNumber} eq $trialNumber_create && $decoded->{recruitment} eq 'XXXX'); 
 	};
-	
+
 	my $args = {
 		expected_status => 200, 
-		data => $decoded,
-		dump => 0,
-		dump_json => 0,		
+		data => $decoded, 
+		dump_request_content => 0, 
+		dump_request_perl_data => 0, 
+		dump_response_content => 0, 	
+		dump_response_perl_data => 0, 
 		url => "$basePath/clinicaltrial",
 		condition => $condition,
-		message => 'Test put - Update again by adding one ct drug'
+		message => $message
 	};
 	test_put($args);
 }
 
 
 
-# Get the record, then update the substanceUuids to something completely different, note these ctdrugs don't have ids, so old rows should be deleted and new rows with new ids created.  
+# Get the record, then update the substanceKeys to something completely different, note these ctdrugs don't have ids, so old rows should be deleted and new rows with new ids created.  
 
 {
-    
+	my $message = 'Test put -- Get the record, then update the substanceKeys to something different.';
 	my $data_string = get_to_json($trialNumber_create);
 	
 	my $decoded = $json->decode($data_string);
@@ -482,10 +511,12 @@ if (1) {
 	my $ctd = $json->decode('{
 	"clinicalTrialDrug": [{
 		"trialNumber": "'.$trialNumber_create.'",
-		"substanceUuid": "'.$substanceUuid3.'"
+		"substanceKey": "'.$substanceKey3.'",
+		"substanceKeyType": "UUID"		
 	},{
 		"trialNumber": "'.$trialNumber_create.'",
-		"substanceUuid": "'.$substanceUuid4.'"
+		"substanceKey": "'.$substanceKey4.'",
+		"substanceKeyType": "UUID"		
 	}
 	]}');
 	$decoded->{clinicalTrialDrug} = $ctd->{clinicalTrialDrug}; 	
@@ -495,7 +526,7 @@ if (1) {
 	my $condition = sub { 
 		my $decoded = shift;
 		return (defined($decoded->{trialNumber}) && $decoded->{trialNumber} eq $trialNumber_create && $decoded->{recruitment} eq 'XXXX'
-		and ($decoded->{clinicalTrialDrug}->[0]->{substanceUuid} eq $substanceUuid3 or $decoded->{clinicalTrialDrug}->[1]->{substanceUuid} eq $substanceUuid3)
+		and ($decoded->{clinicalTrialDrug}->[0]->{substanceKey} eq $substanceKey3 or $decoded->{clinicalTrialDrug}->[1]->{substanceKey} eq $substanceKey3)
 		
 		); 
 	};
@@ -503,11 +534,13 @@ if (1) {
 	my $args = {
 		expected_status => 200, 
 		data => $decoded,
-		dump => 0, 
-		dump_json => 0,
+		dump_request_content => 0, 
+		dump_request_perl_data => 0, 
+		dump_response_content => 0, 	
+		dump_response_perl_data => 0, 
 		url => "$basePath/clinicaltrial",
 		condition => $condition,
-		message => 'Test put -- Get the record, then update the substanceUuids to something different.'
+		message => $message
 	};
 	test_put($args);
 }
@@ -519,78 +552,93 @@ if (1) {
 # delete_helper($trialNumber_create);
 
 
-# Danny: internalValue seems to be incremented on GET.
-
 sub test_get {
+	print "== begin test ==\n";
     my $args = shift;
 	$client->addHeader('Content-Type', 'application/x-www-form-urlencoded');
-	$client->GET($args->{url});	
-	# print "$args->{url}\n";
-	my $content = $client->responseContent();
-	print $content if($args->{dump_json});
-	my $decoded = $json->decode($content);
-	print Data::Dumper->Dump([\$decoded]) if($args->{dump});
+	$client->GET($args->{url});
+	my $response_content = $client->responseContent();
+	dump_response_content($response_content, $args);
+	my $decoded = $json->decode($response_content);
+    dump_response_perl_data($decoded, $args);
 	ok($args->{condition}($decoded), $args->{message});
 	my $rc = $client->responseCode();
 	my $expected = $args->{expected_status};
 	ok($client->responseCode() == $args->{expected_status}, "Status matched expected_status. EC: $expected / RC: $rc");
+	print "== end test ==\n";
 }
 
 sub test_post {
+	print "== begin test ==\n";
     my $args = shift;
 	$client->addHeader('Accept', 'application/json');
 	$client->addHeader('Content-Type', 'application/json');
-	$client->POST($args->{url}, $json->encode($args->{data}));
-	my $content = $client->responseContent();
-	print $content if($args->{dump_json});
-	my $decoded = $json->decode($content);
-	print Data::Dumper->Dump([\$decoded]) if($args->{dump});	
+
+    my $request_json = $json->encode($args->{data});
+	dump_request_content($request_json, $args);
+		
+	$client->POST($args->{url}, $request_json);
+	my $response_content = $client->responseContent();
+	dump_response_content($response_content, $args);
+	my $decoded = $json->decode($response_content);
+	dump_request_perl_data($decoded, $args);
+
 	ok($args->{condition}($decoded), $args->{message});
 	my $rc = $client->responseCode();
 	my $expected = $args->{expected_status};
 	ok($client->responseCode() == $args->{expected_status}, "Status matched expected_status. EC: $expected / RC: $rc");
+	print "== end test ==\n";
 }
 
 sub test_put {
+	print "== begin test ==\n";
     my $args = shift;
 	# print $json->encode($args->{data});
 	$client->addHeader('Accept', 'application/json');
-	$client->addHeader('Content-Type', 'application/json');
-	$client->PUT($args->{url}, $json->encode($args->{data}));
+	$client->addHeader('Content-Type', 'application/json');	
+
+	my $request_json = $json->encode($args->{data});
+	dump_request_content($request_json, $args);	
+
+	$client->PUT($args->{url}, $request_json);
+	my $response_content = $client->responseContent();
+	if(!$response_content) { print "Content is empty\n"; }
+	dump_response_content($response_content, $args);	
+	my $decoded = $json->decode($client->responseContent());
+    dump_response_perl_data($decoded, $args);	
 	
-	# print "\nDATA\n";
-	# print Data::Dumper->Dump([$args->{data}]);
-	# print "\n";
-	
-	
-	print "test_put $args->{url}\n";
 	my $rc = $client->responseCode();
 	my $expected = $args->{expected_status};
-	ok($client->responseCode() == $args->{expected_status}, "Status matched expected_status. EC: $expected / RC: $rc");
-	my $content = $client->responseContent();
-	if(!$content) { print "Content is empty\n" }
-	print $content if($args->{dump_json});
-	my $decoded = $json->decode($client->responseContent());
-	print Data::Dumper->Dump([\$decoded]) if($args->{dump});
+	ok($client->responseCode() == $args->{expected_status}, "Status matched expected_status. EC: $expected / RC: $rc");		
 	ok($args->{condition}($decoded), $args->{message});
+	print "== end Test ===\n";
+
 }
 
 
 sub test_delete {
+	print "== begin test ==\n";
     my $args = shift;
 	$client->addHeader('Content-Type', 'application/x-www-form-urlencoded');
+
 	$client->DELETE($args->{url});
-	my $decoded = $json->decode($client->responseContent());
-	print Data::Dumper->Dump([\$decoded]) if($args->{dump});	
+	my $response_content = $client->responseContent();
+	dump_response_content($response_content, $args);
+    my $decoded = $json->decode($response_content);
+    dump_response_perl_data($decoded, $args);
+
 	ok($args->{condition}($decoded), $args->{message});
 	my $rc = $client->responseCode();
 	my $expected = $args->{expected_status};
 	ok($client->responseCode() == $args->{expected_status}, "Status matched expected_status. EC: $expected / RC: $rc");
+	print "== end test ==\n";
 }
 
 # Danny on successful delete there is no JSON message returned. 
 # Danny deleting a substance that does not exist returns 500 which is probably not right. {"message":"No class gov.nih.ncats.gsrsspringcv2.ClinicalTrial entity with id NCT99999999 exists!","status":500}
+
 sub delete_helper { 
+	print "== begin helper ==\n";
     my $trialNumber = shift;
 	my $dump = 1;
 	$client->addHeader('Accept', 'application/json');
@@ -607,6 +655,7 @@ sub delete_helper {
 	my $rc = $client->responseCode();
 	my $expected = 200;
 	ok($client->responseCode() == 200, "Status matched expected_status. EC: $expected / RC: $rc");
+	print "== end helper ==\n";
 }
 
 sub get_to_json { 
@@ -619,8 +668,34 @@ sub get_to_json {
 	return $client->responseContent();
 }
 
+#		dump_request_content => 0, 
+#		dump_request_perl_data => 0, 
+#		dump_response_content => 0, 	
+#		dump_response_perl_data => 0, 
+
+
+sub dump_request_content { 
+	my $request_content = shift;
+	my $args = shift;
+	print "\n  === request_content ====\n".$request_content."\n   ====\n" if($args->{dump_request_content});
+}
+sub dump_response_content { 
+	my $response_content = shift;
+	my $args = shift;
+	print "\n  === response_content ====\n".$response_content."\n   ====\n" if($args->{dump_response_content});
+}
+
+sub dump_request_perl_data {
+    my $decoded = shift;
+	my $args = shift;
+	print "\n  === request_perl_data ====\n".Data::Dumper->Dump([\$decoded])."\n   ====\n" if($args->{dump_request_perl_data});
+}
+sub dump_response_perl_data {
+    my $decoded = shift;
+	my $args = shift;
+	print "\n  === response_perl_data ====\n".Data::Dumper->Dump([\$decoded])."\n   ====\n" if($args->{dump_response_perl_data});
+}
+
 
 
 __END__
-
-

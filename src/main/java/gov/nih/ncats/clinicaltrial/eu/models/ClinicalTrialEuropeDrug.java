@@ -22,22 +22,14 @@ public class ClinicalTrialEuropeDrug extends AbstractGsrsEntity {
     @Column(name="ID")
     public int id;
 
-    // commented out in 2.0
-    //@ManyToOne
-    //@JoinColumn(name="EUDRACT_NUMBER")
-    //public ClinicalTrialEurope clinicalTrialEuropeForDrug;
-
-    // skipping this because I will have substance_uuid
-    // @ManyToOne
-    // @JoinColumn(name="BDNUM")
-    // public BdnumName bdnumName;
-
     @ManyToOne
     @JsonIgnore
     @JoinColumn(name="PRODUCT_ID")
     public ClinicalTrialEuropeProduct owner;
 
-    public String substanceUuid;
+    public String substanceKey;
+
+    public String substanceKeyType;
 
     public ClinicalTrialEuropeDrug () {}
 

@@ -12,11 +12,6 @@ import org.springframework.data.annotation.LastModifiedDate;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import javax.persistence.*;
-// import javax.persistence.Entity;
-// import javax.persistence.Column;
-// import javax.persistence.Transient;
-// import javax.persistence.GeneratedValue;
-// import javax.persistence.Id;
 import java.util.*;
 
 import gov.nih.ncats.common.util.TimeUtil;
@@ -144,11 +139,13 @@ public class ClinicalTrial extends AbstractGsrsEntity {
         // System.out.println("HERE1");
         this.clinicalTrialDrug = clinicalTrialDrugs;
         // System.out.println("HERE2");
-        if(clinicalTrialDrugs !=null){
+        if(clinicalTrialDrugs !=null) {
+
+
             // System.out.println("HERE3");
             for ( ClinicalTrialDrug ctd : clinicalTrialDrugs )
             {
-                // System.out.println("HERE4");
+                System.out.println("HERE4" + ctd.getSubstanceKeyType());
                 ctd.setOwner(this);
                 // System.out.println("HERE5");
             }

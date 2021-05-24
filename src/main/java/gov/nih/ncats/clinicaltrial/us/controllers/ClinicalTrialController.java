@@ -53,8 +53,6 @@ public class ClinicalTrialController extends EtagLegacySearchEntityController<Cl
     @Autowired
     private EntityLinks entityLinks;
 
-
-
     @Override
     protected LegacyGsrsSearchService<ClinicalTrial> getlegacyGsrsSearchService() {
         return clinicalTrialLegacySearchService;

@@ -3,9 +3,7 @@ package gov.nih.ncats.clinicaltrial.eu.services;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import gov.nih.ncats.clinicaltrial.eu.models.ClinicalTrialEurope;
-import gov.nih.ncats.clinicaltrial.eu.models.ClinicalTrialEuropeProduct;
 import gov.nih.ncats.clinicaltrial.eu.repositories.ClinicalTrialEuropeRepository;
-import gov.nih.ncats.clinicaltrial.us.models.ClinicalTrial;
 import gsrs.events.AbstractEntityCreatedEvent;
 import gsrs.events.AbstractEntityUpdatedEvent;
 import gsrs.service.AbstractGsrsEntityService;
@@ -22,8 +20,13 @@ import java.util.regex.Pattern;
 public class ClinicalTrialEuropeEntityService extends AbstractGsrsEntityService<ClinicalTrialEurope, String> {
     public static final String  CONTEXT = "clinicaltrialeurope";
 
+
+    // @Value("${mygsrs.clinicaltrial.eu.ClinicalTrialEurope.trialNumberPattern}")
+    // private String trialNumberPattern;
+
+
     public ClinicalTrialEuropeEntityService() {
-        super("clinicaltrialeurope", Pattern.compile("^NCT\\d+$"), null, null, null);
+        super("clinicaltrialeurope", Pattern.compile("^\\d{4}-\\d{6}-\\d{2}-[A-Z]{2}$"), null, null, null);
     }
 
     @Autowired

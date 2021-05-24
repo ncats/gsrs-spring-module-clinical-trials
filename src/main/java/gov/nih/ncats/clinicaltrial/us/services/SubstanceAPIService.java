@@ -45,10 +45,15 @@ public class SubstanceAPIService {
 
     final RestTemplate restTemplate = new RestTemplate();
 
-    @Value("${mygsrs.substanceAPI.BaseUrl}")
+    @Value("${mygsrs.substanceAPI.baseUrl}")
     private String baseUrl;
     // for testing override see:
     // https://www.baeldung.com/spring-tests-override-properties
+
+    @Value("${mygsrs.clinicaltrial.us.substance.linking.keyType.agencyCodeValue}")
+    private String agencyCodeCodeSystemValue;
+
+
 
     public Boolean substanceExists(String uuid) {
         System.out.println("Inside "+ "substanceExists " + uuid);
@@ -91,8 +96,6 @@ public class SubstanceAPIService {
         return null;
      }
 
-    @Value("${mygsrs.agencyCodeCodeSystemValue}")
-    private String agencyCodeCodeSystemValue;
 
 
     // this was made experimentally while wait for substance core substanceAPI

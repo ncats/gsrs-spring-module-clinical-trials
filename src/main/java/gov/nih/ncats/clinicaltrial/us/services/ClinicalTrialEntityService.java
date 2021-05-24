@@ -22,6 +22,9 @@ import gov.nih.ncats.clinicaltrial.us.utils.importmapper.SourceToTargetFieldsMap
 public class ClinicalTrialEntityService extends AbstractGsrsEntityService<ClinicalTrial, String> {
     public static final String  CONTEXT = "clinicaltrial";
 
+    // @Value("${mygsrs.clinicaltrial.eu.ClinicalTrial.trialNumberPattern}")
+    // private String trialNumberPattern;
+
     public ClinicalTrialEntityService() {
         super("clinicaltrial", Pattern.compile("^NCT\\d+$"), null, null, null);
     }

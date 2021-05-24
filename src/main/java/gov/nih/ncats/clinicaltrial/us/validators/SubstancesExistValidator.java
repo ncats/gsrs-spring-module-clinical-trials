@@ -32,17 +32,15 @@ public class SubstancesExistValidator implements ValidatorPlugin<ClinicalTrial> 
 
     @Override
     public void validate(ClinicalTrial objnew, ClinicalTrial objold, ValidatorCallback callback) {
-
         System.out.println("Validating substances");
-
         Set<ClinicalTrialDrug> ctds = objnew.getClinicalTrialDrug();
-        String skip = env.getProperty("skipSubstanceValidation");
+        String skip = env.getProperty("mygsrs.clinicaltrial.us.skipSubstanceValidation");
         Boolean s = false;
         if (skip != null && skip == "true") s = true;
         System.out.println("Validating substances, boolean skip value is: " + s);
         if (!s) {
             for (ClinicalTrialDrug ctd : ctds) {
-                Boolean b = substanceAPIService.substanceExists(ctd.getSubstanceUuid());
+                Boolean b = substanceAPIService.substanceExists(ctd.getSubstanceKey());
                 if (b != true)
                     callback.addMessage(GinasProcessingMessage.ERROR_MESSAGE("Substance UUID not found"));
             }

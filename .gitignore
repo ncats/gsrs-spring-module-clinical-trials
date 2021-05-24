@@ -36,4 +36,4 @@ build/
 
 ### GSRS ###
 /ginas.ix/
-/src/main/resources/application.conf
+/src/main/resources/application-db.conf

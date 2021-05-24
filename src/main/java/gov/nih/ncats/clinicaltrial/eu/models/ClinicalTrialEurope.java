@@ -1,9 +1,15 @@
 package gov.nih.ncats.clinicaltrial.eu.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import gsrs.model.AbstractGsrsEntity;
 import ix.core.models.Indexable;
+import ix.ginas.models.serialization.GsrsDateDeserializer;
+import ix.ginas.models.serialization.GsrsDateSerializer;
 import lombok.*;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
 
 import javax.persistence.*;
 import java.util.*;
@@ -19,11 +25,11 @@ import java.util.*;
 public class ClinicalTrialEurope extends AbstractGsrsEntity {
 
         @Id
-        @Column(name="EUDRACT_NUMBER")
-        public String eudractNumber;
+        @Column(name="TRIAL_NUMBER")
+        public String trialNumber;
 
         public String getTrialNumber() {
-          return this.eudractNumber;
+          return this.trialNumber;
         }
 
         @Column(name="TITLE")
@@ -73,22 +79,32 @@ public class ClinicalTrialEurope extends AbstractGsrsEntity {
         // @JsonIgnore
         // had to add this or I got circular references when string building.
         @ToString.Exclude
-        @JoinColumn(name = "EUDRACT_NUMBER", referencedColumnName = "EUDRACT_NUMBER")
+        @JoinColumn(name = "TRIAL_NUMBER", referencedColumnName = "TRIAL_NUMBER")
         @OneToMany(fetch=FetchType.LAZY, cascade = CascadeType.ALL)
         public List<ClinicalTrialEuropeProduct> clinicalTrialEuropeProductList = new ArrayList<>();
 
         // had to add this or I got circular references when string building.
         @ToString.Exclude
-        @JoinColumn(name = "EUDRACT_NUMBER", referencedColumnName = "EUDRACT_NUMBER")
+        @JoinColumn(name = "TRIAL_NUMBER", referencedColumnName = "TRIAL_NUMBER")
         @OneToMany(fetch=FetchType.LAZY, cascade = CascadeType.ALL)
         public List<ClinicalTrialEuropeMedical> clinicalTrialEuropeMedicalList = new ArrayList<>();
 
         // had to add this or I got circular references when string building.
         @ToString.Exclude
-        @JoinColumn(name = "EUDRACT_NUMBER", referencedColumnName = "EUDRACT_NUMBER")
+        @JoinColumn(name = "TRIAL_NUMBER", referencedColumnName = "TRIAL_NUMBER")
         @OneToMany(fetch=FetchType.LAZY, cascade = CascadeType.ALL)
         public List<ClinicalTrialEuropeMeddra> clinicalTrialEuropeMeddraList = new ArrayList<>();
 
-        // public ClinicalTrialEurope () {}
+
+        @JsonSerialize(using = GsrsDateSerializer.class)
+        @JsonDeserialize(using = GsrsDateDeserializer.class)
+        @LastModifiedDate
+        @Indexable( name = "Last Modified Date", sortable=true)
+        private Date lastModifiedDate;
+        @JsonSerialize(using = GsrsDateSerializer.class)
+        @JsonDeserialize(using = GsrsDateDeserializer.class)
+        @CreatedDate
+        @Indexable( name = "Create Date", sortable=true)
+        private Date creationDate;
     }
 

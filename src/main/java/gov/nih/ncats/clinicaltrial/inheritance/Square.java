@@ -13,15 +13,21 @@ import javax.persistence.InheritanceType;
 import javax.validation.constraints.NotNull;
 
 @Entity
-@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
 @Table(name="shape_square")
 public class Square extends Shape {
     @Id
     @Column(name="trial_number")
     public String trialNumber;
 
+    @Column(name="kind")
+    public String kind = "square";
+
     @Column(name="name")
     public String name;
+
+    @Column(name="area")
+    public String area;
+
 
     public Square() {
     }
@@ -30,11 +36,17 @@ public class Square extends Shape {
         this.trialNumber = trialNumber;
         this.name = trialNumber;
     }
+
+
+
     public String getName()  {
         return this.name;
     }
     public String getTrialNumber()  {
         return this.trialNumber;
+    }
+    public String getArea()  {
+        return this.area;
     }
 
 }

@@ -103,6 +103,8 @@ public  class CircleEntityService extends AbstractGsrsEntityService<Circle, Stri
     public Circle create(Circle circle) {
         System.out.println("\n\n ==== Creating  ==== XX  \n\n");
         try {
+
+            System.out.println("YYYYY" + circle.getName());
             // System.out.println(circle.getTrialNumber());
             return repository.saveAndFlush(circle);
         }catch(Throwable t){

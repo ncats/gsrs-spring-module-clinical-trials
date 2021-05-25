@@ -1,23 +1,22 @@
 package gov.nih.ncats.clinicaltrial.inheritance;
 
-import gsrs.model.AbstractGsrsEntity;
 
-import javax.persistence.DiscriminatorColumn;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Inheritance;
-import javax.persistence.Table;
+import gsrs.model.AbstractGsrsEntity;
+import javax.persistence.InheritanceType;
+import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 
 
 @Entity
-@Inheritance
-public abstract class Shape extends AbstractGsrsEntity {
+@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
+public abstract class Shape extends AbstractGsrsEntityAlt {
     @Id
     public String trialNumber;
     // @NotNull
+
+
+    public String kind;
+
     public String name;
 
     public String title;

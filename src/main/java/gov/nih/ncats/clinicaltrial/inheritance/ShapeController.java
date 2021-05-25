@@ -88,11 +88,20 @@ public class ShapeController {
         for(Shape s: shapes) {
             System.out.println("Shape id|name " + s.getTrialNumber() +"|"+ s.getName());
         }
+
+        ====
+
+        ====
+
+
+
 */
 
         Circle circle1 = new Circle();
-        circle1.trialNumber = "circle1";
-        circle1.name = "pizza";
+        circle1.setTrialNumber("circle1");
+        circle1.setName("pizza");
+
+        System.out.println("XXXX" + circle1.getName());
         circleEntityService.create(circle1);
 
         Square square2 = new Square();
@@ -115,14 +124,17 @@ public class ShapeController {
 
         List<Shape> shapes = shapeRepository.findAll();
         for(Shape s: shapes) {
-            System.out.println("Shape id|name " + s.getTrialNumber() +"|"+ s.getName());
+            System.out.println("Shape id|Class|name " + s.getClass() +"|"+ s.getTrialNumber() +"|"+ s.getName());
         }
+
 
 
         Map<String, String> hm = new Hashtable<String, String>();
         hm.put("one", "a");
         hm.put("two", "b");
         return new JSONObject(hm);
+
+
     }
 
 

@@ -15,7 +15,6 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 @SpringBootApplication
 @EntityScan(basePackages ={"ix","gsrs", "gov.nih.ncats"} )
 @EnableJpaRepositories(basePackages ={"ix","gsrs", "gov.nih.ncats"} )
-@ComponentScan({"gov.nih.ncats.clinicaltrial.inheritance"})
 // @EnableGsrsLegacyAuthentication
 @EnableGsrsLegacyCache
 @EnableGsrsLegacyPayload

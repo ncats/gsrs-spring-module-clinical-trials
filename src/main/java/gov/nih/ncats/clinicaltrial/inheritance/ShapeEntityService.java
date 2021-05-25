@@ -17,10 +17,10 @@ import java.util.regex.Pattern;
 
 @Service
 public class ShapeEntityService extends AbstractGsrsEntityService<Shape, String> {
-    public static final String  CONTEXT = "square";
+    public static final String  CONTEXT = "shape";
 
     public ShapeEntityService() {
-        super(CONTEXT, Pattern.compile("^square\\d+$"), null, null, null);
+        super(CONTEXT, Pattern.compile("^shape\\d+$"), null, null, null);
     }
 
     @Autowired

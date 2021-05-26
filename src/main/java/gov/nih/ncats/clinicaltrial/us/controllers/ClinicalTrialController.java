@@ -116,8 +116,4 @@ public class ClinicalTrialController extends EtagLegacySearchEntityController<Cl
         System.out.println("getting substance substanceQuickMatches");
         return substanceAPIService.getQuickResultMatchesByUuids();
     }
-
-
 }
-
-

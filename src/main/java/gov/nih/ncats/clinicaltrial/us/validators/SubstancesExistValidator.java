@@ -1,6 +1,6 @@
 package gov.nih.ncats.clinicaltrial.us.validators;
 
-// import fda.gsrs.substance.exporters.FDACodeExporter;
+import fda.gsrs.substance.exporters.FDACodeExporter;
 
 import gov.nih.ncats.clinicaltrial.us.models.ClinicalTrial;
 import gov.nih.ncats.clinicaltrial.us.models.ClinicalTrialDrug;

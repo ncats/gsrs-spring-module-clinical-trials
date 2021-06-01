@@ -26,7 +26,6 @@ public class SubstancesExistValidator implements ValidatorPlugin<ClinicalTrialEu
     @Autowired
     private Environment env;
 
-
     @Override
     public boolean supports(ClinicalTrialEurope newValue, ClinicalTrialEurope oldValue, ValidatorConfig.METHOD_TYPE methodType) {
         return (methodType == ValidatorConfig.METHOD_TYPE.CREATE

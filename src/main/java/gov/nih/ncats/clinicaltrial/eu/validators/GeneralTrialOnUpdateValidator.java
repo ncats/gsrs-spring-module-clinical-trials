@@ -8,6 +8,7 @@ import ix.core.validator.GinasProcessingMessage;
 import ix.core.validator.ValidatorCallback;
 import ix.ginas.utils.validation.ValidatorPlugin;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 
 import java.time.LocalDateTime;
 import java.util.Date;
@@ -24,6 +25,9 @@ public class GeneralTrialOnUpdateValidator implements ValidatorPlugin<ClinicalTr
         return (methodType == ValidatorConfig.METHOD_TYPE.UPDATE);
     }
 
+    @Value("${mygsrs.clinicaltrial.eu.ClinicalTrialEurope.trialNumberPatternRegex}")
+    private String trialNumberPatternRegex;
+
     final String trialNumberNullErrorTemplate = "Trial Number is null.";
     final String badlyFormattedTrialNumberTemplate = "Trial Number [%s] had an incorrect format.";
     final String trialNumberShouldAlreadyExistErrorTemplate = "Trial Number [%s] SHOULD already exist.";
@@ -38,7 +42,7 @@ public class GeneralTrialOnUpdateValidator implements ValidatorPlugin<ClinicalTr
     // final String newLastModifiedDateDifferentFromOldErrorTemplate = "New Last Modified Date different that record being replaced.";
 
 
-    final Pattern trialNumberPattern = Pattern.compile("^NCT[\\d]+$");
+    final Pattern trialNumberPattern = Pattern.compile(trialNumberPatternRegex);
 
     @Override
     public void validate(ClinicalTrialEurope objnew, ClinicalTrialEurope objold, ValidatorCallback callback) {

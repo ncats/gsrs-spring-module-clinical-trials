@@ -12,7 +12,7 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
                 entityProcessorDetector = EnableGsrsApi.EntityProcessorDetector.CONF)
 @EnableGsrsJpaEntities
 @SpringBootApplication
-@EntityScan(basePackages ={"ix","gsrs", "gov.nih.ncats"} )
+@EntityScan(basePackages ={"ix","gsrs", "gov.nih.ncats", "fda.gsrs.substance"} )
 @EnableJpaRepositories(basePackages ={"ix","gsrs", "gov.nih.ncats"} )
 // @EnableGsrsLegacyAuthentication
 @EnableGsrsLegacyCache
@@ -20,7 +20,7 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 @EnableGsrsLegacySequenceSearch
 @EnableGsrsScheduler
 @EnableGsrsBackup
-
+@EnableGsrsLegacyStructureSearch
 public class GsrsSpringCTApplication {
 
     public static void main(String[] args) {

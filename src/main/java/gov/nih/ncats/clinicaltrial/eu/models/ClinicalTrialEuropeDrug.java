@@ -11,8 +11,8 @@ import javax.persistence.*;
 
 @Data
 @Entity
+@SingleParent
 @Table(name="CLINICAL_TRIAL_EU_DRUG")
-// @SingleParent
 @Getter
 @Setter
 public class ClinicalTrialEuropeDrug extends AbstractGsrsEntity {
@@ -25,7 +25,7 @@ public class ClinicalTrialEuropeDrug extends AbstractGsrsEntity {
     @ManyToOne
     @JsonIgnore
     @JoinColumn(name="PRODUCT_ID")
-    public ClinicalTrialEuropeProduct owner;
+    public ClinicalTrialEuropeProduct owner1;
 
     public String substanceKey;
 

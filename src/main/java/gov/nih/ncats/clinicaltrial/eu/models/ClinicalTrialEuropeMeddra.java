@@ -10,7 +10,7 @@ import javax.persistence.*;
 
 @Data
 @Entity
-@Table(name="SRSCID_CLINICAL_TRIAL_EU_MEDD")
+@Table(name="CLINICAL_TRIAL_EU_MEDD")
 @SingleParent
 @Getter
 @Setter

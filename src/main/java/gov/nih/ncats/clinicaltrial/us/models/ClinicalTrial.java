@@ -1,5 +1,6 @@
 package gov.nih.ncats.clinicaltrial.us.models;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import gsrs.model.AbstractGsrsEntity;
@@ -23,6 +24,7 @@ import gov.nih.ncats.common.util.TimeUtil;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
+@JsonInclude(JsonInclude.Include.ALWAYS)
 @Table(name="ct_clinical_trial")
 @ToString
 public class ClinicalTrial extends AbstractGsrsEntity {
@@ -145,7 +147,7 @@ public class ClinicalTrial extends AbstractGsrsEntity {
             // System.out.println("HERE3");
             for ( ClinicalTrialDrug ctd : clinicalTrialDrugs )
             {
-                System.out.println("HERE4" + ctd.getSubstanceKeyType());
+                // System.out.println("HERE4" + ctd.getSubstanceKeyType());
                 ctd.setOwner(this);
                 // System.out.println("HERE5");
             }

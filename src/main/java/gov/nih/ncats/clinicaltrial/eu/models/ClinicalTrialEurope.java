@@ -114,7 +114,7 @@ public class ClinicalTrialEurope extends AbstractGsrsEntity {
                                 // System.out.println("HERE5");
                         }
                 }
-                // setIsDirty("clinicalTrialDrug");
+                // setIsDirty("clinicalTrialDrugEurope");
         }
 
 

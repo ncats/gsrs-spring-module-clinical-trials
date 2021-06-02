@@ -56,22 +56,31 @@ public class ClinicalTrialEuropeProduct extends AbstractGsrsEntity {
     // @JsonIgnore
     @ToString.Exclude
     // @JoinColumn(name = "PRODUCT_ID", referencedColumnName = "ID")
-    // this owner in child class
+    // this owner1 is in child class
     @OneToMany(mappedBy = "owner1", fetch=FetchType.EAGER, cascade = CascadeType.ALL)
     public List<ClinicalTrialEuropeDrug> clinicalTrialEuropeDrugList = new ArrayList<>();
 
+    // this setter "runs" but but even so the product_id in the datatable
+    // is null
+    // so I put the so I "added logic" to ClinicalTrialEuropeProduct
     public void setClinicalTrialEuropeDrugList(List<ClinicalTrialEuropeDrug>  clinicalTrialEuropeDrugList) {
-        // System.out.println("HERE0");
-        // System.out.println("HERE1");
+        System.out.println("HERE0 XX setClinicalTrialEuropeDrugList ");
+        System.out.println("HERE1 XX");
         this.clinicalTrialEuropeDrugList = clinicalTrialEuropeDrugList;
-        // System.out.println("HERE2");
+        System.out.println("HERE2 XX");
         if(clinicalTrialEuropeDrugList != null) {
-            // System.out.println("HERE3");
+            System.out.println("HERE3 XX");
             for ( ClinicalTrialEuropeDrug ctd : clinicalTrialEuropeDrugList )
             {
-                // System.out.println("HERE4" + ctd.getSubstanceKeyType());
+                System.out.println("HERE4 XX" + ctd.getSubstanceKeyType());
+                System.out.println("HERE4 class" + this.getClass());
+
+                // produt_id does not get set correctly
+                // something is not working as epected.
+                // so modified parent class setClinicalTrialEuropeProductList
+                // setter.
                 ctd.setOwner1(this);
-                // System.out.println("HERE5");
+                System.out.println("HERE5 XX");
             }
         }
         // setIsDirty("clinicalTrialDrug");

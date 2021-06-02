@@ -91,7 +91,7 @@ public class ClinicalTrialEurope extends AbstractGsrsEntity {
         public List<ClinicalTrialEuropeProduct> clinicalTrialEuropeProductList = new ArrayList<>();
 
         public void setClinicalTrialEuropeProductList(List<ClinicalTrialEuropeProduct> clinicalTrialEuropeProductList) {
-                System.out.println("HERE0");
+                System.out.println("HERE0 setClinicalTrialEuropeProductList");
                 System.out.println("HERE1");
                 this.clinicalTrialEuropeProductList = clinicalTrialEuropeProductList;
                 System.out.println("HERE2");
@@ -102,7 +102,7 @@ public class ClinicalTrialEurope extends AbstractGsrsEntity {
                         {
                                 // System.out.println("HERE4" + ctd.getSubstanceKeyType());
                                 ctp.setOwner(this);
-
+                                // modified so grandchild produt_id gets correctly.
                                 if(ctp.getClinicalTrialEuropeDrugList() != null) {
                                         for (ClinicalTrialEuropeDrug ctd : ctp.getClinicalTrialEuropeDrugList()) {
                                                 ctd.setOwner1(ctp);

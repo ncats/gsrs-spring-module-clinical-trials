@@ -1,77 +1,65 @@
 package gov.nih.ncats.clinicaltrial.base.models;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import gov.nih.ncats.common.util.TimeUtil;
-import gsrs.model.AbstractGsrsEntity;
+import gov.nih.ncats.clinicaltrial.inheritance.AbstractGsrsEntityAlt;
 import ix.core.models.Indexable;
 import ix.ginas.models.serialization.GsrsDateDeserializer;
 import ix.ginas.models.serialization.GsrsDateSerializer;
 import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
-
 import javax.persistence.*;
 import java.util.*;
+import javax.persistence.InheritanceType;
 
 
 @Data
-// @Entity
-@MappedSuperclass
-// @Builder
+@Entity
+@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
+@Builder
 @AllArgsConstructor
-// @NoArgsConstructor
-// @Table(name="clinical_trial_base")
+@NoArgsConstructor
 @ToString
-public class ClinicalTrialBase extends AbstractGsrsEntity {
+
+
+public abstract class ClinicalTrialBase extends AbstractGsrsEntityAlt {
     @Id
-    // @GeneratedValue
-    // public String trialNumber;
-    @Column(name="TRIAL_NUMBER")
     public String trialNumber;
 
-    // commenting discriminator type for now
-    // public String dtype;
+    @Column(name = "KIND", length=100)
+    public String kind;
 
     @Indexable
     @Column(name = "TITLE", length=4000)
     public String title;
 
-    @Indexable
-    @Column(name = "SPONSOR_NAME", length=4000)
-    public String sponsorName;
-
+    @Column(name = "URL", length=4000)
     public String url;
 
-    @Indexable
-    @Column(name = "COUNTRY", length=50)
-    public String country;
+    // for this to work and have facets that work
+    // accross source we need to make commonly implemented
+    // fields.
+    // think of basic fields that should be captured and
+    // how the could be uniform for all sources but
+    // still be true to each source
 
-    public ClinicalTrialBase () {}
+    // conditions
+    // interventions
+    // ageGroups
+    // creationDateAtSource
+    // lastModifiedDateAtSource
 
-    @JsonIgnore
-    public String ctRegion() {
-        return "BASE";
-    }
-
-    @JsonIgnore
-    public String ctId() {
-        return this.trialNumber;
-    }
 
     @Version
     @Column(name = "INTERNAL_VERSION", nullable = false)
     public Long internalVersion = 0L;
 
-    @Column(name = "GSRS_MATCHING_COMPLETE")
-    public boolean gsrsMatchingComplete;
-
     @JsonSerialize(using = GsrsDateSerializer.class)
     @JsonDeserialize(using = GsrsDateDeserializer.class)
     @LastModifiedDate
     @Indexable( name = "Last Modified Date", sortable=true)
+
     private Date lastModifiedDate;
     @JsonSerialize(using = GsrsDateSerializer.class)
     @JsonDeserialize(using = GsrsDateDeserializer.class)

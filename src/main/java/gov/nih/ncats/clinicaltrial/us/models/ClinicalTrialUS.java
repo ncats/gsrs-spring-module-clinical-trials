@@ -2,8 +2,8 @@ package gov.nih.ncats.clinicaltrial.us.models;
 
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import gsrs.model.AbstractGsrsEntity;
 import ix.core.models.Indexable;
+import gov.nih.ncats.clinicaltrial.base.models.ClinicalTrialBase;
 import ix.ginas.models.serialization.GsrsDateDeserializer;
 import ix.ginas.models.serialization.GsrsDateSerializer;
 import lombok.*;
@@ -18,21 +18,14 @@ import gov.nih.ncats.common.util.TimeUtil;
 
 
 @Data
-@EqualsAndHashCode(exclude="clinicalTrialDrug")
+@EqualsAndHashCode(exclude="clinicalTrialUSDrug")
 @Entity
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name="ct_clinical_trial")
+@Table(name="ctx_clinical_trial_us")
 @ToString
-public class ClinicalTrial extends AbstractGsrsEntity {
-    @Id
-    // @GeneratedValue
-    public String trialNumber;
-
-    @Indexable
-    @Column(name = "TITLE", length=4000)
-    public String title;
+public class ClinicalTrialUS extends ClinicalTrialBase {
 
     @Column(name = "RECRUITMENT", length=4000)
     public String recruitment;
@@ -106,9 +99,6 @@ public class ClinicalTrial extends AbstractGsrsEntity {
     @Column(name = "OUTCOME_MEASURES", length=4000)
     public String outcomeMeasures;
 
-    @Column(name = "URL", length=4000)
-    public String url;
-
     @Column(name = "LOCATIONS", length=4000)
     public String locations;
 
@@ -118,32 +108,23 @@ public class ClinicalTrial extends AbstractGsrsEntity {
     @Transient
     public List<String> sponsorList = new ArrayList<String>();
 
-    //Added on Oct 8, AN
-    // @JsonIgnore
-    // @Indexable(indexed=false)
-    // @JoinColumn(name = "NCT_NUMBER", referencedColumnName = "NCTN")
-    // @OneToMany(mappedBy="clinicalTrialApp", fetch=FetchType.EAGER, cascade = CascadeType.ALL)
-    // public List<ClinicalTrialApplication> clinicalTrialApplicationList = new ArrayList<ClinicalTrialApplication>();
-
-    // @OneToMany(mappedBy = "owner", fetch= FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
-
     @OneToMany(mappedBy = "owner", cascade = CascadeType.ALL)
     @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     @Basic(fetch= FetchType.EAGER)
     // had to add this or I got circular references when string building.
     @ToString.Exclude
-    public Set<ClinicalTrialDrug> clinicalTrialDrug = new HashSet<ClinicalTrialDrug>();
+    public Set<ClinicalTrialUSDrug> clinicalTrialUSDrug = new HashSet<ClinicalTrialUSDrug>();
 
-    public void setClinicalTrialDrug(Set<ClinicalTrialDrug> clinicalTrialDrugs) {
+    public void setClinicalTrialUSDrug(Set<ClinicalTrialUSDrug> clinicalTrialUSDrugs) {
         // System.out.println("HERE0");
         // System.out.println("HERE1");
-        this.clinicalTrialDrug = clinicalTrialDrugs;
+        this.clinicalTrialUSDrug = clinicalTrialUSDrugs;
         // System.out.println("HERE2");
-        if(clinicalTrialDrugs !=null) {
+        if(clinicalTrialUSDrugs !=null) {
 
 
             // System.out.println("HERE3");
-            for ( ClinicalTrialDrug ctd : clinicalTrialDrugs )
+            for ( ClinicalTrialUSDrug ctd : clinicalTrialUSDrugs)
             {
                 System.out.println("HERE4" + ctd.getSubstanceKeyType());
                 ctd.setOwner(this);
@@ -179,7 +160,7 @@ public class ClinicalTrial extends AbstractGsrsEntity {
     @JsonIgnore
     @Indexable(facet= true, name = "Has Substances")
     public String getHasSubstances() {
-        if (this.clinicalTrialDrug!= null && !this.clinicalTrialDrug.isEmpty()) {
+        if (this.clinicalTrialUSDrug != null && !this.clinicalTrialUSDrug.isEmpty()) {
             return "Has Substances";
         }
         return "No Substances";

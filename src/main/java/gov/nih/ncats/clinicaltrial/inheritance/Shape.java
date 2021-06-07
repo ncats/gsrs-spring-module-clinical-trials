@@ -12,8 +12,6 @@ import javax.validation.constraints.NotNull;
 public abstract class Shape extends AbstractGsrsEntityAlt {
     @Id
     public String trialNumber;
-    // @NotNull
-
 
     public String kind;
 

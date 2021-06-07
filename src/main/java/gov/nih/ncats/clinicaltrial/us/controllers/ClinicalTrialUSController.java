@@ -1,9 +1,9 @@
 package gov.nih.ncats.clinicaltrial.us.controllers;
 
-import gov.nih.ncats.clinicaltrial.us.models.ClinicalTrial;
-import gov.nih.ncats.clinicaltrial.us.services.ClinicalTrialEntityService;
-import gov.nih.ncats.clinicaltrial.us.services.ClinicalTrialMetaUpdaterService;
-import gov.nih.ncats.clinicaltrial.us.services.ClinicalTrialLegacySearchService;
+import gov.nih.ncats.clinicaltrial.us.models.ClinicalTrialUS;
+import gov.nih.ncats.clinicaltrial.us.services.ClinicalTrialUSEntityService;
+import gov.nih.ncats.clinicaltrial.us.services.ClinicalTrialUSMetaUpdaterService;
+import gov.nih.ncats.clinicaltrial.us.services.ClinicalTrialUSLegacySearchService;
 import gov.nih.ncats.clinicaltrial.us.services.SubstanceAPIService;
 import gsrs.controller.*;
 import gsrs.legacy.LegacyGsrsSearchService;
@@ -21,22 +21,22 @@ import java.util.Map;
 import java.util.stream.Stream;
 
 /**
- * GSRS Rest API controller for the {@link ClinicalTrial} entity.
+ * GSRS Rest API controller for the {@link ClinicalTrialUS} entity.
  */
-@GsrsRestApiController(context = ClinicalTrialEntityService.CONTEXT,  idHelper = IdHelpers.NUMBER)
-@ExposesResourceFor(ClinicalTrial.class)
+@GsrsRestApiController(context = ClinicalTrialUSEntityService.CONTEXT,  idHelper = IdHelpers.NUMBER)
+@ExposesResourceFor(ClinicalTrialUS.class)
 @CrossOrigin(origins = "http://localhost:4200", maxAge = 3600)
-public class ClinicalTrialController extends EtagLegacySearchEntityController<ClinicalTrialController, ClinicalTrial, String> {
+public class ClinicalTrialUSController extends EtagLegacySearchEntityController<ClinicalTrialUSController, ClinicalTrialUS, String> {
 
 
     @Autowired
-    private ClinicalTrialLegacySearchService clinicalTrialLegacySearchService;
+    private ClinicalTrialUSLegacySearchService clinicalTrialUSLegacySearchService;
 
     @Autowired
-    private ClinicalTrialEntityService clinicalTrialEntityService;
+    private ClinicalTrialUSEntityService clinicalTrialUSEntityService;
 
     @Autowired
-    private ClinicalTrialMetaUpdaterService clinicalTrialMetaUpdaterService;
+    private ClinicalTrialUSMetaUpdaterService clinicalTrialUSMetaUpdaterService;
 
     @Autowired
     private SubstanceAPIService substanceAPIService;
@@ -46,24 +46,24 @@ public class ClinicalTrialController extends EtagLegacySearchEntityController<Cl
     private EntityLinks entityLinks;
 
     @Override
-    protected LegacyGsrsSearchService<ClinicalTrial> getlegacyGsrsSearchService() {
-        return clinicalTrialLegacySearchService;
+    protected LegacyGsrsSearchService<ClinicalTrialUS> getlegacyGsrsSearchService() {
+        return clinicalTrialUSLegacySearchService;
     }
 
     @Autowired
     private Environment env;
 
 
-    public ClinicalTrialController() {
+    public ClinicalTrialUSController() {
 
     }
 
     @Override
-    protected  ClinicalTrialEntityService getEntityService() {
-        return clinicalTrialEntityService;
+    protected ClinicalTrialUSEntityService getEntityService() {
+        return clinicalTrialUSEntityService;
     }
 
-    protected Stream<ClinicalTrial> filterStream(Stream<ClinicalTrial> stream, boolean publicOnly, Map<String, String> parameters) {
+    protected Stream<ClinicalTrialUS> filterStream(Stream<ClinicalTrialUS> stream, boolean publicOnly, Map<String, String> parameters) {
         return stream;
     }
 
@@ -73,34 +73,24 @@ public class ClinicalTrialController extends EtagLegacySearchEntityController<Cl
     // The below will be removed.
 
     // experimental
-    @GetGsrsRestApiMapping("/@exp_updateSmallSampleOfClinicalTrialMetaData")
-    public JSONObject updateSmallSampleOfClinicalTrialMetaData()
+    @GetGsrsRestApiMapping("/@exp_updateSmallSampleOfClinicalTrialUSMetaData")
+    public JSONObject updateSmallSampleOfClinicalTrialUSMetaData()
     {
         System.out.println("Running Clinical Trials Meta Updater");
-        clinicalTrialMetaUpdaterService.download();
+        clinicalTrialUSMetaUpdaterService.download();
         Map<String, String> hm = new Hashtable<String, String>();
         hm.put("one", "a");
         hm.put("two", "b");
         return new JSONObject(hm);
     }
 
-<<<<<<< HEAD
-=======
 
     // experimental
-    @GetGsrsRestApiMapping("/@exp_updateAllClinicalTrialMetaData")
-  public JSONObject updateAllClinicalTrialMetaData()
-  {
-      System.out.println("Running Clinical Trials Meta Updater");
-      clinicalTrialMetaUpdaterService.download2();
->>>>>>> development
-
-    // experimental
-    @GetGsrsRestApiMapping("/@exp_updateAllClinicalTrialMetaData")
-    public JSONObject updateAllClinicalTrialMetaData()
+    @GetGsrsRestApiMapping("/@exp_updateAllClinicalTrialUSMetaData")
+    public JSONObject updateAllClinicalTrialUSMetaData()
     {
         System.out.println("Running Clinical Trials Meta Updater");
-        clinicalTrialMetaUpdaterService.download2();
+        clinicalTrialUSMetaUpdaterService.download2();
 
         Map<String, String> hm = new Hashtable<String, String>();
         hm.put("one", "a");

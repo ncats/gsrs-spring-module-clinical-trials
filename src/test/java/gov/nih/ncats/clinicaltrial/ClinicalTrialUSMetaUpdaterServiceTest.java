@@ -1,14 +1,13 @@
 package gov.nih.ncats.clinicaltrial;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import gov.nih.ncats.clinicaltrial.us.models.ClinicalTrial;
-import gov.nih.ncats.clinicaltrial.us.repositories.ClinicalTrialRepository;
-import gov.nih.ncats.clinicaltrial.us.services.ClinicalTrialEntityService;
-import gov.nih.ncats.clinicaltrial.us.services.ClinicalTrialMetaUpdaterService;
+import gov.nih.ncats.clinicaltrial.us.models.ClinicalTrialUS;
+import gov.nih.ncats.clinicaltrial.us.repositories.ClinicalTrialUSRepository;
+import gov.nih.ncats.clinicaltrial.us.services.ClinicalTrialUSEntityService;
+import gov.nih.ncats.clinicaltrial.us.services.ClinicalTrialUSMetaUpdaterService;
 import gov.nih.ncats.common.util.TimeUtil;
 import gsrs.controller.GsrsControllerConfiguration;
 import gsrs.junit.TimeTraveller;
-import gsrs.service.AbstractGsrsEntityService;
 import gsrs.startertests.GsrsEntityTestConfiguration;
 import gsrs.startertests.GsrsJpaTest;
 import gsrs.startertests.jupiter.AbstractGsrsJpaEntityJunit5Test;
@@ -24,30 +23,28 @@ import org.springframework.test.context.ActiveProfiles;
 import java.io.File;
 import java.time.LocalDate;
 import java.util.Date;
-import java.util.concurrent.TimeUnit;
 
-import static gsrs.assertions.GsrsMatchers.matchesExample;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
 
 
 @ActiveProfiles("test")
-@GsrsJpaTest(classes = { GsrsSpringApplication.class, GsrsControllerConfiguration.class, GsrsEntityTestConfiguration.class, ClinicalTrialRepository.class})
-@Import({ClinicalTrial.class, ClinicalTrialEntityService.class, ClinicalTrialMetaUpdaterService.class})
-public class ClinicalTrialMetaUpdaterServiceTest extends AbstractGsrsJpaEntityJunit5Test {
+@GsrsJpaTest(classes = { GsrsSpringApplication.class, GsrsControllerConfiguration.class, GsrsEntityTestConfiguration.class, ClinicalTrialUSRepository.class})
+@Import({ClinicalTrialUS.class, ClinicalTrialUSEntityService.class, ClinicalTrialUSMetaUpdaterService.class})
+public class ClinicalTrialUSMetaUpdaterServiceTest extends AbstractGsrsJpaEntityJunit5Test {
     @TempDir
     static File tempDir;
 
     @Autowired
-    private ClinicalTrialEntityService clinicalTrialService;
+    private ClinicalTrialUSEntityService clinicalTrialService;
 
     @Autowired
-    private ClinicalTrialMetaUpdaterService clinicalTrialMetaUpdaterService;
+    private ClinicalTrialUSMetaUpdaterService clinicalTrialMetaUpdaterService;
 
     @RegisterExtension
     TimeTraveller timeTraveller = new TimeTraveller(LocalDate.of(1955, 11, 5));
 
-    private JacksonTester<ClinicalTrial> json;
+    private JacksonTester<ClinicalTrialUS> json;
     ObjectMapper objectMapper = new ObjectMapper();
 
     @BeforeEach

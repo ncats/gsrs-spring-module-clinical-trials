@@ -1,14 +1,13 @@
 package gov.nih.ncats.clinicaltrial.us.validators;
 
-import gov.nih.ncats.clinicaltrial.us.models.ClinicalTrial;
-import gov.nih.ncats.clinicaltrial.us.models.ClinicalTrialDrug;
+import gov.nih.ncats.clinicaltrial.us.models.ClinicalTrialUSDrug;
+import gov.nih.ncats.clinicaltrial.us.models.ClinicalTrialUS;
 import gov.nih.ncats.clinicaltrial.us.services.SubstanceAPIService;
 import gsrs.validator.ValidatorConfig;
 import ix.core.validator.GinasProcessingMessage;
 import ix.core.validator.ValidatorCallback;
 import ix.ginas.utils.validation.ValidatorPlugin;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.env.Environment;
 
 import java.util.HashMap;
@@ -16,7 +15,7 @@ import java.util.Set;
 import java.util.UUID;
 import java.util.regex.Pattern;
 
-public class GeneralSubstancesValidator implements ValidatorPlugin<ClinicalTrial> {
+public class GeneralSubstancesValidator implements ValidatorPlugin<ClinicalTrialUS> {
 
     // 404 message with incorrectly formatted flex id.
     // takes a long time to come back.
@@ -36,7 +35,7 @@ public class GeneralSubstancesValidator implements ValidatorPlugin<ClinicalTrial
 
 
     @Override
-    public boolean supports(ClinicalTrial newValue, ClinicalTrial oldValue, ValidatorConfig.METHOD_TYPE methodType) {
+    public boolean supports(ClinicalTrialUS newValue, ClinicalTrialUS oldValue, ValidatorConfig.METHOD_TYPE methodType) {
         return (methodType == ValidatorConfig.METHOD_TYPE.CREATE
                || methodType == ValidatorConfig.METHOD_TYPE.UPDATE);
     }
@@ -49,7 +48,7 @@ public class GeneralSubstancesValidator implements ValidatorPlugin<ClinicalTrial
     // final String substanceKeyTypeBadValueErrorTemplate = "Substance Key Type should be " + substanceLinkingKeyTypeAgencyCode + ".";
 
     @Override
-    public void validate(ClinicalTrial objnew, ClinicalTrial objold, ValidatorCallback callback) {
+    public void validate(ClinicalTrialUS objnew, ClinicalTrialUS objold, ValidatorCallback callback) {
         System.out.println("Inside GeneralSubstancesValidator");
         String substanceKeyTypeValue = "UUID";
         String substanceKeyPatternRegex = "^[-0-9a-f]{36}$";
@@ -57,9 +56,9 @@ public class GeneralSubstancesValidator implements ValidatorPlugin<ClinicalTrial
         String substanceKeyTypeBadValueErrorTemplate = "Substance Key Type should be " + substanceKeyTypeValue  + ".";
         Pattern substanceKeyPattern = Pattern.compile(substanceKeyPatternRegex, Pattern.CASE_INSENSITIVE);
 
-        Set<ClinicalTrialDrug> ctds = objnew.getClinicalTrialDrug();
+        Set<ClinicalTrialUSDrug> ctds = objnew.getClinicalTrialUSDrug();
         HashMap<String, Boolean> map = new HashMap<>();
-            for (ClinicalTrialDrug ctd : ctds) {
+            for (ClinicalTrialUSDrug ctd : ctds) {
                 // System.out.println("Inside GeneralSubstancesValidator Loop");
 
                 String substanceKeyType = ctd.getSubstanceKeyType();

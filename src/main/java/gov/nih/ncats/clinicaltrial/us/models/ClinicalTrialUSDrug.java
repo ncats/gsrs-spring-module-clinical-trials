@@ -1,4 +1,5 @@
 package gov.nih.ncats.clinicaltrial.us.models;
+import gov.nih.ncats.clinicaltrial.base.models.AbstractGsrsEntityAlt;
 import ix.core.SingleParent;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import gsrs.model.AbstractGsrsEntity;
@@ -15,7 +16,7 @@ import javax.persistence.*;
 @SingleParent
 @Getter
 @Setter
-public class ClinicalTrialDrug extends AbstractGsrsEntity {
+public class ClinicalTrialUSDrug extends AbstractGsrsEntityAlt {
 
     @Value("${mygsrs.clinicaltrial.us.substance.linking.keyType.value}")
     static String substanceKeyTypeValue;
@@ -27,7 +28,7 @@ public class ClinicalTrialDrug extends AbstractGsrsEntity {
     @ManyToOne(cascade = CascadeType.PERSIST)
     @JsonIgnore //ignore in json to avoid infinite recursion
     @JoinColumn(name = "TRIAL_NUMBER")
-    public ClinicalTrial owner;
+    public ClinicalTrialUS owner;
 
     @Column(name="SUBSTANCE_KEY")
     public String substanceKey;
@@ -44,7 +45,7 @@ public class ClinicalTrialDrug extends AbstractGsrsEntity {
     @Column(name="protected_match")
     public boolean protectedMatch;
 
-    public ClinicalTrialDrug () {}
+    public ClinicalTrialUSDrug() {}
 
     public Long getId() {
         return this.id;

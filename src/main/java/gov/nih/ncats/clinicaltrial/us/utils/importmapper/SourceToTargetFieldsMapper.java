@@ -1,6 +1,7 @@
 package gov.nih.ncats.clinicaltrial.us.utils.importmapper;
 
-import gov.nih.ncats.clinicaltrial.us.models.ClinicalTrial;
+import gov.nih.ncats.clinicaltrial.us.models.ClinicalTrialUS;
+
 import javax.persistence.Column;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
@@ -61,7 +62,7 @@ public class SourceToTargetFieldsMapper {
 
     public static void dumpTargetColumns() {
         List<String> columns =
-            Arrays.asList(ClinicalTrial.class.getFields())
+            Arrays.asList(ClinicalTrialUS.class.getFields())
                 .stream()
                 .filter(f -> f.getAnnotation(Column.class) != null)
                 .map(f -> "\n" + f.getType() + ":" + f.getAnnotation(Column.class).name() + ":" + String.valueOf(f.getAnnotation(Column.class).length()))
@@ -79,7 +80,7 @@ public class SourceToTargetFieldsMapper {
 
     public static LinkedHashMap<String, TargetAnnotationField> generateTargetAnnotationsHashMap() {
         LinkedHashMap targetAnnotationFields = new LinkedHashMap<String, TargetAnnotationField>();
-        for (Field field : ClinicalTrial.class.getFields()) {
+        for (Field field : ClinicalTrialUS.class.getFields()) {
             Column c = field.getAnnotation(Column.class);
             TargetAnnotationField taf = new TargetAnnotationField();
             if (c != null) {

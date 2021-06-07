@@ -3,7 +3,6 @@ package gov.nih.ncats.clinicaltrial.eu.controllers;
 import gov.nih.ncats.clinicaltrial.eu.models.ClinicalTrialEurope;
 import gov.nih.ncats.clinicaltrial.eu.services.ClinicalTrialEuropeEntityService;
 import gov.nih.ncats.clinicaltrial.eu.services.ClinicalTrialEuropeLegacySearchService;
-import gov.nih.ncats.clinicaltrial.us.models.ClinicalTrial;
 import gsrs.controller.EtagLegacySearchEntityController;
 import gsrs.controller.GsrsRestApiController;
 import gsrs.controller.IdHelpers;

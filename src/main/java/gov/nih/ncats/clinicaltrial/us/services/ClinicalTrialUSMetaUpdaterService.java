@@ -1,8 +1,7 @@
 package gov.nih.ncats.clinicaltrial.us.services;
 
-import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import gov.nih.ncats.clinicaltrial.us.models.ClinicalTrial;
+import gov.nih.ncats.clinicaltrial.us.models.ClinicalTrialUS;
 import gov.nih.ncats.clinicaltrial.us.utils.importmapper.SourceToTargetField;
 import gov.nih.ncats.clinicaltrial.us.utils.importmapper.SourceToTargetFieldsMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,15 +16,14 @@ import java.time.YearMonth;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
-import java.util.regex.Pattern;
 
 @Service
-public class ClinicalTrialMetaUpdaterService {
+public class ClinicalTrialUSMetaUpdaterService {
 
     public static final String  CONTEXT = "clinicaltrial";
 
     @Autowired
-    private ClinicalTrialEntityService clinicalTrialEntityService;
+    private ClinicalTrialUSEntityService clinicalTrialUSEntityService;
 
     @Autowired
     private ObjectMapper objectMapper;
@@ -91,12 +89,12 @@ public class ClinicalTrialMetaUpdaterService {
         // dates are the same.
 
         String trialNumber = String.valueOf(lhm.get("NCT Number"));
-        Optional<ClinicalTrial> ctOld =  clinicalTrialEntityService.get(trialNumber);
-        ClinicalTrial ctNew = new ClinicalTrial();
+        Optional<ClinicalTrialUS> ctOld =  clinicalTrialUSEntityService.get(trialNumber);
+        ClinicalTrialUS ctNew = new ClinicalTrialUS();
         if(!ctOld.isPresent()) {
             try {
                 ctNew = applyCTApiV1TsvHashMapToClinicalTrial(lhm, ctNew);
-                clinicalTrialEntityService.createEntity(objectMapper.valueToTree(ctNew));
+                clinicalTrialUSEntityService.createEntity(objectMapper.valueToTree(ctNew));
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -109,7 +107,7 @@ public class ClinicalTrialMetaUpdaterService {
                 System.out.println("Comparison result = " + compare);
                 if (compare.equals("DO_UPDATE") || compare.equals("DO_UPDATE_ON_DATE1_NULL")) {
                     ctNew = applyCTApiV1TsvHashMapToClinicalTrial(lhm, ctOld.orElse(null));
-                    clinicalTrialEntityService.updateEntity(objectMapper.valueToTree(ctNew));
+                    clinicalTrialUSEntityService.updateEntity(objectMapper.valueToTree(ctNew));
                 }
             } catch (Exception e) {
                 e.printStackTrace();
@@ -167,7 +165,7 @@ public class ClinicalTrialMetaUpdaterService {
         return value;
     }
 
-    public ClinicalTrial applyCTApiV1TsvHashMapToClinicalTrial(LinkedHashMap lhm, ClinicalTrial ct) {
+    public ClinicalTrialUS applyCTApiV1TsvHashMapToClinicalTrial(LinkedHashMap lhm, ClinicalTrialUS ct) {
         // ct should either be an empty trial Pojo or an existing one for update
         ct.setTrialNumber(String.valueOf(lhm.get("NCT Number")));
         ct.setTitle(truncateUtf8(String.valueOf(lhm.get("Title")), sourceToTargetFieldsLHM.get("Title").targetLength));

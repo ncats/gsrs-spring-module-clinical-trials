@@ -1,8 +1,6 @@
 package gov.nih.ncats.clinicaltrial.eu.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import gov.nih.ncats.clinicaltrial.base.models.ClinicalTrialBase;
-import gov.nih.ncats.clinicaltrial.us.models.ClinicalTrial;
 import gsrs.model.AbstractGsrsEntity;
 import lombok.*;
 

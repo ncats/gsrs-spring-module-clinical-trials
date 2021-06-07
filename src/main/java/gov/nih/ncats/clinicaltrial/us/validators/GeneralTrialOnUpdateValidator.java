@@ -1,7 +1,7 @@
 package gov.nih.ncats.clinicaltrial.us.validators;
 
-import gov.nih.ncats.clinicaltrial.us.models.ClinicalTrial;
-import gov.nih.ncats.clinicaltrial.us.repositories.ClinicalTrialRepository;
+import gov.nih.ncats.clinicaltrial.us.models.ClinicalTrialUS;
+import gov.nih.ncats.clinicaltrial.us.repositories.ClinicalTrialUSRepository;
 import gov.nih.ncats.common.util.TimeUtil;
 import gsrs.validator.ValidatorConfig;
 import ix.core.validator.GinasProcessingMessage;
@@ -10,22 +10,21 @@ import ix.ginas.utils.validation.ValidatorPlugin;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.Optional;
 import java.util.regex.Pattern;
 
-public class GeneralTrialOnUpdateValidator implements ValidatorPlugin<ClinicalTrial> {
+public class GeneralTrialOnUpdateValidator implements ValidatorPlugin<ClinicalTrialUS> {
 
     @Autowired
-    private ClinicalTrialRepository repository;
+    private ClinicalTrialUSRepository repository;
 
     @Autowired
     private Environment env;
 
     @Override
-    public boolean supports(ClinicalTrial newValue, ClinicalTrial oldValue, ValidatorConfig.METHOD_TYPE methodType) {
+    public boolean supports(ClinicalTrialUS newValue, ClinicalTrialUS oldValue, ValidatorConfig.METHOD_TYPE methodType) {
         return (methodType == ValidatorConfig.METHOD_TYPE.UPDATE);
     }
 
@@ -46,7 +45,7 @@ public class GeneralTrialOnUpdateValidator implements ValidatorPlugin<ClinicalTr
     final Pattern trialNumberPattern = Pattern.compile("^NCT[\\d]+$");
 
     @Override
-    public void validate(ClinicalTrial objnew, ClinicalTrial objold, ValidatorCallback callback) {
+    public void validate(ClinicalTrialUS objnew, ClinicalTrialUS objold, ValidatorCallback callback) {
         System.out.println("Inside GeneralTrialOnUpdateValidator");
 
         String trialNumber = objnew.getTrialNumber();
@@ -63,11 +62,11 @@ public class GeneralTrialOnUpdateValidator implements ValidatorPlugin<ClinicalTr
             System.out.println("Checking that trial already exists: " + objold.getTrialNumber());
             System.out.println("Old Modified date: " + objold.getLastModifiedDate());
         }
-        Optional<ClinicalTrial> found = repository.findById(objnew.getTrialNumber());
+        Optional<ClinicalTrialUS> found = repository.findById(objnew.getTrialNumber());
         if(!found.isPresent()) {
             callback.addMessage(GinasProcessingMessage.ERROR_MESSAGE(String.format(trialNumberShouldAlreadyExistErrorTemplate, trialNumber)));
         } else {
-            ClinicalTrial ct = found.get();
+            ClinicalTrialUS ct = found.get();
             Date newCreationDate = objnew.getCreationDate();
             Date newLastModifiedDate = objnew.getLastModifiedDate();
             Date oldCreationDate = ct.getCreationDate();

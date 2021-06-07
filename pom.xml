@@ -86,7 +86,18 @@
         <dependency>
             <groupId>gov.nih.ncats</groupId>
             <artifactId>gsrs-module-substances-spring-boot-starter</artifactId>
-            <version>0.6.1-SNAPSHOT</version>
+            <version>0.6.2-SNAPSHOT</version>
+        </dependency>
+
+        <dependency>
+            <groupId>gov.nih.ncats</groupId>
+            <artifactId>gsrs-fda-substance-extension</artifactId>
+            <version>0.6.2-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+            <groupId>org.postgresql</groupId>
+            <artifactId>postgresql</artifactId>
+            <version>9.4-1200-jdbc41</version>
         </dependency>
     </dependencies>
 

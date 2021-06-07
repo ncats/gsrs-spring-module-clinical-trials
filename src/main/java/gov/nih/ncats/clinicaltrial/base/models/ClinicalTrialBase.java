@@ -17,7 +17,6 @@ import javax.persistence.InheritanceType;
 @Data
 @Entity
 @Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
-@Builder
 @AllArgsConstructor
 @NoArgsConstructor
 @ToString

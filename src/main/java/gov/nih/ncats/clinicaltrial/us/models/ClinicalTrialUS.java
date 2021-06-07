@@ -27,6 +27,21 @@ import gov.nih.ncats.common.util.TimeUtil;
 @ToString
 public class ClinicalTrialUS extends ClinicalTrialBase {
 
+    @Id
+    public String trialNumber;
+
+    @Column(name = "KIND", length=100)
+    public String kind;
+
+    @Indexable
+    @Column(name = "TITLE", length=4000)
+    public String title;
+
+    @Column(name = "URL", length=4000)
+    public String url;
+
+
+
     @Column(name = "RECRUITMENT", length=4000)
     public String recruitment;
 

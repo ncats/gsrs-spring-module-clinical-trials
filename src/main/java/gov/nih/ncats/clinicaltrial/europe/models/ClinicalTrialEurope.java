@@ -3,11 +3,13 @@ package gov.nih.ncats.clinicaltrial.europe.models;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import gov.nih.ncats.clinicaltrial.base.models.ClinicalTrialBase;
 import gsrs.model.AbstractGsrsEntity;
 import ix.core.models.Indexable;
 import ix.ginas.models.serialization.GsrsDateDeserializer;
 import ix.ginas.models.serialization.GsrsDateSerializer;
 import lombok.*;
+import lombok.experimental.SuperBuilder;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 
@@ -15,15 +17,16 @@ import javax.persistence.*;
 import java.util.*;
 
 @Data
-@EqualsAndHashCode(exclude="clinicalTrialDrug")
+// @EqualsAndHashCode(exclude="clinicalTrialDrug")
 @Entity
-@Builder
+// @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name="clinical_trial_eu")
+@Table(name="ctrial_eu")
 // @ToString
-public class ClinicalTrialEurope extends AbstractGsrsEntity {
-
+@SuperBuilder
+public class ClinicalTrialEurope extends ClinicalTrialBase {
+/*
         @Id
         @Column(name="TRIAL_NUMBER")
         public String trialNumber;
@@ -35,6 +38,9 @@ public class ClinicalTrialEurope extends AbstractGsrsEntity {
         @Column(name="TITLE")
         public String title;
 
+        @Column(name="URL")
+        public String url;
+*/
         @Indexable(facet=true, name="Sponsor")
         @Column(name="SPONSOR_NAME")
         public String sponsorName;
@@ -71,8 +77,6 @@ public class ClinicalTrialEurope extends AbstractGsrsEntity {
         @Column(name="COUNTRY")
         public String country;
 
-        @Column(name="URL")
-        public String url;
 
         // had to change to lazy to prevent multiple bag exception
 
@@ -95,7 +99,7 @@ public class ClinicalTrialEurope extends AbstractGsrsEntity {
         @OneToMany(fetch=FetchType.LAZY, cascade = CascadeType.ALL)
         public List<ClinicalTrialEuropeMeddra> clinicalTrialEuropeMeddraList = new ArrayList<>();
 
-
+/*
         @JsonSerialize(using = GsrsDateSerializer.class)
         @JsonDeserialize(using = GsrsDateDeserializer.class)
         @LastModifiedDate
@@ -106,5 +110,6 @@ public class ClinicalTrialEurope extends AbstractGsrsEntity {
         @CreatedDate
         @Indexable( name = "Create Date", sortable=true)
         private Date creationDate;
+*/
     }
 

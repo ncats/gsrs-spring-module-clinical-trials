@@ -1,5 +1,6 @@
 package gov.nih.ncats.clinicaltrial.europe.models;
 
+import gov.nih.ncats.clinicaltrial.base.models.AbstractGsrsEntityAlt;
 import gsrs.model.AbstractGsrsEntity;
 import ix.core.SingleParent;
 import lombok.Data;
@@ -14,7 +15,7 @@ import javax.persistence.*;
 @SingleParent
 @Getter
 @Setter
-public class ClinicalTrialEuropeMeddra extends AbstractGsrsEntity {
+public class ClinicalTrialEuropeMeddra extends AbstractGsrsEntityAlt {
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)

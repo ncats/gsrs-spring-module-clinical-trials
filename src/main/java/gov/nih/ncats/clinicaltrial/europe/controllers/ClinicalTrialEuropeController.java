@@ -45,9 +45,9 @@ public class ClinicalTrialEuropeController extends EtagLegacySearchEntityControl
         return stream;
     }
 
-    public ClinicalTrialEuropeController() {
+//    public ClinicalTrialEuropeController() {
 
-    }
+//    }
 
 
 }

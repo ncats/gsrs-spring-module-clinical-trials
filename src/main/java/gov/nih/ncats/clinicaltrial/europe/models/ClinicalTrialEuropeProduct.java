@@ -1,6 +1,7 @@
 package gov.nih.ncats.clinicaltrial.europe.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import gov.nih.ncats.clinicaltrial.base.models.AbstractGsrsEntityAlt;
 import gsrs.model.AbstractGsrsEntity;
 import lombok.*;
 
@@ -17,7 +18,7 @@ import java.util.ArrayList;
 // @NoArgsConstructor
 @Table(name="clinical_trial_eu_prod")
 // @ToString
-public class ClinicalTrialEuropeProduct extends AbstractGsrsEntity {
+public class ClinicalTrialEuropeProduct extends AbstractGsrsEntityAlt {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     @Column(name="ID")

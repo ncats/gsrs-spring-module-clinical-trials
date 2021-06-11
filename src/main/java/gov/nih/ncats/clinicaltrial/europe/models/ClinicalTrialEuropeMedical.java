@@ -1,5 +1,6 @@
 package gov.nih.ncats.clinicaltrial.europe.models;
 
+import gov.nih.ncats.clinicaltrial.base.models.AbstractGsrsEntityAlt;
 import ix.core.SingleParent;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import gsrs.model.AbstractGsrsEntity;
@@ -15,7 +16,7 @@ import javax.persistence.*;
 @SingleParent
 @Getter
 @Setter
-public class ClinicalTrialEuropeMedical extends AbstractGsrsEntity {
+public class ClinicalTrialEuropeMedical extends AbstractGsrsEntityAlt {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     @Column(name="ID")

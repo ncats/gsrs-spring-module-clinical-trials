@@ -12,7 +12,7 @@ import javax.persistence.*;
 
 @Data
 @Entity
-@Table(name="ct_clinical_trial_drug")
+@Table(name="ctrial_us_drug")
 @SingleParent
 @Getter
 @Setter

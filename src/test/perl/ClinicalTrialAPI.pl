@@ -73,6 +73,7 @@ my $base_json = '
 	"title": "The Influence of GINkGo Biloba on the Pharmacokinetics of the UGT Substrate raltEgraviR (GINGER)",
 	"recruitment": "Completed",
 	"phases": "Phase 1",
+	"kind": "US",
 	"fundedBys": "Other|Industry",
 	"studyTypes": "Interventional",
 	"studyDesigns": "Allocation: Randomized|Intervention Model: Crossover Assignment|Masking: None (Open Label)",
@@ -83,11 +84,11 @@ my $base_json = '
 	"acronym": "GINGER",
 	"completionDate": 990331200000,
 	"primaryCompletionDate": 1551502800000,
-	"url": "https://ClinicalTrials.gov/show/NCTNUMBER",
+	"url": "https://clinicaltrials.gov/show/NCTNUMBER",
 	"locations": "CRCN, Radboud University Medical Centre, Nijmegen, Netherlands",
 	"locationList": [],
 	"sponsorList": [],
-	"clinicalTrialDrug": [{
+	"clinicalTrialUSDrug": [{
 		"trialNumber": "NCTNUMBER",
 		"substanceKey": "SUBSTANCEUUID1",
 		"substanceKeyType": "UUID"
@@ -157,12 +158,13 @@ if (0) {
 		dump_request_perl_data => 0, 
 		dump_response_content => 0, 	
 		dump_response_perl_data => 0, 
-		url => "$basePath/clinicaltrial($trialNumber_ne)",
+		url => "$basePath/clinicaltrialus($trialNumber_ne)",
 		condition => $condition,
 		message => $message
 	};
 	test_get($args);
 }
+
 
 
 
@@ -182,7 +184,7 @@ if (1) {
 		dump_request_perl_data => 0, 
 		dump_response_content => 0, 	
 		dump_response_perl_data => 0, 
-		url => "$basePath/clinicaltrial",
+		url => "$basePath/clinicaltrialus",
 		condition => $condition,
 		message => $message
 	};
@@ -195,7 +197,7 @@ if (1) {
 {	
 	# to Danny: if record alredy exists should get 409 but we're getting a 500 in this case. https://stackoverflow.com/questions/3825990/http-response-code-for-post-when-resource-already-exists
 	# 'status' => 500,
-    #        'message' => 'Object of class [gov.nih.ncats.gsrsspringcv2.ClinicalTrial] with identifier [NCT99999999]: optimistic locking failed; nested exception is org.hibernate.StaleObjectStateException: Row was updated or deleted by another transaction (or unsaved-value mapping was incorrect) : [gov.nih.ncats.gsrsspringcv2.ClinicalTrial#NCT99999999]'
+    #        'message' => 'Object of class [gov.nih.ncats.gsrsspringcv2.ClinicalTrialUS] with identifier [NCT99999999]: optimistic locking failed; nested exception is org.hibernate.StaleObjectStateException: Row was updated or deleted by another transaction (or unsaved-value mapping was incorrect) : [gov.nih.ncats.gsrsspringcv2.ClinicalTrial#NCT99999999]'
     #      };
 	
     # 500 Internal Server Error if no change is made.
@@ -213,17 +215,19 @@ if (1) {
 	my $args = {
 		expected_status => 201, 
 		data => $decoded,
-		dump_request_content => 0, 
+		dump_request_content => 1, 
 		dump_request_perl_data => 0, 
-		dump_response_content => 0, 	
+		dump_response_content => 1, 	
 		dump_response_perl_data => 0, 
-	    url => "$basePath/clinicaltrial",
+	    url => "$basePath/clinicaltrialus",
 		condition => $condition,
 		message => $message
 	};	
 	test_post($args);
 }
 
+# last post
+# exit;
 
 
 
@@ -243,15 +247,15 @@ if (1) {
 		dump_request_perl_data => 0, 
 		dump_response_content => 0, 	
 		dump_response_perl_data => 0, 
-		url => "$basePath/clinicaltrial",
+		url => "$basePath/clinicaltrialus",
 		condition => $condition,
 		message => $message
 	};
 	
 	test_get($args);
 }
-
-
+# before first put
+# exit;
 {
 	my $message = 'Test put - Update the record just created changing recruitment value.';
 	my $data_string = get_to_json($trialNumber_create);
@@ -264,17 +268,16 @@ if (1) {
 	my $args = {
 		expected_status => 200, 
 		data => $decoded,
-		dump_request_content => 0, 
+		dump_request_content => 1, 
 		dump_request_perl_data => 0, 
-		dump_response_content => 0, 	
+		dump_response_content => 1, 	
 		dump_response_perl_data => 0, 
-		url => "$basePath/clinicaltrial",
+		url => "$basePath/clinicaltrialus",
 		condition => $condition,
 		message => $message
 	};
 	test_put($args);
 }
-
 
 
 {    
@@ -285,7 +288,7 @@ if (1) {
 	# $decoded->{recruitment} = 'XXXX';
 	# $decoded->{gsrsUpdated} = 0;
 
-	my $ctd = $decoded->{clinicalTrialDrug};	
+	my $ctd = $decoded->{clinicalTrialUSDrug};	
 	pop(@{$ctd}); 
 	
 	my $new = {};
@@ -293,7 +296,7 @@ if (1) {
 	$new->{substanceKey} = $substanceKey4;
 	$new->{substanceKeyType} = "UUID";
 	push(@{$ctd}, $new ); 
-	$decoded->{clinicalTrialDrug} = $ctd; 	
+	$decoded->{clinicalTrialUSDrug} = $ctd; 	
 	# print $json->encode($decoded);
 	my $condition = sub { 
 		my $decoded = shift;
@@ -306,12 +309,13 @@ if (1) {
 		dump_request_perl_data => 0, 
 		dump_response_content => 0, 	
 		dump_response_perl_data => 0, 
-		url => "$basePath/clinicaltrial",
+		url => "$basePath/clinicaltrialus",
 		condition => $condition,
 		message => $message
 	};
 	test_put($args);
 }
+
 
 
 {   
@@ -324,7 +328,7 @@ if (1) {
 	# note this won't work if both ids are not set because hashset collapses into one row.  
 	# come back to this and maybe reconsider LinkedHashSet implementation.
 		my $ctd = $json->decode('{
-	"clinicalTrialDrug": [{
+	"clinicalTrialUSDrug": [{
 		"id": 99,
 		"trialNumber": "'.$trialNumber_create.'",
 		"substanceKey": "'.$substanceKey3.'",
@@ -338,7 +342,7 @@ if (1) {
 	]}');
 
 	
-	$decoded->{clinicalTrialDrug} = $ctd->{clinicalTrialDrug}; 	
+	$decoded->{clinicalTrialUSDrug} = $ctd->{clinicalTrialUSDrug}; 	
 	# print $json->encode($decoded);
 	my $condition = sub { 
 		my $decoded = shift;
@@ -357,7 +361,7 @@ if (1) {
 		dump_request_perl_data => 0, 
 		dump_response_content => 0, 	
 		dump_response_perl_data => 0, 
-		url => "$basePath/clinicaltrial",
+		url => "$basePath/clinicaltrialus",
 		condition => $condition,
 		message => $message
 	};
@@ -373,7 +377,7 @@ if (1) {
 	$data_string =~ s/$trialNumber_create/$trialNumber_ne/g;
 	my $decoded = $json->decode($data_string);
 	my $ctd = $json->decode('{
-	"clinicalTrialDrug": [{
+	"clinicalTrialUSDrug": [{
 		"trialNumber": "'.$trialNumber_ne.'",
 		"substanceKey": "'.$substanceKey1.'",
 		"substanceKeyType": "UUID"
@@ -383,7 +387,7 @@ if (1) {
 		"substanceKeyType": "UUID"
 	}
 	]}');
-	$decoded->{clinicalTrialDrug} = $ctd->{clinicalTrialDrug}; 	
+	$decoded->{clinicalTrialUSDrug} = $ctd->{clinicalTrialUSDrug}; 	
 	
 	my $condition = sub { 
 		my $decoded = shift;
@@ -400,7 +404,7 @@ if (1) {
 		dump_request_perl_data => 0, 
 		dump_response_content => 0, 	
 		dump_response_perl_data => 0, 
-		url => "$basePath/clinicaltrial",
+		url => "$basePath/clinicaltrialus",
 		condition => $condition,
 		message => $message
 	};
@@ -412,12 +416,12 @@ if (1) {
     # 500 Internal Server Error if not change is made.
 	# my $data_string = $base_json;
 		
-    my $message = "Test put - Update again with a changed recruitment value but change the ClinicalTrialDrug Object by removing one ct drug.";
+    my $message = "Test put - Update again with a changed recruitment value but change the ClinicalTrialUSDrug Object by removing one ct drug.";
 	my $data_string = get_to_json($trialNumber_create);
 	my $decoded = $json->decode($data_string);
 	$decoded->{recruitment} = 'XXXX';
 	my $ctd = $json->decode('{	
-		"clinicalTrialDrug": [{
+		"clinicalTrialUSDrug": [{
 		"id": 104162,
 		"trialNumber": "'.$trialNumber_create.'",
 		"substanceKey": "'.$substanceKey1.'",
@@ -430,7 +434,7 @@ if (1) {
 	# $decoded->{completionDate} = '12/1/2019'; 	
 	
 	# $decoded->{internalVersion} = 3; 	
-	$decoded->{clinicalTrialDrug} = $ctd->{clinicalTrialDrug}; 	
+	$decoded->{clinicalTrialUSDrug} = $ctd->{clinicalTrialUSDrug}; 	
 	# print $json->encode($decoded);
 	# exit;
 	
@@ -445,7 +449,7 @@ if (1) {
 		dump_request_perl_data => 0, 
 		dump_response_content => 0, 	
 		dump_response_perl_data => 0, 
-		url => "$basePath/clinicaltrial",
+		url => "$basePath/clinicaltrialus",
 		condition => $condition,
 		message => $message
 	};
@@ -464,7 +468,7 @@ if (1) {
 	
 	
 	my $ctd = $json->decode('{
-		"clinicalTrialDrug": [{
+		"clinicalTrialUSDrug": [{
 		"id": 104162,
 		"trialNumber": "'.$trialNumber_create.'",
 		"substanceKey": "'.$substanceKey1.'",
@@ -475,7 +479,7 @@ if (1) {
 		"substanceKeyType": "UUID"		
 	}
 	]}');
-	$decoded->{clinicalTrialDrug} = $ctd->{clinicalTrialDrug}; 	
+	$decoded->{clinicalTrialUSDrug} = $ctd->{clinicalTrialUSDrug}; 	
 	
 	
 	my $condition = sub { 
@@ -490,7 +494,7 @@ if (1) {
 		dump_request_perl_data => 0, 
 		dump_response_content => 0, 	
 		dump_response_perl_data => 0, 
-		url => "$basePath/clinicaltrial",
+		url => "$basePath/clinicaltrialus",
 		condition => $condition,
 		message => $message
 	};
@@ -509,7 +513,7 @@ if (1) {
 
 
 	my $ctd = $json->decode('{
-	"clinicalTrialDrug": [{
+	"clinicalTrialUSDrug": [{
 		"trialNumber": "'.$trialNumber_create.'",
 		"substanceKey": "'.$substanceKey3.'",
 		"substanceKeyType": "UUID"		
@@ -519,14 +523,14 @@ if (1) {
 		"substanceKeyType": "UUID"		
 	}
 	]}');
-	$decoded->{clinicalTrialDrug} = $ctd->{clinicalTrialDrug}; 	
+	$decoded->{clinicalTrialUSDrug} = $ctd->{clinicalTrialUSDrug}; 	
 	
 	
 
 	my $condition = sub { 
 		my $decoded = shift;
 		return (defined($decoded->{trialNumber}) && $decoded->{trialNumber} eq $trialNumber_create && $decoded->{recruitment} eq 'XXXX'
-		and ($decoded->{clinicalTrialDrug}->[0]->{substanceKey} eq $substanceKey3 or $decoded->{clinicalTrialDrug}->[1]->{substanceKey} eq $substanceKey3)
+		and ($decoded->{clinicalTrialUSDrug}->[0]->{substanceKey} eq $substanceKey3 or $decoded->{clinicalTrialUSDrug}->[1]->{substanceKey} eq $substanceKey3)
 		
 		); 
 	};
@@ -538,7 +542,7 @@ if (1) {
 		dump_request_perl_data => 0, 
 		dump_response_content => 0, 	
 		dump_response_perl_data => 0, 
-		url => "$basePath/clinicaltrial",
+		url => "$basePath/clinicaltrialus",
 		condition => $condition,
 		message => $message
 	};
@@ -635,7 +639,7 @@ sub test_delete {
 }
 
 # Danny on successful delete there is no JSON message returned. 
-# Danny deleting a substance that does not exist returns 500 which is probably not right. {"message":"No class gov.nih.ncats.gsrsspringcv2.ClinicalTrial entity with id NCT99999999 exists!","status":500}
+# Danny deleting a substance that does not exist returns 500 which is probably not right. {"message":"No class gov.nih.ncats.gsrsspringcv2.ClinicalTrialUS entity with id NCT99999999 exists!","status":500}
 
 sub delete_helper { 
 	print "== begin helper ==\n";
@@ -643,7 +647,7 @@ sub delete_helper {
 	my $dump = 1;
 	$client->addHeader('Accept', 'application/json');
 	$client->addHeader('Content-Type', 'application/x-www-form-urlencoded');
-	$client->DELETE("$basePath/clinicaltrial($trialNumber)");
+	$client->DELETE("$basePath/clinicaltrialus($trialNumber)");
 	if($client->responseContent()) {
 		print $client->responseContent();
 		my $decoded = $json->decode($client->responseContent());
@@ -663,8 +667,8 @@ sub get_to_json {
 	my $dump=1;
 	$client->addHeader('Accept', 'application/json');
 	$client->addHeader('Content-Type', 'application/x-www-form-urlencoded');
-	# print "URL: $basePath/clinicaltrial($trialNumber)\n";
-	$client->GET("$basePath/clinicaltrial($trialNumber)");
+	# print "URL: $basePath/clinicaltrialus($trialNumber)\n";
+	$client->GET("$basePath/clinicaltrialus($trialNumber)");
 	return $client->responseContent();
 }
 

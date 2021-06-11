@@ -12,19 +12,20 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import java.io.*;
-import java.util.*;
+import java.io.IOException;
+import java.util.List;
+import java.util.Optional;
 import java.util.regex.Pattern;
 
 @Service
 public class ClinicalTrialUSEntityService extends AbstractGsrsEntityService<ClinicalTrialUS, String> {
-    public static final String  CONTEXT = "clinicaltrial";
+    public static final String  CONTEXT = "clinicaltrialus";
 
     // @Value("${mygsrs.clinicaltrial.eu.ClinicalTrial.trialNumberPattern}")
     // private String trialNumberPattern;
 
     public ClinicalTrialUSEntityService() {
-        super("clinicaltrial", Pattern.compile("^NCT\\d+$"), null, null, null);
+        super("clinicaltrialus", Pattern.compile("^NCT\\d+$"), null, null, null);
     }
 
     @Autowired

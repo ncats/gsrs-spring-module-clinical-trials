@@ -7,6 +7,7 @@ import gov.nih.ncats.clinicaltrial.base.models.ClinicalTrialBase;
 import ix.ginas.models.serialization.GsrsDateDeserializer;
 import ix.ginas.models.serialization.GsrsDateSerializer;
 import lombok.*;
+import lombok.experimental.SuperBuilder;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -20,27 +21,15 @@ import gov.nih.ncats.common.util.TimeUtil;
 @Data
 @EqualsAndHashCode(exclude="clinicalTrialUSDrug")
 @Entity
-@Builder
+// @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name="ctx_clinical_trial_us")
+@Table(name="ctrial_us")
 @ToString
+@SuperBuilder
 public class ClinicalTrialUS extends ClinicalTrialBase {
 
-    @Id
-    public String trialNumber;
-
-    @Column(name = "KIND", length=100)
-    public String kind;
-
-    @Indexable
-    @Column(name = "TITLE", length=4000)
-    public String title;
-
-    @Column(name = "URL", length=4000)
-    public String url;
-
-
+    // see base class for basic fields
 
     @Column(name = "RECRUITMENT", length=4000)
     public String recruitment;
@@ -131,17 +120,19 @@ public class ClinicalTrialUS extends ClinicalTrialBase {
     public Set<ClinicalTrialUSDrug> clinicalTrialUSDrug = new HashSet<ClinicalTrialUSDrug>();
 
     public void setClinicalTrialUSDrug(Set<ClinicalTrialUSDrug> clinicalTrialUSDrugs) {
-        // System.out.println("HERE0");
+        System.out.println("Runing setClinicalTrialUSDrug");
         // System.out.println("HERE1");
         this.clinicalTrialUSDrug = clinicalTrialUSDrugs;
         // System.out.println("HERE2");
         if(clinicalTrialUSDrugs !=null) {
-
-
             // System.out.println("HERE3");
             for ( ClinicalTrialUSDrug ctd : clinicalTrialUSDrugs)
             {
-                System.out.println("HERE4" + ctd.getSubstanceKeyType());
+                // System.out.println("HERE4" + ctd.getSubstanceKeyType());
+                // System.out.println("this.getClass" + this.getClass());
+                // System.out.println("this.title" + this.getTitle());
+                // System.out.println("this.trialNumber" + this.getTrialNumber());
+                // System.out.println("this.toString" + this.toString());
                 ctd.setOwner(this);
                 // System.out.println("HERE5");
             }
@@ -150,13 +141,13 @@ public class ClinicalTrialUS extends ClinicalTrialBase {
 
     }
 
-
-
+    // deprecated
     @JsonIgnore
     public String ctRegion() {
         return "US";
     }
 
+    // deprecated
     @JsonIgnore
     public String ctId() {
         return this.trialNumber;
@@ -297,9 +288,9 @@ public class ClinicalTrialUS extends ClinicalTrialBase {
         return new ArrayList<String>();
     }
 
-    @Version
-    @Column(name = "INTERNAL_VERSION", nullable = false)
-    public Long internalVersion = 0L;
+//    @Version
+//    @Column(name = "INTERNAL_VERSION", nullable = false)
+//    public Long internalVersion = 0L;
 
     @Column(name = "GSRS_MATCHING_COMPLETE")
     public boolean gsrsMatchingComplete;
@@ -310,19 +301,4 @@ public class ClinicalTrialUS extends ClinicalTrialBase {
     @Column(name = "GSRS_UPDATED")
     public long gsrsUpdated;
 
-
-    @JsonSerialize(using = GsrsDateSerializer.class)
-    @JsonDeserialize(using = GsrsDateDeserializer.class)
-    @LastModifiedDate
-    @Indexable( name = "Last Modified Date", sortable=true)
-    private Date lastModifiedDate;
-    @JsonSerialize(using = GsrsDateSerializer.class)
-    @JsonDeserialize(using = GsrsDateDeserializer.class)
-    @CreatedDate
-    @Indexable( name = "Create Date", sortable=true)
-    private Date creationDate;
-
-    public String getTrialNumber() {
-        return this.trialNumber;
-    }
 }

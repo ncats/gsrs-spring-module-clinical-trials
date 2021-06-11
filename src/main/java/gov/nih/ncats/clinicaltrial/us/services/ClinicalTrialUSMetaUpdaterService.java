@@ -20,7 +20,7 @@ import java.util.*;
 @Service
 public class ClinicalTrialUSMetaUpdaterService {
 
-    public static final String  CONTEXT = "clinicaltrial";
+    public static final String  CONTEXT = "clinicaltrialus";
 
     @Autowired
     private ClinicalTrialUSEntityService clinicalTrialUSEntityService;

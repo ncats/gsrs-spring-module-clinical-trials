@@ -6,12 +6,12 @@ import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
-
-@EnableConfigurationProperties
-@EnableGsrsApi(indexerType = EnableGsrsApi.IndexerType.LEGACY,
-                entityProcessorDetector = EnableGsrsApi.EntityProcessorDetector.CONF)
-@EnableGsrsJpaEntities
 @SpringBootApplication
+@EnableConfigurationProperties
+@EnableGsrsApi(indexValueMakerDetector = EnableGsrsApi.IndexValueMakerDetector.CONF)
+// @EnableGsrsApi(indexerType = EnableGsrsApi.IndexerType.LEGACY,
+//   entityProcessorDetector = EnableGsrsApi.EntityProcessorDetector.CONF)
+@EnableGsrsJpaEntities
 @EntityScan(basePackages ={"ix","gsrs", "gov.nih.ncats"} )
 @EnableJpaRepositories(basePackages ={"ix","gsrs", "gov.nih.ncats"} )
 // @EnableGsrsLegacyAuthentication
@@ -20,6 +20,7 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 @EnableGsrsLegacySequenceSearch
 @EnableGsrsScheduler
 @EnableGsrsBackup
+@EnableGsrsLegacyStructureSearch
 
 public class GsrsSpringCTApplication {
 

@@ -115,19 +115,6 @@ public class ClinicalTrialEurope extends ClinicalTrialBase {
         @JoinColumn(name = "TRIAL_NUMBER", referencedColumnName = "TRIAL_NUMBER")
         @OneToMany(fetch=FetchType.LAZY, cascade = CascadeType.ALL)
         public List<ClinicalTrialEuropeMeddra> clinicalTrialEuropeMeddraList = new ArrayList<>();
-
-        @JsonSerialize(using = GsrsDateSerializer.class)
-        @JsonDeserialize(using = GsrsDateDeserializer.class)
-        @LastModifiedDate
-        @Indexable( name = "Last Modified Date", sortable=true)
-        public Date lastModifiedDate;
-
-        @JsonSerialize(using = GsrsDateSerializer.class)
-        @JsonDeserialize(using = GsrsDateDeserializer.class)
-        @CreatedDate
-        @Indexable( name = "Create Date", sortable=true)
-        public  Date creationDate;
-
-
+        
 }
 

@@ -11,7 +11,7 @@ import javax.persistence.*;
 
 @Data
 @Entity
-@Table(name="SRSCID_CLINICAL_TRIAL_EU_MEDD")
+@Table(name="CTRIAL_EU_MEDD")
 @SingleParent
 @Getter
 @Setter
@@ -22,16 +22,16 @@ public class ClinicalTrialEuropeMeddra extends AbstractGsrsEntityAlt {
     @Column(name="ID")
     public int id;
 
-    @Column(name="MEDDRA_VERSION")
+    @Column(name="MEDDRA_VERSION", length=2000)
     public String meddraVersion;
 
-    @Column(name="MEDDRA_CLASS_CODE")
+    @Column(name="MEDDRA_CLASS_CODE", length=2000)
     public String meddraClassCode;
 
-    @Column(name="MEDDRA_TERM")
+    @Column(name="MEDDRA_TERM", length=2000)
     public String meddraTerm;
 
-    @Column(name="MEDDRA_SYSTEM_ORGAN_CLASS")
+    @Column(name="MEDDRA_SYSTEM_ORGAN_CLASS", length=2000)
     public String meddraSystemOrganClass;
 
     public ClinicalTrialEuropeMeddra () {}

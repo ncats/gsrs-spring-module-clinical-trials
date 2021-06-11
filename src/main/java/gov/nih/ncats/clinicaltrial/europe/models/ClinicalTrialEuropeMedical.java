@@ -12,7 +12,7 @@ import javax.persistence.*;
 
 @Data
 @Entity
-@Table(name="SRSCID_CLINICAL_TRIAL_EU_MC")
+@Table(name="CTRIAL_EU_MC")
 @SingleParent
 @Getter
 @Setter
@@ -22,15 +22,15 @@ public class ClinicalTrialEuropeMedical extends AbstractGsrsEntityAlt {
     @Column(name="ID")
     public int id;
 
-    @Column(name="MEDICAL_COND_INVSTGED")
+    @Column(name="MEDICAL_COND_INVSTGED", length=2000)
     public String medicalCondInvesigated;
 
-    @Column(name="MEDICAL_COND_INVSTGED_EZ")
+    @Column(name="MEDICAL_COND_INVSTGED_EZ", length=2000)
     public String medicalCondInvesigatedEz;
 
-    @Column(name="MEDICAL_COND_THERAP_AREA")
+    @Column(name="MEDICAL_COND_THERAP_AREA", length=2000)
     public String medicalCondTherapyArea;
 
-    // public ClinicalTrialEuropeMedical () {}
+    public ClinicalTrialEuropeMedical () {}
 
 }

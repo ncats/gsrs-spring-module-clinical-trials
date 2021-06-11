@@ -2,15 +2,20 @@ package gov.nih.ncats.clinicaltrial.europe.controllers;
 
 import gov.nih.ncats.clinicaltrial.europe.models.ClinicalTrialEurope;
 import gov.nih.ncats.clinicaltrial.europe.services.ClinicalTrialEuropeEntityService;
+import gov.nih.ncats.clinicaltrial.europe.services.ClinicalTrialEuropeExportService;
 import gov.nih.ncats.clinicaltrial.europe.services.ClinicalTrialEuropeLegacySearchService;
 import gsrs.controller.EtagLegacySearchEntityController;
+import gsrs.controller.GetGsrsRestApiMapping;
 import gsrs.controller.GsrsRestApiController;
 import gsrs.controller.IdHelpers;
 import gsrs.legacy.LegacyGsrsSearchService;
+import net.minidev.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.hateoas.server.EntityLinks;
 import org.springframework.hateoas.server.ExposesResourceFor;
 
+import java.io.IOException;
+import java.util.Hashtable;
 import java.util.Map;
 import java.util.stream.Stream;
 
@@ -45,11 +50,24 @@ public class ClinicalTrialEuropeController extends EtagLegacySearchEntityControl
         return stream;
     }
 
-//    public ClinicalTrialEuropeController() {
+    public ClinicalTrialEuropeController() {}
 
-//    }
+    @Autowired
+    ClinicalTrialEuropeExportService clinicalTrialEuropeExportService;
 
+    // experimental
+    @GetGsrsRestApiMapping("/@exp_exportToAllToJsonFile")
+    public JSONObject test_exportToAllToJsonFile() {
+        Map<String, String> hm = new Hashtable<String, String>();
+        try {
+            clinicalTrialEuropeExportService.exportToAllToJsonFile();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        hm.put("one", "a");
+        hm.put("two", "b");
+        return new JSONObject(hm);
+    }
 
 }
-
 

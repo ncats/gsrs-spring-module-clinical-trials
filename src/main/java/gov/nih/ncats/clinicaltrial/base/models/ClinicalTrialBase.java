@@ -26,7 +26,9 @@ import javax.persistence.InheritanceType;
 
 
 public abstract class ClinicalTrialBase extends AbstractGsrsEntityAlt {
+
     @Id
+    @Column(name="TRIAL_NUMBER", length=255)
     public String trialNumber;
 
     @Column(name = "KIND", length=100)
@@ -36,7 +38,7 @@ public abstract class ClinicalTrialBase extends AbstractGsrsEntityAlt {
     @Column(name = "TITLE", length=4000)
     public String title;
 
-    @Column(name = "URL", length=4000)
+    @Column(name = "URL", length=2000)
     public String url;
 
     // Be careful when making field with same name in subclasses; probably should not do that.
@@ -64,17 +66,6 @@ public abstract class ClinicalTrialBase extends AbstractGsrsEntityAlt {
     @Column(name = "INTERNAL_VERSION", nullable = false)
     public Long internalVersion = 0L;
 
-    @JsonSerialize(using = GsrsDateSerializer.class)
-    @JsonDeserialize(using = GsrsDateDeserializer.class)
-    @LastModifiedDate
-    @Indexable( name = "Last Modified Date", sortable=true)
-
-    public Date lastModifiedDate;
-    @JsonSerialize(using = GsrsDateSerializer.class)
-    @JsonDeserialize(using = GsrsDateDeserializer.class)
-    @CreatedDate
-    @Indexable( name = "Create Date", sortable=true)
-    public Date creationDate;
 
     public String getTrialNumber() {
         return this.trialNumber;

@@ -97,7 +97,9 @@ my $base_json = '
 		"substanceKey": "SUBSTANCEUUID2",
 		"substanceKeyType": "UUID"
 	}],
-	"clinicalTrialApplicationList": []
+	"clinicalTrialApplicationList": [],
+	"creationDate": "990331200000",
+	"lastModifiedDate": "990331200000"
 }
 ';
 # 		"id": 104162,

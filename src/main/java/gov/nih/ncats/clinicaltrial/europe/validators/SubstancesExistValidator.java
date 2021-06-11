@@ -16,6 +16,7 @@ import org.springframework.core.env.Environment;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Set;
 
 public class SubstancesExistValidator implements ValidatorPlugin<ClinicalTrialEurope> {
 
@@ -29,7 +30,7 @@ public class SubstancesExistValidator implements ValidatorPlugin<ClinicalTrialEu
     @Override
     public boolean supports(ClinicalTrialEurope newValue, ClinicalTrialEurope oldValue, ValidatorConfig.METHOD_TYPE methodType) {
         return (methodType == ValidatorConfig.METHOD_TYPE.CREATE
-        || methodType == ValidatorConfig.METHOD_TYPE.UPDATE);
+                || methodType == ValidatorConfig.METHOD_TYPE.UPDATE);
     }
 
     @Override

@@ -301,4 +301,16 @@ public class ClinicalTrialUS extends ClinicalTrialBase {
     @Column(name = "GSRS_UPDATED")
     public long gsrsUpdated;
 
+    @JsonSerialize(using = GsrsDateSerializer.class)
+    @JsonDeserialize(using = GsrsDateDeserializer.class)
+    @LastModifiedDate
+    @Indexable( name = "Last Modified Date", sortable=true)
+    public Date lastModifiedDate;
+
+    @JsonSerialize(using = GsrsDateSerializer.class)
+    @JsonDeserialize(using = GsrsDateDeserializer.class)
+    @CreatedDate
+    @Indexable( name = "Create Date", sortable=true)
+    public Date creationDate;
+
 }

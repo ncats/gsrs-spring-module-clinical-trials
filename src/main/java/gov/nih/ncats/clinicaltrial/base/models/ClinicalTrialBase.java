@@ -23,8 +23,6 @@ import javax.persistence.InheritanceType;
 @NoArgsConstructor
 @SuperBuilder
 @ToString
-
-
 public abstract class ClinicalTrialBase extends AbstractGsrsEntityAlt {
 
     @Id
@@ -64,21 +62,6 @@ public abstract class ClinicalTrialBase extends AbstractGsrsEntityAlt {
    // I think @Version will only work if it's in the base class. Got an error that said something like that.
     @Version
     @Column(name = "INTERNAL_VERSION", nullable = false)
-    public Long internalVersion = 0L;
+    public Long internalVersion = 1L;
 
-    @JsonSerialize(using = GsrsDateSerializer.class)
-    @JsonDeserialize(using = GsrsDateDeserializer.class)
-    @LastModifiedDate
-    @Indexable( name = "Last Modified Date", sortable=true)
-    public Date lastModifiedDate;
-
-    @JsonSerialize(using = GsrsDateSerializer.class)
-    @JsonDeserialize(using = GsrsDateDeserializer.class)
-    @CreatedDate
-    @Indexable( name = "Create Date", sortable=true)
-    public Date creationDate;
-
-    public String getTrialNumber() {
-        return this.trialNumber;
-    }
 }

@@ -23,13 +23,17 @@ import java.util.*;
 @Entity
 // @Builder
 @AllArgsConstructor
-@NoArgsConstructor
+// @NoArgsConstructor
 @JsonInclude(JsonInclude.Include.ALWAYS)
 
 @Table(name="CTRIAL_EU")
 // @ToString
 @SuperBuilder
 public class ClinicalTrialEurope extends ClinicalTrialBase {
+
+        public ClinicalTrialEurope() {
+             this.setKind("EUROPE");
+        }
 
         // see base class for basic fields
 
@@ -115,6 +119,22 @@ public class ClinicalTrialEurope extends ClinicalTrialBase {
         @JoinColumn(name = "TRIAL_NUMBER", referencedColumnName = "TRIAL_NUMBER")
         @OneToMany(fetch=FetchType.LAZY, cascade = CascadeType.ALL)
         public List<ClinicalTrialEuropeMeddra> clinicalTrialEuropeMeddraList = new ArrayList<>();
-        
+
+        @JsonSerialize(using = GsrsDateSerializer.class)
+        @JsonDeserialize(using = GsrsDateDeserializer.class)
+        @LastModifiedDate
+        @Indexable( name = "Last Modified Date", sortable=true)
+        public Date lastModifiedDate;
+
+        @JsonSerialize(using = GsrsDateSerializer.class)
+        @JsonDeserialize(using = GsrsDateDeserializer.class)
+        @CreatedDate
+        @Indexable( name = "Create Date", sortable=true)
+        public Date creationDate;
+
+        public String getTrialNumber() {
+                return this.trialNumber;
+        }
+
 }
 

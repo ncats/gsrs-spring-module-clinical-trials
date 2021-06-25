@@ -2,6 +2,8 @@ package gov.nih.ncats.clinicaltrial.us.services;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import gov.nih.ncats.clinicaltrial.us.events.ClinicalTrialCreatedEvent;
+import gov.nih.ncats.clinicaltrial.us.events.ClinicalTrialUSUpdateEvent;
 import gov.nih.ncats.clinicaltrial.us.models.ClinicalTrialUS;
 import gov.nih.ncats.clinicaltrial.us.repositories.ClinicalTrialUSRepository;
 import gsrs.events.AbstractEntityCreatedEvent;
@@ -68,12 +70,12 @@ public class ClinicalTrialUSEntityService extends AbstractGsrsEntityService<Clin
 
     @Override
     protected AbstractEntityUpdatedEvent<ClinicalTrialUS> newUpdateEvent(ClinicalTrialUS updatedEntity) {
-        return null;
+        return new ClinicalTrialUSUpdateEvent(updatedEntity);
     }
 
     @Override
     protected AbstractEntityCreatedEvent<ClinicalTrialUS> newCreationEvent(ClinicalTrialUS createdEntity) {
-        return null;
+        return new ClinicalTrialCreatedEvent(createdEntity);
     }
 
     @Override

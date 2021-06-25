@@ -25,6 +25,9 @@ my $repo90 = 0; # if this is true a set of substances in repo90 will be used.
 my $baseUrl = 'http://localhost:8080';
 my $basePath = '/api/v2';
 # $basePath = '/ginas/app';
+my $auth_username = 'admin';
+my $auth_password = 'admin';
+
 
 my $test_user_connection=0;
 
@@ -35,6 +38,9 @@ $client->setHost($baseUrl);
 
 $client->addHeader('charset', 'UTF-8');
 $client->addHeader('Cookie', $play_session);
+
+$client->addHeader('auth-username', $auth_username);
+$client->addHeader('auth-password', $auth_password);
 
 
 my $json = JSON->new->allow_nonref;

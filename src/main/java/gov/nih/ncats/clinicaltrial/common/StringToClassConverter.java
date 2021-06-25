@@ -1,4 +1,4 @@
-package gov.nih.ncats.clinicaltrial;
+package gov.nih.ncats.clinicaltrial.common;
 
 import org.springframework.boot.context.properties.ConfigurationPropertiesBinding;
 import org.springframework.core.convert.converter.Converter;

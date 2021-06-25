@@ -38,4 +38,4 @@ build/
 /ginas.ix/
 /src/main/resources/application-db.conf
 
-/data/
+data/

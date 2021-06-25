@@ -2,6 +2,7 @@ package gov.nih.ncats.clinicaltrial.us.models;
 
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import ix.core.models.Backup;
 import ix.core.models.Indexable;
 import gov.nih.ncats.clinicaltrial.base.models.ClinicalTrialBase;
 import ix.ginas.models.serialization.GsrsDateDeserializer;
@@ -27,6 +28,7 @@ import gov.nih.ncats.common.util.TimeUtil;
 @Table(name="ctrial_us")
 @ToString
 @SuperBuilder
+@Backup
 public class ClinicalTrialUS extends ClinicalTrialBase {
 
     // see base class for basic fields
@@ -303,6 +305,12 @@ public class ClinicalTrialUS extends ClinicalTrialBase {
 
     @Column(name = "GSRS_UPDATED")
     public long gsrsUpdated;
+
+    @JsonIgnore
+    @Indexable(facet=true, name="Deprecated")
+    public String getDeprecated(){
+        return "Not Deprecated";
+    }
 
     @JsonSerialize(using = GsrsDateSerializer.class)
     @JsonDeserialize(using = GsrsDateDeserializer.class)

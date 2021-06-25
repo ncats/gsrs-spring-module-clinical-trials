@@ -1,4 +1,4 @@
-package gov.nih.ncats.clinicaltrial;
+package gov.nih.ncats.clinicaltrial.common;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -11,12 +11,11 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 
 @Configuration
 public class GsrsSecurityConfig extends WebSecurityConfigurerAdapter {
-
-   @Bean
-   public AuthenticationTrustResolver authenticationTrustResolver(){
-       return new AuthenticationTrustResolverImpl();
-   }
-
+/*
+    @Bean
+    public AuthenticationTrustResolver authenticationTrustResolver(){
+        return new AuthenticationTrustResolverImpl();
+    }
     @Override
     @Bean
     public AuthenticationManager authenticationManagerBean() throws Exception {
@@ -26,8 +25,9 @@ public class GsrsSecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(AuthenticationManagerBuilder auth) throws Exception
     {
         auth.parentAuthenticationManager(authenticationManagerBean())
-        .userDetailsService(userDetailsService());
+                .userDetailsService(userDetailsService());
     }
+
 
 
     @Override
@@ -45,4 +45,6 @@ public class GsrsSecurityConfig extends WebSecurityConfigurerAdapter {
 //        .and()
 //        .formLogin();
     }
+
+*/
 }

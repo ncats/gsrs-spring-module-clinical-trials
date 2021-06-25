@@ -6,6 +6,7 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import gov.nih.ncats.clinicaltrial.base.models.ClinicalTrialBase;
 import gsrs.model.AbstractGsrsEntity;
+import ix.core.models.Backup;
 import ix.core.models.Indexable;
 import ix.ginas.models.serialization.GsrsDateDeserializer;
 import ix.ginas.models.serialization.GsrsDateSerializer;
@@ -25,7 +26,7 @@ import java.util.*;
 @AllArgsConstructor
 // @NoArgsConstructor
 @JsonInclude(JsonInclude.Include.ALWAYS)
-
+@Backup
 @Table(name="CTRIAL_EU")
 // @ToString
 @SuperBuilder
@@ -105,6 +106,12 @@ public class ClinicalTrialEurope extends ClinicalTrialBase {
                         }
                 }
                 // setIsDirty("clinicalTrialDrugEurope");
+        }
+
+        @JsonIgnore
+        @Indexable(facet=true, name="Deprecated")
+        public String getDeprecated(){
+                return "Not Deprecated";
         }
 
 

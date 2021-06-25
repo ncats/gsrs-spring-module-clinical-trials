@@ -3,6 +3,8 @@ package gov.nih.ncats.clinicaltrial.base.models;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import gov.nih.ncats.clinicaltrial.inheritance.AbstractGsrsEntityAlt;
+import ix.core.models.Backup;
+import ix.core.models.FetchableEntity;
 import ix.core.models.Indexable;
 import ix.ginas.models.serialization.GsrsDateDeserializer;
 import ix.ginas.models.serialization.GsrsDateSerializer;
@@ -23,7 +25,8 @@ import javax.persistence.InheritanceType;
 @NoArgsConstructor
 @SuperBuilder
 @ToString
-public abstract class ClinicalTrialBase extends AbstractGsrsEntityAlt {
+// @Backup
+public abstract class ClinicalTrialBase extends AbstractGsrsEntityAlt implements FetchableEntity {
 
     @Id
     @Column(name="TRIAL_NUMBER", length=255)
@@ -63,5 +66,12 @@ public abstract class ClinicalTrialBase extends AbstractGsrsEntityAlt {
     @Version
     @Column(name = "INTERNAL_VERSION", nullable = false)
     public Long internalVersion = 1L;
+
+
+    @Override
+    public String fetchGlobalId() {
+        if (this.trialNumber!=null) return this.getClass().getName() + ":" + this.trialNumber;
+        return null;
+    }
 
 }

@@ -26,7 +26,7 @@ import java.util.*;
 @AllArgsConstructor
 // @NoArgsConstructor
 @JsonInclude(JsonInclude.Include.ALWAYS)
-@Backup
+// @Backup
 @Table(name="CTRIAL_EU")
 // @ToString
 @SuperBuilder

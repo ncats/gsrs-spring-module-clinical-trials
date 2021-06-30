@@ -3,9 +3,15 @@ package gov.nih.ncats.clinicaltrial.base.models;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import gov.nih.ncats.clinicaltrial.inheritance.AbstractGsrsEntityAlt;
+import gsrs.BackupEntityProcessorListener;
+import gsrs.GsrsEntityProcessorListener;
+import gsrs.indexer.IndexerEntityListener;
+import gsrs.model.AbstractGsrsEntity;
 import ix.core.models.Backup;
 import ix.core.models.FetchableEntity;
+import ix.core.models.ForceUpdatableModel;
 import ix.core.models.Indexable;
+import ix.ginas.models.GinasAccessControlled;
 import ix.ginas.models.serialization.GsrsDateDeserializer;
 import ix.ginas.models.serialization.GsrsDateSerializer;
 import lombok.*;
@@ -13,6 +19,8 @@ import lombok.*;
 import lombok.experimental.SuperBuilder;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+
 import javax.persistence.*;
 import java.util.*;
 import javax.persistence.InheritanceType;
@@ -25,8 +33,10 @@ import javax.persistence.InheritanceType;
 @NoArgsConstructor
 @SuperBuilder
 @ToString
-// @Backup
+@Backup
+@EntityListeners({AuditingEntityListener.class, GsrsEntityProcessorListener.class, IndexerEntityListener.class, BackupEntityProcessorListener.class})
 public abstract class ClinicalTrialBase extends AbstractGsrsEntityAlt implements FetchableEntity {
+        //, GinasAccessControlled, ForceUpdatableModel {
 
     @Id
     @Column(name="TRIAL_NUMBER", length=255)
@@ -43,7 +53,7 @@ public abstract class ClinicalTrialBase extends AbstractGsrsEntityAlt implements
     public String url;
 
     // Be careful when making field with same name in subclasses; probably should not do that.
-    // also node than a private field in base class will not be visisble to subsclass.
+    // also note that a private field in parent/base class will not be visible to subclasses.
     // https://stackoverflow.com/questions/9414990/if-you-overwrite-a-field-in-a-subclass-of-a-class-the-subclass-has-two-fields-w
     // Discussion on when to include fields in base class
     // https://softwareengineering.stackexchange.com/questions/384980/when-to-move-a-common-field-into-a-base-class

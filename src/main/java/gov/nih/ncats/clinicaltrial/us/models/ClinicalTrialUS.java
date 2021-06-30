@@ -2,6 +2,9 @@ package gov.nih.ncats.clinicaltrial.us.models;
 
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import gsrs.BackupEntityProcessorListener;
+import gsrs.GsrsEntityProcessorListener;
+import gsrs.indexer.IndexerEntityListener;
 import ix.core.models.Backup;
 import ix.core.models.Indexable;
 import gov.nih.ncats.clinicaltrial.base.models.ClinicalTrialBase;
@@ -17,6 +20,7 @@ import javax.persistence.*;
 import java.util.*;
 
 import gov.nih.ncats.common.util.TimeUtil;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 
 @Data
@@ -28,7 +32,8 @@ import gov.nih.ncats.common.util.TimeUtil;
 @Table(name="ctrial_us")
 @ToString
 @SuperBuilder
-@Backup
+// @Backup
+// @EntityListeners(value= {AuditingEntityListener.class, GsrsEntityProcessorListener.class, IndexerEntityListener.class, BackupEntityProcessorListener.class})
 public class ClinicalTrialUS extends ClinicalTrialBase {
 
     // see base class for basic fields

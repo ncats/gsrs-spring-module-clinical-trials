@@ -15,8 +15,8 @@ import javax.persistence.EntityListeners;
 // the only change is the commenting out of @MappedSuperclass
 // @MappedSuperclass
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
-@EntityListeners({AuditingEntityListener.class, GsrsEntityProcessorListener.class, IndexerEntityListener.class, BackupEntityProcessorListener.class})
+/// removed @EntityListeners({AuditingEntityListener.class, GsrsEntityProcessorListener.class, IndexerEntityListener.class, BackupEntityProcessorListener.class})
 public abstract class AbstractGsrsEntityAlt {
-    public AbstractGsrsEntityAlt() {
-    }
+//    public AbstractGsrsEntityAlt() {
+//    }
 }

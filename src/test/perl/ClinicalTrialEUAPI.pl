@@ -245,6 +245,8 @@ if (1) {
 	};	
 	test_post($args);
 }
+exit;
+
 
 
 {

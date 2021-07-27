@@ -8,6 +8,7 @@ import gov.nih.ncats.clinicaltrial.base.models.ClinicalTrialBase;
 import gsrs.model.AbstractGsrsEntity;
 import ix.core.models.Backup;
 import ix.core.models.Indexable;
+import ix.core.models.ParentReference;
 import ix.ginas.models.serialization.GsrsDateDeserializer;
 import ix.ginas.models.serialization.GsrsDateSerializer;
 import lombok.*;
@@ -80,6 +81,7 @@ public class ClinicalTrialEurope extends ClinicalTrialBase {
         // @JsonIgnore
         // had to add this or I got circular references when string building.
         @ToString.Exclude
+        // @ParentReference
         @OneToMany(mappedBy = "owner", fetch=FetchType.LAZY, cascade = CascadeType.ALL)
         public List<ClinicalTrialEuropeProduct> clinicalTrialEuropeProductList = new ArrayList<>();
 

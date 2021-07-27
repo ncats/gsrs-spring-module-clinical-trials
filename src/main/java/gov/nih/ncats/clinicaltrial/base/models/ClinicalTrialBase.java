@@ -2,11 +2,11 @@ package gov.nih.ncats.clinicaltrial.base.models;
 
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import gov.nih.ncats.clinicaltrial.inheritance.AbstractGsrsEntityAlt;
 import gsrs.BackupEntityProcessorListener;
 import gsrs.GsrsEntityProcessorListener;
 import gsrs.indexer.IndexerEntityListener;
 import gsrs.model.AbstractGsrsEntity;
+import gsrs.model.AbstractGsrsTablePerClassEntity;
 import ix.core.models.Backup;
 import ix.core.models.FetchableEntity;
 import ix.core.models.ForceUpdatableModel;
@@ -35,9 +35,10 @@ import javax.persistence.InheritanceType;
 @ToString
 @Backup
 @EntityListeners({AuditingEntityListener.class, GsrsEntityProcessorListener.class, IndexerEntityListener.class, BackupEntityProcessorListener.class})
-public abstract class ClinicalTrialBase extends AbstractGsrsEntityAlt implements FetchableEntity {
-        //, GinasAccessControlled, ForceUpdatableModel {
-
+public abstract class ClinicalTrialBase extends
+         // AbstractGsrsEntityAlt
+        AbstractGsrsTablePerClassEntity
+                implements FetchableEntity {
     @Id
     @Column(name="TRIAL_NUMBER", length=255)
     public String trialNumber;

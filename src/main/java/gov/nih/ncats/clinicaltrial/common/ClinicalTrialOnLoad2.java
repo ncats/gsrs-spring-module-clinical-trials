@@ -23,6 +23,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.TransactionDefinition;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.transaction.support.TransactionTemplate;
 
@@ -68,7 +69,7 @@ public class ClinicalTrialOnLoad2 implements ApplicationRunner {
 
 
     @Override
-    @Transactional
+    @Transactional(propagation = Propagation.REQUIRES_NEW)
     public void run(ApplicationArguments args) throws Exception {
         if(groupRepository.count() >0){
             return;
@@ -118,7 +119,7 @@ public class ClinicalTrialOnLoad2 implements ApplicationRunner {
                 int i=0;
                 while( (line = reader.readLine())!=null){
                     String[] cols = sep.split(line);
-//                System.out.println(cols[2]);
+                     System.out.println( "\n\n====> " + cols[2] +"\n\n");
                     try {
                         substanceEntityService.createEntity(mapper.readTree(cols[2])).getCreatedEntity();
                     }catch(Throwable t){

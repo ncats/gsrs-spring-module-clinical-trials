@@ -8,6 +8,7 @@ import gsrs.indexer.IndexerEntityListener;
 import ix.core.models.Backup;
 import ix.core.models.Indexable;
 import gov.nih.ncats.clinicaltrial.base.models.ClinicalTrialBase;
+import ix.core.models.ParentReference;
 import ix.ginas.models.serialization.GsrsDateDeserializer;
 import ix.ginas.models.serialization.GsrsDateSerializer;
 import lombok.*;
@@ -122,6 +123,7 @@ public class ClinicalTrialUS extends ClinicalTrialBase {
     @Transient
     public List<String> sponsorList = new ArrayList<String>();
 
+    @ParentReference
     @OneToMany(mappedBy = "owner", cascade = CascadeType.ALL)
     @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     @Basic(fetch= FetchType.EAGER)

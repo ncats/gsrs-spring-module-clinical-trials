@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import gov.nih.ncats.clinicaltrial.base.models.AbstractGsrsEntityAlt;
 import gsrs.model.AbstractGsrsEntity;
 import ix.core.SingleParent;
+import ix.core.models.ParentReference;
 import lombok.*;
 
 import javax.persistence.*;
@@ -26,6 +27,7 @@ public class ClinicalTrialEuropeProduct extends AbstractGsrsEntityAlt {
     @Column(name="ID")
     public int id;
 
+   // @ParentReference
     @ManyToOne
     @JsonIgnore
     @JoinColumn(name="TRIAL_NUMBER", nullable=false)
@@ -54,6 +56,7 @@ public class ClinicalTrialEuropeProduct extends AbstractGsrsEntityAlt {
 
     // @JsonIgnore
     @ToString.Exclude
+    // @ParentReference
     @OneToMany(mappedBy = "owner", fetch=FetchType.EAGER, cascade = CascadeType.ALL)
     public List<ClinicalTrialEuropeDrug> clinicalTrialEuropeDrugList = new ArrayList<>();
 

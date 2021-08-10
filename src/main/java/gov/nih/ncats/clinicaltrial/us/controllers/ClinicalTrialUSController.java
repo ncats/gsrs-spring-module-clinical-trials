@@ -7,6 +7,7 @@ import gov.nih.ncats.clinicaltrial.us.services.ClinicalTrialUSLegacySearchServic
 import gov.nih.ncats.clinicaltrial.us.services.SubstanceAPIService;
 import gsrs.controller.*;
 import gsrs.legacy.LegacyGsrsSearchService;
+import lombok.extern.slf4j.Slf4j;
 import net.minidev.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
@@ -26,6 +27,7 @@ import java.util.stream.Stream;
 @GsrsRestApiController(context = ClinicalTrialUSEntityService.CONTEXT,  idHelper = IdHelpers.NUMBER)
 @ExposesResourceFor(ClinicalTrialUS.class)
 @CrossOrigin(origins = "http://localhost:4200", maxAge = 3600)
+@Slf4j
 public class ClinicalTrialUSController extends EtagLegacySearchEntityController<ClinicalTrialUSController, ClinicalTrialUS, String> {
 
 
@@ -99,6 +101,17 @@ public class ClinicalTrialUSController extends EtagLegacySearchEntityController<
     }
 
     // experimental
+    @GetGsrsRestApiMapping("/@exp_testlog")
+    public JSONObject testlog()
+    {   log.debug("I am a log entry");
+        System.out.println("Running testlog");
+        Map<String, String> hm = new Hashtable<String, String>();
+        hm.put("one", "a");
+        hm.put("two", "b");
+        return new JSONObject(hm);
+    }
+
+    // experimental
     @GetGsrsRestApiMapping("/@exp_testSubstanceExists/{uuid}")
     public JSONObject testSubstanceExists(@PathVariable String uuid) {
         System.out.println("checking if substance exists");
@@ -111,6 +124,7 @@ public class ClinicalTrialUSController extends EtagLegacySearchEntityController<
     }
 
     // experimental
+
     @GetGsrsRestApiMapping("/@exp_testSubstanceQuickMatches")
     public ResponseEntity<?> testSubstanceQuickMatches()  {
         System.out.println("getting substance substanceQuickMatches");

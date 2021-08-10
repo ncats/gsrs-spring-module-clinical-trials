@@ -28,10 +28,10 @@ public class GeneralTrialOnCreateValidator implements ValidatorPlugin<ClinicalTr
 
     @Override
     public void validate(ClinicalTrialUS objnew, ClinicalTrialUS objold, ValidatorCallback callback) {
-        System.out.println("Inside GeneralTrialValidator");
+        System.out.println("Inside OnCreateValidator");
 
         String trialNumber = objnew.getTrialNumber();
-        System.out.println("Trial nubmer: " + trialNumber);
+        System.out.println("Trial number: " + trialNumber);
 
         if(trialNumber==null) {
             callback.addMessage(GinasProcessingMessage.ERROR_MESSAGE(String.format(trialNumberNullErrorTemplate)));

@@ -3,9 +3,11 @@ import gov.nih.ncats.clinicaltrial.base.models.AbstractGsrsEntityAlt;
 import ix.core.SingleParent;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import gsrs.model.AbstractGsrsEntity;
+import ix.core.models.ParentReference;
 import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.experimental.SuperBuilder;
 import org.springframework.beans.factory.annotation.Value;
 
 import javax.persistence.*;
@@ -25,6 +27,7 @@ public class ClinicalTrialUSDrug extends AbstractGsrsEntityAlt {
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     public Long id;
 
+    @ParentReference
     @ManyToOne(cascade = CascadeType.PERSIST)
     @JsonIgnore //ignore in json to avoid infinite recursion
     @JoinColumn(name = "TRIAL_NUMBER")

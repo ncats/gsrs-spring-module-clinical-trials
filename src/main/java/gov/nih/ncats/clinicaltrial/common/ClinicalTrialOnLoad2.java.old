@@ -65,12 +65,16 @@ public class ClinicalTrialOnLoad2 implements ApplicationRunner {
     @Autowired
     private SubstanceEntityService substanceEntityService;
 
+    @Autowired
+    private PlatformTransactionManager transactionManager;
 
 
 
     @Override
     @Transactional(propagation = Propagation.REQUIRES_NEW)
     public void run(ApplicationArguments args) throws Exception {
+        TransactionTemplate transactionTemplate = new TransactionTemplate(transactionManager);
+
         if(groupRepository.count() >0){
             return;
         }
@@ -120,11 +124,27 @@ public class ClinicalTrialOnLoad2 implements ApplicationRunner {
                 while( (line = reader.readLine())!=null){
                     String[] cols = sep.split(line);
                      System.out.println( "\n\n====> " + cols[2] +"\n\n");
-                    try {
-                        substanceEntityService.createEntity(mapper.readTree(cols[2])).getCreatedEntity();
+                     try {
+                        substanceEntityService.createEntity(mapper.readTree(cols[2]),true).getCreatedEntity();
+                     }catch(Throwable t){
+                        t.printStackTrace();
+                    }
+                   /* try {
+                        transactionTemplate.executeWithoutResult(status -> {
+                            try {
+                                substanceEntityService.createEntity(mapper.readTree(cols[2]), true).getCreatedEntity();
+                            } catch (Throwable t) {
+                                t.printStackTrace();
+                                status.setRollbackOnly();
+                            }
+                        });
+
                     }catch(Throwable t){
                         t.printStackTrace();
                     }
+                    */
+
+
                     i++;
                     if(i %100 ==0){
                         System.out.println("loaded record " + i);

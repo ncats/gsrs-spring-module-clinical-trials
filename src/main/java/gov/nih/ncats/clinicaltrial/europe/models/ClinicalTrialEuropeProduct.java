@@ -1,11 +1,11 @@
 package gov.nih.ncats.clinicaltrial.europe.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import gov.nih.ncats.clinicaltrial.base.models.AbstractGsrsEntityAlt;
-import gsrs.model.AbstractGsrsEntity;
+import gsrs.model.AbstractGsrsTablePerClassEntity;
 import ix.core.SingleParent;
 import ix.core.models.ParentReference;
 import lombok.*;
+import lombok.experimental.SuperBuilder;
 
 import javax.persistence.*;
 import java.util.List;
@@ -13,21 +13,24 @@ import java.util.ArrayList;
 
 
 @Data
-@EqualsAndHashCode(exclude="clinicalTrialDrug")
+// @EqualsAndHashCode(exclude="clinicalTrialEuropeDrug")
 @Entity
-@Builder
+@SuperBuilder
 @SingleParent
 @AllArgsConstructor
 // @NoArgsConstructor
 @Table(name="CTRIAL_EU_PROD")
 // @ToString
-public class ClinicalTrialEuropeProduct extends AbstractGsrsEntityAlt {
+public class ClinicalTrialEuropeProduct extends AbstractGsrsTablePerClassEntity {
+    public ClinicalTrialEuropeProduct () {}
+
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     @Column(name="ID")
     public int id;
 
-   // @ParentReference
+    @ParentReference
+    @EqualsAndHashCode.Exclude
     @ManyToOne
     @JsonIgnore
     @JoinColumn(name="TRIAL_NUMBER", nullable=false)
@@ -56,7 +59,6 @@ public class ClinicalTrialEuropeProduct extends AbstractGsrsEntityAlt {
 
     // @JsonIgnore
     @ToString.Exclude
-    // @ParentReference
     @OneToMany(mappedBy = "owner", fetch=FetchType.EAGER, cascade = CascadeType.ALL)
     public List<ClinicalTrialEuropeDrug> clinicalTrialEuropeDrugList = new ArrayList<>();
 
@@ -87,6 +89,5 @@ public class ClinicalTrialEuropeProduct extends AbstractGsrsEntityAlt {
         // setIsDirty("clinicalTrialDrug");
     }
 
-    public ClinicalTrialEuropeProduct () {}
 
 }

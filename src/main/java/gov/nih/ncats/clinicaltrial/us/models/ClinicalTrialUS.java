@@ -27,7 +27,6 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 @Data
 @EqualsAndHashCode(exclude="clinicalTrialUSDrug")
 @Entity
-// @Builder
 @AllArgsConstructor
 // @NoArgsConstructor
 @Table(name="ctrial_us")
@@ -123,7 +122,6 @@ public class ClinicalTrialUS extends ClinicalTrialBase {
     @Transient
     public List<String> sponsorList = new ArrayList<String>();
 
-    @ParentReference
     @OneToMany(mappedBy = "owner", cascade = CascadeType.ALL)
     @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     @Basic(fetch= FetchType.EAGER)

@@ -22,18 +22,19 @@ public class GeneralTrialOnCreateValidator implements ValidatorPlugin<ClinicalTr
         return (methodType == ValidatorConfig.METHOD_TYPE.CREATE);
     }
 
-    @Value("${mygsrs.clinicaltrial.eu.ClinicalTrialEurope.trialNumberPatternRegex}")
-    private String trialNumberPatternRegex;
+    // @Value("${mygsrs.clinicaltrial.eu.ClinicalTrialEurope.trialNumberPattern}")
+    // private String trialNumberPatternRegex;
 
     final String trialNumberNullErrorTemplate = "Trial Number is null.";
     final String badlyFormattedTrialNumberTemplate = "Trial Number [%s] had an incorrect format.";
     final String trialNumberAlreadyExistsErrorTemplate = "Trial Number [%s] already exists";
-    final Pattern trialNumberPattern = Pattern.compile(trialNumberPatternRegex);
+    // final Pattern trialNumberPattern = Pattern.compile(trialNumberPatternRegex);
+    final Pattern trialNumberPattern = Pattern.compile("^\\d{4}-\\d{6}-\\d{2}-[A-Z]{2}$");
 
 
     @Override
     public void validate(ClinicalTrialEurope objnew, ClinicalTrialEurope objold, ValidatorCallback callback) {
-        System.out.println("Inside GeneralTrialOnCreateValidator");
+        System.out.println("Inside OnCreateValidator");
 
         String trialNumber = objnew.getTrialNumber();
         System.out.println("Trial number: " + trialNumber);

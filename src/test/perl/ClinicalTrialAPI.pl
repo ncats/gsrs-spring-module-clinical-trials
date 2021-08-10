@@ -18,9 +18,7 @@ $play_session =~s/\015?\012?$//;
 #  Test data to load into GSRS 
 #  .\inxight\modules\ginas\test\testdumps\repo90.ginas
 
-# More notes at end: 
-my $repo90 = 0; # if this is true a set of substances in repo90 will be used.
-				# if not true and you don't have a full dataset things might not work as expected. 
+my $substance_data_source  = 'rep4.gsrs';  # rep90|rep4 
 
 my $baseUrl = 'http://localhost:8080';
 my $basePath = '/api/v2';
@@ -60,7 +58,12 @@ my $substanceKey4;
 
 # These substances have to exists and be indexed to work!!!!!
 # These ones are in the ncts repo90.ginas test data set
-if ($repo90) {
+if($substance_data_source eq 'rep4.gsrs') {
+  $substanceKey1="044e6d9c-37c0-42ac-848e-2e41937216b1"; # "ACLERASTIDE"
+  $substanceKey2="18de6ee4-3005-4785-9d11-dd8ccc589eb4"; # "MURINE RESPIROVIRUS (Z)"
+  $substanceKey3="deb33005-e87e-4e7f-9704-d5b4c80d3023"; # "ASPARAGINASE ERWINIA CHRYSANTHEMI"
+  $substanceKey4="b67893b0-68f0-4924-9ebb-3ebb932db965"; # "PLASMALYTE A"
+} elsif($substance_data_source eq 'rep90.gsrs') {
   $substanceKey1="1db30542-0cc4-4098-9d89-8340926026e9"; #aspirin calcium
   $substanceKey2="fb0bb85e-36a8-49f5-b48c-fe84db45923c"; #LEUCOMYCIN A1 ACETATE
   $substanceKey3="cf8df6ce-b0c6-4570-a07a-118cd58a4e90"; #VERBESINA SATIVA WHOLE
@@ -289,7 +292,6 @@ if (1) {
 	test_put($args);
 }
 
-
 {    
     my $message = 'Test put - Try to update with change one substance uuid';
 	my $data_string = get_to_json($trialNumber_create);
@@ -402,7 +404,7 @@ if (1) {
 	my $condition = sub { 
 		my $decoded = shift;
 		
-		return (defined($decoded->{message}) && $decoded->{message} =~ /No value present/i); 
+		return (defined($decoded->{message}) && $decoded->{message} =~ /Transaction silently rolled back because it has been marked as rollback-only/); 
 		
 		
 	};
@@ -412,7 +414,7 @@ if (1) {
 		data => $decoded,
 		dump_request_content => 0, 
 		dump_request_perl_data => 0, 
-		dump_response_content => 0, 	
+		dump_response_content => 1, 	
 		dump_response_perl_data => 0, 
 		url => "$basePath/clinicaltrialus",
 		condition => $condition,

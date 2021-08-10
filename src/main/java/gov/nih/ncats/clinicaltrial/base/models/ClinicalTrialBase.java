@@ -36,7 +36,6 @@ import javax.persistence.InheritanceType;
 @Backup
 @EntityListeners({AuditingEntityListener.class, GsrsEntityProcessorListener.class, IndexerEntityListener.class, BackupEntityProcessorListener.class})
 public abstract class ClinicalTrialBase extends
-         // AbstractGsrsEntityAlt
         AbstractGsrsTablePerClassEntity
                 implements FetchableEntity {
     @Id

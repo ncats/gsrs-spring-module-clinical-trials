@@ -4,7 +4,9 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import gov.nih.ncats.clinicaltrial.base.models.AbstractGsrsEntityAlt;
 import gsrs.model.AbstractGsrsEntity;
 import ix.core.SingleParent;
+import ix.core.models.ParentReference;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -24,6 +26,8 @@ public class ClinicalTrialEuropeDrug extends AbstractGsrsEntityAlt {
     @Column(name="ID")
     public int id;
 
+    @ParentReference
+    @EqualsAndHashCode.Exclude
     @ManyToOne
     @JsonIgnore
     @JoinColumn(name="PRODUCT_ID", referencedColumnName="ID", nullable=false)

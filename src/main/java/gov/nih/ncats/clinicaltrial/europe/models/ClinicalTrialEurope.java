@@ -21,7 +21,7 @@ import javax.validation.constraints.Size;
 import java.util.*;
 
 @Data
-// @EqualsAndHashCode(exclude="clinicalTrialDrug")
+@EqualsAndHashCode(exclude="clinicalTrialEuropeProduct")
 @Entity
 // @Builder
 @AllArgsConstructor
@@ -81,7 +81,6 @@ public class ClinicalTrialEurope extends ClinicalTrialBase {
         // @JsonIgnore
         // had to add this or I got circular references when string building.
         @ToString.Exclude
-        // @ParentReference
         @OneToMany(mappedBy = "owner", fetch=FetchType.LAZY, cascade = CascadeType.ALL)
         public List<ClinicalTrialEuropeProduct> clinicalTrialEuropeProductList = new ArrayList<>();
 

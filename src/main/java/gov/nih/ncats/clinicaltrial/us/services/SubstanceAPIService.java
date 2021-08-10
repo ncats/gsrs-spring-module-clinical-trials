@@ -59,7 +59,7 @@ public class SubstanceAPIService {
         System.out.println("Inside "+ "substanceExists " + uuid);
 
         // is there a way to make this final and use property?
-        String urlTemplate1 = baseUrl +  "ginas/app/api/v1/substances(%s)";
+        String urlTemplate1 = baseUrl +  "api/v1/substances(%s)";
         Boolean exists;
         if (uuid == null) return null;
         ResponseEntity<String> response = null;

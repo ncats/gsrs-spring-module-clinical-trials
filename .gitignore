@@ -40,3 +40,4 @@ build/
 /logs/
 /data/
 /src/test/data/
+/gsrs-module-clinical-trials-spring-boot-autoconfigure/src/test/data/

@@ -27,7 +27,7 @@ import java.util.stream.Stream;
 @GsrsRestApiController(context = ClinicalTrialUSEntityService.CONTEXT,  idHelper = IdHelpers.NUMBER)
 @ExposesResourceFor(ClinicalTrialUS.class)
 @CrossOrigin(origins = "http://localhost:4200", maxAge = 3600)
-@Slf4j
+// @Slf4j
 public class ClinicalTrialUSController extends EtagLegacySearchEntityController<ClinicalTrialUSController, ClinicalTrialUS, String> {
 
 
@@ -103,7 +103,7 @@ public class ClinicalTrialUSController extends EtagLegacySearchEntityController<
     // experimental
     @GetGsrsRestApiMapping("/@exp_testlog")
     public JSONObject testlog()
-    {   log.debug("I am a log entry");
+    {   // log.debug("I am a log entry");
         System.out.println("Running testlog");
         Map<String, String> hm = new Hashtable<String, String>();
         hm.put("one", "a");

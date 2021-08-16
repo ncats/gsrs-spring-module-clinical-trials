@@ -19,10 +19,10 @@
     </parent>
 
     <groupId>gov.nih.ncats</groupId>
-    <artifactId>gsrs-module-applications</artifactId>
+    <artifactId>gsrs-module-clinical-trials</artifactId>
     <version>0.1.0-SNAPSHOT</version>
-    <name>GSRS Application Module</name>
-    <description>GSRS Application Module for Spring Boot</description>
+    <name>GSRS Clinical Trials Module</name>
+    <description>GSRS Clinical Trials Module for Spring Boot</description>
 
     <scm>
         <url>https://github.com/ncats/gsrs-spring-module-clinical-trials.git</url>

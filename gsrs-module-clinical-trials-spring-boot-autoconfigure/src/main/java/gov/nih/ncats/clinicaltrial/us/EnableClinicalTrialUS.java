@@ -1,5 +1,4 @@
-package gov.nih.ncats.clinicaltrial.clinicaltrial;
-
+package gov.nih.ncats.clinicaltrial.us;
 import org.springframework.context.annotation.Import;
 
 import java.lang.annotation.ElementType;
@@ -9,6 +8,6 @@ import java.lang.annotation.Target;
 
 @Retention(RetentionPolicy.RUNTIME)
 @Target({ElementType.TYPE})
-@Import({ClinicalTrialSelector.class, ClinicalTrialConfiguration.class})
-public @interface EnableClinicalTrial {
+@Import({ClinicalTrialUSSelector.class, ClinicalTrialUSConfiguration.class})
+public @interface EnableClinicalTrialUS {
 }

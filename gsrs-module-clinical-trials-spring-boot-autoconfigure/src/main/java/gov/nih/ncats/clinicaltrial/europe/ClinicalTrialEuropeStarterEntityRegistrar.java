@@ -1,4 +1,4 @@
-package gov.nih.ncats.clinicaltrial.clinicaltrial;
+package gov.nih.ncats.clinicaltrial.europe;
 
 
 import org.springframework.beans.factory.support.BeanDefinitionRegistry;
@@ -6,11 +6,11 @@ import org.springframework.boot.autoconfigure.AutoConfigurationPackages;
 import org.springframework.context.annotation.ImportBeanDefinitionRegistrar;
 import org.springframework.core.type.AnnotationMetadata;
 
-public class ClinicalTrialStarterEntityRegistrar implements ImportBeanDefinitionRegistrar {
+public class ClinicalTrialEuropeStarterEntityRegistrar implements ImportBeanDefinitionRegistrar {
 
     @Override
     public void registerBeanDefinitions(AnnotationMetadata importingClassMetadata, BeanDefinitionRegistry registry) {
-        AutoConfigurationPackages.register(registry, gov.nih.ncats.clinicaltrial.clinicaltrial);
+        AutoConfigurationPackages.register(registry, "gov.nih.ncats.clinicaltrial.us");
 
     }
 }

@@ -9,6 +9,8 @@
     <modules>
         <module>gsrs-module-clinical-trials-spring-boot-starter</module>
         <module>gsrs-module-clinical-trials-spring-boot-autoconfigure</module>
+        <module>gsrs-module-clinical-trials-spring-boot-starter-tests</module>
+
     </modules>
 
     <parent>

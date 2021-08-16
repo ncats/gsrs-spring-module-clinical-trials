@@ -33,9 +33,8 @@
             <groupId>gov.nih.ncats</groupId>
             <artifactId>gsrs-spring-starter-tests</artifactId>
             <version>${gsrs.version}</version>
+            <scope>test</scope>
         </dependency>
-
-
         <dependency>
             <groupId>gov.nih.ncats</groupId>
             <artifactId>gsrs-spring-legacy-indexer</artifactId>

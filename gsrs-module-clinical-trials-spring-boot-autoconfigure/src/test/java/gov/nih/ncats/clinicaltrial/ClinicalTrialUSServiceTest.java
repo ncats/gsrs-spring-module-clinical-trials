@@ -1,8 +1,8 @@
 package gov.nih.ncats.clinicaltrial;
 
-import gov.nih.ncats.clinicaltrial.us.models.ClinicalTrialUS;
-import gov.nih.ncats.clinicaltrial.us.repositories.ClinicalTrialUSRepository;
-import gov.nih.ncats.clinicaltrial.us.services.ClinicalTrialUSEntityService;
+import gov.nih.ncats2.clinicaltrial.us.models.ClinicalTrialUS;
+import gov.nih.ncats2.clinicaltrial.us.repositories.ClinicalTrialUSRepository;
+import gov.nih.ncats2.clinicaltrial.us.services.ClinicalTrialUSEntityService;
 import gsrs.startertests.GsrsEntityTestConfiguration;
 import gsrs.startertests.GsrsJpaTest;
 import org.junit.jupiter.api.io.TempDir;
@@ -70,7 +70,7 @@ public class ClinicalTrialUSServiceTest extends AbstractGsrsJpaEntityJunit5Test 
         ClinicalTrialUS savedClinicalTrialUS = result.getCreatedEntity();
 
         assertNotNull(savedClinicalTrialUS.getTrialNumber());
-        assertThat(savedClinicalTrialUS, matchesExample(gov.nih.ncats.clinicaltrial.us.models.ClinicalTrialUS.builder()
+        assertThat(savedClinicalTrialUS, matchesExample(ClinicalTrialUS.builder()
                 .title("myFoo")
                 .creationDate(timeTraveller.getWhereWeAre().asDate())
                 .lastModifiedDate(timeTraveller.getWhereWeAre().asDate())
@@ -91,7 +91,7 @@ public class ClinicalTrialUSServiceTest extends AbstractGsrsJpaEntityJunit5Test 
 
         assertNotNull(savedClinicalTrialUS.getTrialNumber());
         for(int i=0 ;i< 10; i++) {
-            assertThat(clinicalTrialService.getEntityBySomeIdentifier(savedClinicalTrialUS.getTrialNumber().toString()).get(), matchesExample(gov.nih.ncats.clinicaltrial.us.models.ClinicalTrialUS.builder()
+            assertThat(clinicalTrialService.getEntityBySomeIdentifier(savedClinicalTrialUS.getTrialNumber().toString()).get(), matchesExample(ClinicalTrialUS.builder()
                     .title("myFoo")
                     .creationDate(timeTraveller.getWhereWeAre().asDate())
                     .lastModifiedDate(timeTraveller.getWhereWeAre().asDate())
@@ -113,7 +113,7 @@ public class ClinicalTrialUSServiceTest extends AbstractGsrsJpaEntityJunit5Test 
         assertNotNull(savedClinicalTrialUS.getTrialNumber());
 
 
-        assertThat(savedClinicalTrialUS, matchesExample(gov.nih.ncats.clinicaltrial.us.models.ClinicalTrialUS.builder()
+        assertThat(savedClinicalTrialUS, matchesExample(ClinicalTrialUS.builder()
                 .title("myFoo")
                 .creationDate(timeTraveller.getWhereWeAre().asDate())
                 .lastModifiedDate(timeTraveller.getWhereWeAre().asDate())
@@ -131,7 +131,7 @@ public class ClinicalTrialUSServiceTest extends AbstractGsrsJpaEntityJunit5Test 
         assertNotNull(savedClinicalTrialUS2.getTrialNumber());
 
 
-        assertThat(savedClinicalTrialUS2, matchesExample(gov.nih.ncats.clinicaltrial.us.models.ClinicalTrialUS.builder()
+        assertThat(savedClinicalTrialUS2, matchesExample(ClinicalTrialUS.builder()
                 .title("myFoo2")
                 .creationDate(timeTraveller.getWhereWeAre().asDate())
                 .lastModifiedDate(timeTraveller.getWhereWeAre().asDate())
@@ -152,7 +152,7 @@ public class ClinicalTrialUSServiceTest extends AbstractGsrsJpaEntityJunit5Test 
 
         String trialNumber = savedClinicalTrialUS.getTrialNumber();
         assertNotNull(trialNumber);
-        assertThat(savedClinicalTrialUS, matchesExample(gov.nih.ncats.clinicaltrial.us.models.ClinicalTrialUS.builder()
+        assertThat(savedClinicalTrialUS, matchesExample(ClinicalTrialUS.builder()
                 .title("myFoo")
                 .creationDate(timeTraveller.getWhereWeAre().asDate())
                 .lastModifiedDate(timeTraveller.getWhereWeAre().asDate())
@@ -165,7 +165,7 @@ public class ClinicalTrialUSServiceTest extends AbstractGsrsJpaEntityJunit5Test 
         AbstractGsrsEntityService.UpdateResult<ClinicalTrialUS> updateResult = clinicalTrialService.updateEntity(objectMapper.valueToTree(savedClinicalTrialUS));
 
         assertEquals(AbstractGsrsEntityService.UpdateResult.STATUS.UPDATED, updateResult.getStatus());
-        assertThat(updateResult.getUpdatedEntity(), matchesExample(gov.nih.ncats.clinicaltrial.us.models.ClinicalTrialUS.builder()
+        assertThat(updateResult.getUpdatedEntity(), matchesExample(ClinicalTrialUS.builder()
                 .title("updatedFoo")
                 .trialNumber(trialNumber)
                 .creationDate(timeTraveller.getWhereWeWere().get().asDate())

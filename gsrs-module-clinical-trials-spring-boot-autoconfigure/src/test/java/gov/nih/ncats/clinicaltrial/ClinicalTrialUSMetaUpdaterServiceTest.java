@@ -1,10 +1,10 @@
 package gov.nih.ncats.clinicaltrial;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import gov.nih.ncats.clinicaltrial.us.models.ClinicalTrialUS;
-import gov.nih.ncats.clinicaltrial.us.repositories.ClinicalTrialUSRepository;
-import gov.nih.ncats.clinicaltrial.us.services.ClinicalTrialUSEntityService;
-import gov.nih.ncats.clinicaltrial.us.services.ClinicalTrialUSMetaUpdaterService;
+import gov.nih.ncats2.clinicaltrial.us.models.ClinicalTrialUS;
+import gov.nih.ncats2.clinicaltrial.us.repositories.ClinicalTrialUSRepository;
+import gov.nih.ncats2.clinicaltrial.us.services.ClinicalTrialUSEntityService;
+import gov.nih.ncats2.clinicaltrial.us.services.ClinicalTrialUSMetaUpdaterService;
 import gov.nih.ncats.common.util.TimeUtil;
 import gsrs.controller.GsrsControllerConfiguration;
 import gsrs.junit.TimeTraveller;

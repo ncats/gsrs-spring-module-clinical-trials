@@ -2,8 +2,10 @@ package gov.nih.ncats2.clinicaltrial.us.models;
 
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import ix.core.models.Backup;
 import ix.core.models.Indexable;
 import gov.nih.ncats2.clinicaltrial.base.models.ClinicalTrialBase;
+import ix.core.models.IndexableRoot;
 import ix.ginas.models.serialization.GsrsDateDeserializer;
 import ix.ginas.models.serialization.GsrsDateSerializer;
 import lombok.*;
@@ -17,17 +19,16 @@ import java.util.*;
 
 import gov.nih.ncats.common.util.TimeUtil;
 
-
 @Data
-@EqualsAndHashCode(exclude="clinicalTrialUSDrug")
 @Entity
-@AllArgsConstructor
 // @NoArgsConstructor
-@Table(name="ctrial_us")
+@AllArgsConstructor
 @ToString
 @SuperBuilder
-// @Backup
-// @EntityListeners(value= {AuditingEntityListener.class, GsrsEntityProcessorListener.class, IndexerEntityListener.class, BackupEntityProcessorListener.class})
+@Backup
+@IndexableRoot
+@Table(name="ctrial_us")
+@EqualsAndHashCode(exclude="clinicalTrialUSDrug")
 public class ClinicalTrialUS extends ClinicalTrialBase {
 
     // see base class for basic fields

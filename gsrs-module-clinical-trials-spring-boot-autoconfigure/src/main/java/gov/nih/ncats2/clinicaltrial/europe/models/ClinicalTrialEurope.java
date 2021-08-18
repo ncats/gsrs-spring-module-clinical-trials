@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import gov.nih.ncats2.clinicaltrial.base.models.ClinicalTrialBase;
+import ix.core.models.Backup;
 import ix.core.models.Indexable;
 import ix.ginas.models.serialization.GsrsDateDeserializer;
 import ix.ginas.models.serialization.GsrsDateSerializer;
@@ -15,24 +16,19 @@ import org.springframework.data.annotation.LastModifiedDate;
 
 import javax.persistence.*;
 import java.util.*;
-
 @Data
-@EqualsAndHashCode(exclude="clinicalTrialEuropeProduct")
 @Entity
-// @Builder
 @AllArgsConstructor
-// @NoArgsConstructor
-@JsonInclude(JsonInclude.Include.ALWAYS)
-// @Backup
-@Table(name="CTRIAL_EU")
-// @ToString
+@Backup
 @SuperBuilder
+@Table(name="CTRIAL_EU")
+@JsonInclude(JsonInclude.Include.ALWAYS)
+@EqualsAndHashCode(exclude="clinicalTrialEuropeProduct")
 public class ClinicalTrialEurope extends ClinicalTrialBase {
 
         public ClinicalTrialEurope() {
              this.setKind("EUROPE");
         }
-
         // see base class for basic fields
 
         @Indexable(facet=true, name="Sponsor")
@@ -71,15 +67,10 @@ public class ClinicalTrialEurope extends ClinicalTrialBase {
         @Column(name="COUNTRY", length=255)
         public String country;
 
-
-        // had to change to lazy to prevent multiple bag exception
-
-        // @JsonIgnore
-        // had to add this or I got circular references when string building.
+        // had to add this, or I got circular references when string building.
         @ToString.Exclude
         @OneToMany(mappedBy = "owner", fetch=FetchType.LAZY, cascade = CascadeType.ALL)
         public List<ClinicalTrialEuropeProduct> clinicalTrialEuropeProductList = new ArrayList<>();
-
 
         public void setClinicalTrialEuropeProductList(List<ClinicalTrialEuropeProduct> clinicalTrialEuropeProductList) {
                 System.out.println("... setClinicalTrialEuropeProductList");

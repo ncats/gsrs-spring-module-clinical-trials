@@ -7,14 +7,10 @@ import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 
 @Configuration
-public class ClinicalTrialOnStartup
-        implements WebApplicationInitializer {
-
+public class ClinicalTrialOnStartup implements WebApplicationInitializer {
     @Override
     public void onStartup(ServletContext servletContext) throws ServletException {
-        System.out.println("ClinicalTrialOnStartup.ClinicalTrialOnStartup is running.");
-
-        servletContext.setInitParameter(
-                "spring.profiles.active", "devh2");
+        // System.out.println("ClinicalTrialOnStartup.ClinicalTrialOnStartup is running.");
+        // servletContext.setInitParameter(spring.profiles.active", "devh2");
     }
 }

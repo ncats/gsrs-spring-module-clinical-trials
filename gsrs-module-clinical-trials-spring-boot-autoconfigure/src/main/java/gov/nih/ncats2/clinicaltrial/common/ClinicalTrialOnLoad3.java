@@ -33,6 +33,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.transaction.support.TransactionTemplate;
 
 import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 import java.io.*;
 import java.util.Arrays;
 import java.util.List;
@@ -56,7 +57,8 @@ public class ClinicalTrialOnLoad3 implements ApplicationRunner {
     @Autowired
     private SubstanceRepository substanceRepository;
 
-    @Autowired
+
+    @PersistenceContext(unitName = "clinicalTrialEntityManager")
     private EntityManager entityManager;
 
     @Autowired

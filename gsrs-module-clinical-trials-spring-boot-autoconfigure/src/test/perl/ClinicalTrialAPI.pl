@@ -20,7 +20,7 @@ $play_session =~s/\015?\012?$//;
 
 my $substance_data_source  = 'rep4.gsrs';  # rep90|rep4 
 
-my $baseUrl = 'http://localhost:8080';
+my $baseUrl = 'http://localhost:8083';
 my $basePath = '/api/v2';
 # $basePath = '/ginas/app';
 my $auth_username = 'admin';

@@ -58,7 +58,7 @@ public class ClinicalTrialOnLoad3 implements ApplicationRunner {
     private SubstanceRepository substanceRepository;
 
 
-    @PersistenceContext(unitName = "clinicalTrialEntityManager")
+    @PersistenceContext(unitName = "clinicaltrialEntityManager")
     private EntityManager entityManager;
 
     @Autowired

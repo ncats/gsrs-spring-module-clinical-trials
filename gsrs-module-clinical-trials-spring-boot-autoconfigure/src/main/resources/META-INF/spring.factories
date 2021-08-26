@@ -1,1 +1,1 @@
-org.springframework.boot.autoconfigure.EnableAutoConfiguration=gov.nih.ncats2.clinicaltrial.autoconfigure.GsrsClinicalTrialsAutoConfiguration
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=GsrsClinicalTrialsAutoConfiguration

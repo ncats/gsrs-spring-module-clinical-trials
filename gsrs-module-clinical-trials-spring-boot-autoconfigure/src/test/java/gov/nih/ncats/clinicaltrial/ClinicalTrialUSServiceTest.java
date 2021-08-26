@@ -1,8 +1,8 @@
 package gov.nih.ncats.clinicaltrial;
 
-import gov.nih.ncats2.clinicaltrial.us.models.ClinicalTrialUS;
-import gov.nih.ncats2.clinicaltrial.us.repositories.ClinicalTrialUSRepository;
-import gov.nih.ncats2.clinicaltrial.us.services.ClinicalTrialUSEntityService;
+import gov.hhs.gsrs.clinicaltrial.us.models.ClinicalTrialUS;
+import gov.hhs.gsrs.clinicaltrial.us.repositories.ClinicalTrialUSRepository;
+import gov.hhs.gsrs.clinicaltrial.us.services.ClinicalTrialUSEntityService;
 import gsrs.startertests.GsrsEntityTestConfiguration;
 import gsrs.startertests.GsrsJpaTest;
 import org.junit.jupiter.api.io.TempDir;

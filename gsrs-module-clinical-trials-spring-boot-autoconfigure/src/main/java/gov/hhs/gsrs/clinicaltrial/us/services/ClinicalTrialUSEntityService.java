@@ -14,6 +14,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import org.springframework.transaction.annotation.Transactional;
 import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
@@ -58,11 +59,13 @@ public class ClinicalTrialUSEntityService extends AbstractGsrsEntityService<Clin
     }
 
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public void delete(String id) {
         repository.deleteById(id);
     }
 
     @Override
+    @Transactional(rollbackFor = Exception.class)
     protected ClinicalTrialUS update(ClinicalTrialUS clinicalTrialUS) {
         System.out.println("\n\n ==== Updating ====XX  \n\n");
         return repository.saveAndFlush(clinicalTrialUS);
@@ -106,6 +109,7 @@ public class ClinicalTrialUSEntityService extends AbstractGsrsEntityService<Clin
     }
 
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public ClinicalTrialUS create(ClinicalTrialUS clinicalTrialUS) {
         System.out.println("\n\n ==== Creating  ==== XX  \n\n");
         try {
@@ -123,6 +127,7 @@ public class ClinicalTrialUSEntityService extends AbstractGsrsEntityService<Clin
     }
 
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public Optional<ClinicalTrialUS> get(String id) {
         if(id==null) {
             

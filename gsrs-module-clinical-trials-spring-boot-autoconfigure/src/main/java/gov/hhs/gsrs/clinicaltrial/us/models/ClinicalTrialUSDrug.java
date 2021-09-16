@@ -22,7 +22,7 @@ public class ClinicalTrialUSDrug extends AbstractGsrsEntityAlt {
     static String substanceKeyTypeValue;
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     public Long id;
 
     @ParentReference

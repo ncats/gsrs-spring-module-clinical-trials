@@ -4,19 +4,19 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import gov.nih.ncats.common.sneak.Sneak;
-import gsrs.module.substance.SubstanceEntityService;
-import gsrs.module.substance.repository.SubstanceRepository;
+// import gsrs.module.substance.SubstanceEntityService;
+// import gsrs.module.substance.repository.SubstanceRepository;
 import gsrs.repository.GroupRepository;
 import gsrs.repository.UserProfileRepository;
 import gsrs.validator.GsrsValidatorFactory;
-import ix.core.controllers.EntityFactory;
+// import ix.core.controllers.EntityFactory;
 import ix.core.models.Group;
 import ix.core.models.Principal;
 import ix.core.models.Role;
 import ix.core.models.UserProfile;
-import ix.ginas.modelBuilders.SubstanceBuilder;
-import ix.ginas.models.v1.ChemicalSubstance;
-import ix.ginas.models.v1.Substance;
+// import ix.ginas.modelBuilders.SubstanceBuilder;
+// import ix.ginas.models.v1.ChemicalSubstance;
+// import ix.ginas.models.v1.Substance;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.ApplicationArguments;
@@ -47,15 +47,15 @@ public class ClinicalTrialOnLoad3 implements ApplicationRunner {
 
 
 
-    //    @Autowired
-//    GsrsValidatorFactory validationFactory;
+    @Autowired
+    GsrsValidatorFactory validationFactory;
     @Autowired
     private UserProfileRepository userProfileRepository;
 
     @Autowired
     private GroupRepository groupRepository;
-    @Autowired
-    private SubstanceRepository substanceRepository;
+//   @Autowired
+//    private SubstanceRepository substanceRepository;
 
 
     @PersistenceContext(unitName = "defaultEntityManager")
@@ -64,8 +64,8 @@ public class ClinicalTrialOnLoad3 implements ApplicationRunner {
     @Autowired
     private PlatformTransactionManager platformTransactionManager;
 
-    @Autowired
-    private SubstanceEntityService substanceEntityService;
+ //   @Autowired
+//    private SubstanceEntityService substanceEntityService;
 
     @Override
     public void run(ApplicationArguments args) throws Exception {
@@ -110,8 +110,8 @@ public class ClinicalTrialOnLoad3 implements ApplicationRunner {
 
 
 
-
         String pathToLoadFile = System.getProperty("ix.ginas.load.file");
+/*
         if (pathToLoadFile != null && substanceRepository.count()==0) {
             File f = new File(pathToLoadFile);
             if(f.exists()) {
@@ -164,6 +164,6 @@ public class ClinicalTrialOnLoad3 implements ApplicationRunner {
                 System.err.println("could not find GSRS file: " + pathToLoadFile);
             }
         }
-
+*/
     }
 }

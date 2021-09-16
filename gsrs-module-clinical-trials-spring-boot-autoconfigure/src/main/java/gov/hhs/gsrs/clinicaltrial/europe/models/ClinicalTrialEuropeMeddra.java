@@ -17,7 +17,7 @@ import javax.persistence.*;
 public class ClinicalTrialEuropeMeddra extends AbstractGsrsEntityAlt {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name="ID")
     public int id;
 

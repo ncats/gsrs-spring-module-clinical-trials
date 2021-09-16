@@ -25,7 +25,7 @@ public class ClinicalTrialEuropeProduct extends AbstractGsrsTablePerClassEntity 
     public ClinicalTrialEuropeProduct () {}
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name="ID")
     public int id;
 

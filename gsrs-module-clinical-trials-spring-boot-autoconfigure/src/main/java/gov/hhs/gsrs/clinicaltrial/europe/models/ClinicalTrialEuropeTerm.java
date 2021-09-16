@@ -19,7 +19,7 @@ public class ClinicalTrialEuropeTerm extends AbstractGsrsEntityAlt {
     // to avoid confusion.
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name="ID")
     public int id;
 

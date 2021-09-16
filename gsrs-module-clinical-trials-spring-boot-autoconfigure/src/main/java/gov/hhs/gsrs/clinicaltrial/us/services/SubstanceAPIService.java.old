@@ -20,7 +20,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
-public class SubstanceAPIService {
+public class SubstanceAPIServiceOLD {
 
 
     // experimental
@@ -93,7 +93,7 @@ public class SubstanceAPIService {
             }
         }
         return null;
-    }
+     }
 
 
 
@@ -145,11 +145,11 @@ public class SubstanceAPIService {
                         // fix for possible multiple bdnum situation.
                         // note this doesn't give anything ncats public version because they don't have a bdnum
                         if (
-                                !code.path("codeSystem").isMissingNode()
-                                        && code.path("codeSystem").asText().equals(agencyCodeCodeSystemValue)
-                                        && !code.path("type").isMissingNode()
-                                        && code.path("type").asText().equals("PRIMARY")
-                                        && !code.path("code").isMissingNode()
+                            !code.path("codeSystem").isMissingNode()
+                            && code.path("codeSystem").asText().equals(agencyCodeCodeSystemValue)
+                            && !code.path("type").isMissingNode()
+                            && code.path("type").asText().equals("PRIMARY")
+                            && !code.path("code").isMissingNode()
                         ) {
                             qr.agencyCode = code.path("code").asText();
                             break;

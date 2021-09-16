@@ -1,5 +1,6 @@
 package gov.hhs.gsrs.clinicaltrial.us.controllers;
 
+import gov.hhs.gsrs.clinicaltrial.ClinicalTrialDataSourceConfig;
 import gov.hhs.gsrs.clinicaltrial.us.models.ClinicalTrialUS;
 import gov.hhs.gsrs.clinicaltrial.us.services.ClinicalTrialUSEntityService;
 import gov.hhs.gsrs.clinicaltrial.us.services.ClinicalTrialUSLegacySearchService;
@@ -14,9 +15,12 @@ import org.springframework.core.env.Environment;
 import org.springframework.hateoas.server.EntityLinks;
 import org.springframework.hateoas.server.ExposesResourceFor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PathVariable;
 
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 import java.util.Hashtable;
 import java.util.Map;
 import java.util.stream.Stream;
@@ -29,6 +33,20 @@ import java.util.stream.Stream;
 @CrossOrigin(origins = "http://localhost:4200", maxAge = 3600)
 @Slf4j
 public class ClinicalTrialUSController extends EtagLegacySearchEntityController<ClinicalTrialUSController, ClinicalTrialUS, String> {
+
+    @PersistenceContext(unitName =  ClinicalTrialDataSourceConfig.NAME_ENTITY_MANAGER)
+    private EntityManager entityManager;
+//    @Autowired
+//    private GsrsControllerConfiguration gsrsControllerConfiguration;
+    @Autowired
+    private PlatformTransactionManager transactionManager;
+//    @Autowired
+//    private ExportService exportService;
+//    @Autowired
+//    private TaskExecutor taskExecutor;
+//    @Autowired
+//    private GsrsExportConfiguration gsrsExportConfiguration;
+
 
 
     @Autowired

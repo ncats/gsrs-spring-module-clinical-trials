@@ -1,22 +1,49 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
+
+    <packaging>pom</packaging>
+
+    <modules>
+        <module>gsrs-module-clinical-trials-spring-boot-starter</module>
+        <module>gsrs-module-clinical-trials-spring-boot-autoconfigure</module>
+        <module>gsrs-module-clinical-trials-spring-boot-starter-tests</module>
+
+    </modules>
+
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>2.3.5.RELEASE</version>
+        <version>2.4.5</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
+
     <groupId>gov.nih.ncats</groupId>
-    <artifactId>gsrs-spring-module-clinical-trials</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
-    <name>gsrs-spring-module-clinical-trials</name>
-    <description>Manage substance to clinical trial relationships</description>
+    <artifactId>gsrs-module-clinical-trials</artifactId>
+    <version>0.1.0-SNAPSHOT</version>
+    <name>GSRS Clinical Trials Module</name>
+    <description>GSRS Clinical Trials Module for Spring Boot</description>
+
+    <scm>
+        <url>https://github.com/ncats/gsrs-spring-module-clinical-trials.git</url>
+    </scm>
+
+    <properties>
+        <java.version>1.8</java.version>
+        <spring-cloud.version>Hoxton.SR1</spring-cloud.version>
+        <lucene.version>4.10.0</lucene.version>
+        <gsrs.version>0.8.2-SNAPSHOT</gsrs.version>
+        <gsrs.clinical-trials.version>0.1.0-SNAPSHOT</gsrs.clinical-trials.version>
+        <!-- TO BE REMOVE -->
+        <!-- gsrs.substance.version>0.7.0-SNAPSHOT</gsrs.substance.version -->
+    </properties>
+
     <repositories>
         <repository>
             <id>oss.sonatype.org-snapshot</id>
-            <url>http://oss.sonatype.org/content/repositories/snapshots</url>
+            <url>https://oss.sonatype.org/content/repositories/snapshots</url>
             <releases>
                 <enabled>false</enabled>
             </releases>
@@ -25,77 +52,16 @@
             </snapshots>
         </repository>
     </repositories>
-    <properties>
-        <java.version>1.8</java.version>
-        <gsrs.version>0.6.4-SNAPSHOT</gsrs.version>
-    </properties>
 
-    <dependencies>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-data-jpa</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>gov.nih.ncats</groupId>
-            <artifactId>gsrs-spring-boot-starter</artifactId>
-            <version>${gsrs.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>gov.nih.ncats</groupId>
-            <artifactId>gsrs-spring-legacy-indexer</artifactId>
-            <version>${gsrs.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>gov.nih.ncats</groupId>
-            <artifactId>gsrs-core-entities</artifactId>
-            <version>${gsrs.version}</version>
-        </dependency>
+    <distributionManagement>
+        <snapshotRepository>
+            <id>ossrh</id>
+            <url>https://oss.sonatype.org/content/repositories/snapshots</url>
+        </snapshotRepository>
+        <repository>
+            <id>ossrh</id>
+            <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
+        </repository>
+    </distributionManagement>
 
-        <dependency>
-            <groupId>com.h2database</groupId>
-            <artifactId>h2</artifactId>
-            <scope>runtime</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.projectlombok</groupId>
-            <artifactId>lombok</artifactId>
-            <optional>true</optional>
-        </dependency>
-
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-test</artifactId>
-            <scope>test</scope>
-            <exclusions>
-                <exclusion>
-                    <groupId>org.junit.vintage</groupId>
-                    <artifactId>junit-vintage-engine</artifactId>
-                </exclusion>
-            </exclusions>
-        </dependency>
-        <dependency>
-            <groupId>gov.nih.ncats</groupId>
-            <artifactId>gsrs-spring-starter-tests</artifactId>
-            <version>${gsrs.version}</version>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>gov.nih.ncats</groupId>
-            <artifactId>gsrs-module-substances-spring-boot-starter</artifactId>
-            <version>0.6.1-SNAPSHOT</version>
-        </dependency>
-    </dependencies>
-
-    <build>
-        <plugins>
-            <plugin>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-maven-plugin</artifactId>
-            </plugin>
-        </plugins>
-    </build>
 </project>

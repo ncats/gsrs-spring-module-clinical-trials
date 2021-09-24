@@ -59,13 +59,13 @@ public class ClinicalTrialUSEntityService extends AbstractGsrsEntityService<Clin
     }
 
     @Override
-    @Transactional(rollbackFor = Exception.class)
+    // @Transactional(rollbackFor = Exception.class)
     public void delete(String id) {
         repository.deleteById(id);
     }
 
     @Override
-    @Transactional(rollbackFor = Exception.class)
+    // @Transactional(rollbackFor = Exception.class)
     protected ClinicalTrialUS update(ClinicalTrialUS clinicalTrialUS) {
         System.out.println("\n\n ==== Updating ====XX  \n\n");
         return repository.saveAndFlush(clinicalTrialUS);
@@ -109,16 +109,18 @@ public class ClinicalTrialUSEntityService extends AbstractGsrsEntityService<Clin
     }
 
     @Override
-    @Transactional(rollbackFor = Exception.class)
     public ClinicalTrialUS create(ClinicalTrialUS clinicalTrialUS) {
         System.out.println("\n\n ==== Creating  ==== XX  \n\n");
         try {
             // System.out.println(clinicalTrial.getTrialNumber());
-            return repository.saveAndFlush(clinicalTrialUS);
-        }catch(Throwable t){
+            ClinicalTrialUS ctus = repository.saveAndFlush(clinicalTrialUS);
+            System.out.println("\n\n ==== Created (after save and flush) ==== XX  \n\n");
+            return ctus;
+        } catch(Throwable t){
             t.printStackTrace();
             throw t;
         }
+
     }
 
     @Override
@@ -127,7 +129,6 @@ public class ClinicalTrialUSEntityService extends AbstractGsrsEntityService<Clin
     }
 
     @Override
-    @Transactional(rollbackFor = Exception.class)
     public Optional<ClinicalTrialUS> get(String id) {
         if(id==null) {
             

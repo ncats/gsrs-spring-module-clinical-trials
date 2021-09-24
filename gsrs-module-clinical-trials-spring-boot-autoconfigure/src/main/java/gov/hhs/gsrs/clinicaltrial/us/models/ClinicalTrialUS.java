@@ -117,9 +117,9 @@ public class ClinicalTrialUS extends ClinicalTrialBase {
     @Transient
     public List<String> sponsorList = new ArrayList<String>();
 
-    @OneToMany(mappedBy = "owner", cascade = CascadeType.ALL)
-    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
-    @Basic(fetch= FetchType.EAGER)
+    @OneToMany(mappedBy = "owner", cascade = CascadeType.ALL, fetch= FetchType.EAGER)
+    // @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+    // @Basic(fetch= FetchType.EAGER)
     // had to add this or I got circular references when string building.
     @ToString.Exclude
     public Set<ClinicalTrialUSDrug> clinicalTrialUSDrug = new HashSet<ClinicalTrialUSDrug>();
@@ -143,7 +143,7 @@ public class ClinicalTrialUS extends ClinicalTrialBase {
             }
         }
         // setIsDirty("clinicalTrialDrug");
-
+        System.out.println("Finished setClinicalTrialUSDrug");
     }
 
     // deprecated

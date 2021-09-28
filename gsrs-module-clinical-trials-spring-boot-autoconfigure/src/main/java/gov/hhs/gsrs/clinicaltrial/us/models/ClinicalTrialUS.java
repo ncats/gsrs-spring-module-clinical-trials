@@ -318,6 +318,15 @@ public class ClinicalTrialUS extends ClinicalTrialBase {
     @Indexable( name = "Last Modified Date", sortable=true)
     public Date lastModifiedDate;
 
+    public void setLastModifiedDate(Date lastModifiedDate) {
+        System.out.println("==== LAST MODIFIED DATE ====" + lastModifiedDate.toString());
+        this.lastModifiedDate = lastModifiedDate;
+
+    }
+    public Date getLastModifiedDate() {
+        return this.lastModifiedDate;
+    }
+
     @JsonSerialize(using = GsrsDateSerializer.class)
     @JsonDeserialize(using = GsrsDateDeserializer.class)
     @CreatedDate
@@ -328,7 +337,7 @@ public class ClinicalTrialUS extends ClinicalTrialBase {
         this.creationDate = creationDate;
 
     }
-    public Date getCreationDate(Date creationDate) {
+    public Date getCreationDate() {
         return this.creationDate;
     }
 

@@ -94,6 +94,7 @@ public class ClinicalTrialUSMetaUpdaterService {
         if(!ctOld.isPresent()) {
             try {
                 ctNew = applyCTApiV1TsvHashMapToClinicalTrial(lhm, ctNew);
+                // Getting auth error here.
                 clinicalTrialUSEntityService.createEntity(objectMapper.valueToTree(ctNew));
             } catch (Exception e) {
                 e.printStackTrace();

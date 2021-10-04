@@ -11,6 +11,8 @@ import ix.ginas.models.serialization.GsrsDateDeserializer;
 import ix.ginas.models.serialization.GsrsDateSerializer;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
+import org.hibernate.annotations.LazyCollection;
+import org.hibernate.annotations.LazyCollectionOption;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 
@@ -69,7 +71,8 @@ public class ClinicalTrialEurope extends ClinicalTrialBase {
 
         // had to add this, or I got circular references when string building.
         @ToString.Exclude
-        @OneToMany(mappedBy = "owner", fetch=FetchType.LAZY, cascade = CascadeType.ALL)
+        // oct 3 changed from lazy to eager
+        @OneToMany(mappedBy = "owner", fetch=FetchType.EAGER, cascade = CascadeType.ALL)
         public List<ClinicalTrialEuropeProduct> clinicalTrialEuropeProductList = new ArrayList<>();
 
         public void setClinicalTrialEuropeProductList(List<ClinicalTrialEuropeProduct> clinicalTrialEuropeProductList) {
@@ -101,16 +104,22 @@ public class ClinicalTrialEurope extends ClinicalTrialBase {
         public String getDeprecated(){
                 return "Not Deprecated";
         }
-
-
+// oct 3 before
         // had to add this or I got circular references when string building.
+//        @ToString.Exclude
+//        @JoinColumn(name = "TRIAL_NUMBER", referencedColumnName = "TRIAL_NUMBER")
+//        @OneToMany(fetch=FetchType.LAZY, cascade = CascadeType.ALL)
+//        public List<ClinicalTrialEuropeMedical> clinicalTrialEuropeMedicalList = new ArrayList<>();
+// oct 3 after
         @ToString.Exclude
+        @LazyCollection(LazyCollectionOption.FALSE)
         @JoinColumn(name = "TRIAL_NUMBER", referencedColumnName = "TRIAL_NUMBER")
         @OneToMany(fetch=FetchType.LAZY, cascade = CascadeType.ALL)
         public List<ClinicalTrialEuropeMedical> clinicalTrialEuropeMedicalList = new ArrayList<>();
 
         // had to add this or I got circular references when string building.
         @ToString.Exclude
+        @LazyCollection(LazyCollectionOption.FALSE)
         @JoinColumn(name = "TRIAL_NUMBER", referencedColumnName = "TRIAL_NUMBER")
         @OneToMany(fetch=FetchType.LAZY, cascade = CascadeType.ALL)
         public List<ClinicalTrialEuropeMeddra> clinicalTrialEuropeMeddraList = new ArrayList<>();

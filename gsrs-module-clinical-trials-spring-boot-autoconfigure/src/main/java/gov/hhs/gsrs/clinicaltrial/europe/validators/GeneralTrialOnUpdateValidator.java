@@ -83,7 +83,7 @@ public class GeneralTrialOnUpdateValidator implements ValidatorPlugin<ClinicalTr
             if (oldLastModifiedDate == null) {
                 callback.addMessage(GinasProcessingMessage.ERROR_MESSAGE(String.format(oldLastModifiedDateNullErrorTemplate)));
             }
-
+/*
             LocalDateTime ldt1 = TimeUtil.asLocalDateTime(newLastModifiedDate);
             LocalDateTime ldt2 = TimeUtil.asLocalDateTime(oldLastModifiedDate);
             boolean cmp = ldt1.isEqual(ldt2);
@@ -96,6 +96,7 @@ public class GeneralTrialOnUpdateValidator implements ValidatorPlugin<ClinicalTr
             if (cmp != true) {
                 callback.addMessage(GinasProcessingMessage.ERROR_MESSAGE(String.format(newOldLastModifiedDatesDifferentErrorTemplate)));
             }
+*/
         }
     }
 }

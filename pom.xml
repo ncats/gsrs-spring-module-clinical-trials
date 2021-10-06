@@ -35,7 +35,7 @@
         <spring-cloud.version>Hoxton.SR1</spring-cloud.version>
         <lucene.version>4.10.0</lucene.version>
         <gsrs.version>0.8.3-SNAPSHOT</gsrs.version>
-        <gsrs.clinical-trials.version>0.1.0-SNAPSHOT</gsrs.clinical-trials.version>
+        <gsrs.clinical-trials.version>0.2.0-SNAPSHOT</gsrs.clinical-trials.version>
     </properties>
 
     <repositories>

@@ -113,15 +113,7 @@ public class ClinicalTrialUS extends ClinicalTrialBase {
     @Column(name = "LOCATIONS", length=4000)
     public String locations;
 
-    @Transient
-    public List<String> locationList = new ArrayList<String>();
-
-    @Transient
-    public List<String> sponsorList = new ArrayList<String>();
-
-    @OneToMany(mappedBy = "owner", cascade = CascadeType.ALL, fetch= FetchType.LAZY)
-    // @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
-    // @Basic(fetch= FetchType.EAGER)
+    @OneToMany(mappedBy = "owner", cascade = CascadeType.ALL, fetch= FetchType.LAZY, orphanRemoval = true)
     // had to add this or I got circular references when string building.
     @ToString.Exclude
     @LazyCollection(LazyCollectionOption.FALSE)
@@ -149,16 +141,56 @@ public class ClinicalTrialUS extends ClinicalTrialBase {
         System.out.println("Finished setClinicalTrialUSDrug");
     }
 
-    // deprecated
-    @JsonIgnore
-    public String ctRegion() {
-        return "US";
+    @Column(name = "GSRS_MATCHING_COMPLETE")
+    public boolean gsrsMatchingComplete;
+
+
+    @JsonSerialize(using = GsrsDateSerializer.class)
+    @JsonDeserialize(using = GsrsDateDeserializer.class)
+    @LastModifiedDate
+    @Indexable( name = "Last Modified Date", sortable=true)
+    public Date lastModifiedDate;
+
+    // this added during a debugging session could prob be removed.
+    public void setLastModifiedDate(Date lastModifiedDate) {
+        System.out.println("==== LAST MODIFIED DATE ====" + lastModifiedDate.toString());
+        this.lastModifiedDate = lastModifiedDate;
+
     }
 
-    // deprecated
-    @JsonIgnore
-    public String ctId() {
+    // this added during a debugging session could prob be removed.
+    public Date getLastModifiedDate() {
+        return this.lastModifiedDate;
+    }
+
+    @JsonSerialize(using = GsrsDateSerializer.class)
+    @JsonDeserialize(using = GsrsDateDeserializer.class)
+    @CreatedDate
+    @Indexable( name = "Create Date", sortable=true)
+    public Date creationDate;
+    public void setCreationDate(Date creationDate) {
+        System.out.println("==== CREATION DATE ====" + creationDate.toString());
+        this.creationDate = creationDate;
+
+    }
+    public Date getCreationDate() {
+        return this.creationDate;
+    }
+
+
+
+    public String getTrialNumber() {
         return this.trialNumber;
+    }
+
+    // ******
+
+    // TODO ... move all these things to index value maker
+
+    @JsonIgnore
+    @Indexable(facet=true, name="Deprecated")
+    public String getDeprecated(){
+        return "Not Deprecated";
     }
 
     @JsonIgnore
@@ -295,60 +327,8 @@ public class ClinicalTrialUS extends ClinicalTrialBase {
         }
         return new ArrayList<String>();
     }
+    // ******  end
 
-//    @Version
-//    @Column(name = "INTERNAL_VERSION", nullable = false)
-//    public Long internalVersion = 0L;
-
-    @Column(name = "GSRS_MATCHING_COMPLETE")
-    public boolean gsrsMatchingComplete;
-
-    @Column(name = "GSRS_CREATED")
-    public long gsrsCreated;
-
-    @Column(name = "GSRS_UPDATED")
-    public long gsrsUpdated;
-
-    @JsonIgnore
-    @Indexable(facet=true, name="Deprecated")
-    public String getDeprecated(){
-        return "Not Deprecated";
-    }
-
-    @JsonSerialize(using = GsrsDateSerializer.class)
-    @JsonDeserialize(using = GsrsDateDeserializer.class)
-    @LastModifiedDate
-    @Indexable( name = "Last Modified Date", sortable=true)
-    public Date lastModifiedDate;
-
-    public void setLastModifiedDate(Date lastModifiedDate) {
-        System.out.println("==== LAST MODIFIED DATE ====" + lastModifiedDate.toString());
-        this.lastModifiedDate = lastModifiedDate;
-
-    }
-    public Date getLastModifiedDate() {
-        return this.lastModifiedDate;
-    }
-
-    @JsonSerialize(using = GsrsDateSerializer.class)
-    @JsonDeserialize(using = GsrsDateDeserializer.class)
-    @CreatedDate
-    @Indexable( name = "Create Date", sortable=true)
-    public Date creationDate;
-    public void setCreationDate(Date creationDate) {
-        System.out.println("==== CREATION DATE ====" + creationDate.toString());
-        this.creationDate = creationDate;
-
-    }
-    public Date getCreationDate() {
-        return this.creationDate;
-    }
-
-
-
-    public String getTrialNumber() {
-        return this.trialNumber;
-    }
 
 
 }

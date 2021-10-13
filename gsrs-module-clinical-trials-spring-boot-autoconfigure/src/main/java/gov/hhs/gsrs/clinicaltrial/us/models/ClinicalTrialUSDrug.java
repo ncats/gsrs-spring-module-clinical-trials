@@ -1,11 +1,14 @@
 package gov.hhs.gsrs.clinicaltrial.us.models;
 import gov.hhs.gsrs.clinicaltrial.base.models.AbstractGsrsEntityAlt;
+import gsrs.model.AbstractGsrsManualDirtyEntity;
+import gsrs.model.AbstractGsrsTablePerClassEntity;
 import ix.core.SingleParent;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import ix.core.models.Backup;
+import ix.core.models.IndexableRoot;
 import ix.core.models.ParentReference;
-import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
+import lombok.experimental.SuperBuilder;
 import org.springframework.beans.factory.annotation.Value;
 
 import javax.persistence.*;
@@ -14,9 +17,8 @@ import javax.persistence.*;
 @Entity
 @Table(name="ctrial_us_drug")
 @SingleParent
-@Getter
-@Setter
-public class ClinicalTrialUSDrug extends AbstractGsrsEntityAlt {
+
+public class ClinicalTrialUSDrug extends AbstractGsrsManualDirtyEntity {
 
     @Value("${mygsrs.clinicaltrial.us.substance.linking.keyType.value}")
     static String substanceKeyTypeValue;
@@ -46,9 +48,4 @@ public class ClinicalTrialUSDrug extends AbstractGsrsEntityAlt {
     @Column(name="protected_match")
     public boolean protectedMatch;
 
-    public ClinicalTrialUSDrug() {}
-
-    public Long getId() {
-        return this.id;
-    }
 }

@@ -5,22 +5,32 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import gov.hhs.gsrs.clinicaltrial.us.events.ClinicalTrialCreatedEvent;
 import gov.hhs.gsrs.clinicaltrial.us.events.ClinicalTrialUSUpdateEvent;
 import gov.hhs.gsrs.clinicaltrial.us.models.ClinicalTrialUS;
+import gov.hhs.gsrs.clinicaltrial.us.models.ClinicalTrialUSDrug;
 import gov.hhs.gsrs.clinicaltrial.us.repositories.ClinicalTrialUSRepository;
 import gsrs.events.AbstractEntityCreatedEvent;
 import gsrs.events.AbstractEntityUpdatedEvent;
 import gsrs.service.AbstractGsrsEntityService;
+import gsrs.springUtils.StaticContextAccessor;
+import ix.core.util.EntityUtils;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import org.springframework.transaction.PlatformTransactionManager;
+import org.springframework.transaction.TransactionDefinition;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.transaction.support.TransactionTemplate;
+
+import javax.persistence.EntityManager;
 import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 import java.util.regex.Pattern;
 
 @Service
+@Slf4j
 public class ClinicalTrialUSEntityService extends AbstractGsrsEntityService<ClinicalTrialUS, String> {
     public static final String  CONTEXT = "clinicaltrialus";
 
@@ -65,11 +75,14 @@ public class ClinicalTrialUSEntityService extends AbstractGsrsEntityService<Clin
     }
 
     @Override
-    // @Transactional(rollbackFor = Exception.class)
+    // TODO reinstate transactional nature.
+    // @Transactional()
     protected ClinicalTrialUS update(ClinicalTrialUS clinicalTrialUS) {
-        System.out.println("\n\n ==== Updating ====XX  \n\n");
+        log.debug("\n\n ==== Updating ==== \n\n");
+        // substance service merges the entity to the entity manager before saving and flushing. Perhaps this should do the same?
         return repository.saveAndFlush(clinicalTrialUS);
     }
+
 
     @Override
     protected AbstractEntityUpdatedEvent<ClinicalTrialUS> newUpdateEvent(ClinicalTrialUS updatedEntity) {

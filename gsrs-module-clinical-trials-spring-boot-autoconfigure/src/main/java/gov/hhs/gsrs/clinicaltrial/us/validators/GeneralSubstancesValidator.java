@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Set;
 import java.util.UUID;
 import java.util.regex.Pattern;
@@ -56,7 +57,7 @@ public class GeneralSubstancesValidator implements ValidatorPlugin<ClinicalTrial
         String substanceKeyTypeBadValueErrorTemplate = "Substance Key Type should be " + substanceKeyTypeValue  + ".";
         Pattern substanceKeyPattern = Pattern.compile(substanceKeyPatternRegex, Pattern.CASE_INSENSITIVE);
 
-        Set<ClinicalTrialUSDrug> ctds = objnew.getClinicalTrialUSDrug();
+        List<ClinicalTrialUSDrug> ctds = objnew.getClinicalTrialUSDrug();
         HashMap<String, Boolean> map = new HashMap<>();
             for (ClinicalTrialUSDrug ctd : ctds) {
                 // System.out.println("Inside GeneralSubstancesValidator Loop");

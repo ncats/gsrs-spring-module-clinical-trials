@@ -13,6 +13,7 @@ import ix.ginas.utils.validation.ValidatorPlugin;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 
+import java.util.List;
 import java.util.Set;
 
 public class SubstancesExistValidator implements ValidatorPlugin<ClinicalTrialUS> {
@@ -33,7 +34,7 @@ public class SubstancesExistValidator implements ValidatorPlugin<ClinicalTrialUS
     @Override
     public void validate(ClinicalTrialUS objnew, ClinicalTrialUS objold, ValidatorCallback callback) {
         System.out.println("Validating substances");
-        Set<ClinicalTrialUSDrug> ctds = objnew.getClinicalTrialUSDrug();
+        List<ClinicalTrialUSDrug> ctds = objnew.getClinicalTrialUSDrug();
         String skip = env.getProperty("mygsrs.clinicaltrial.us.skipSubstanceValidation");
         Boolean s = false;
         if (skip != null && skip == "true") s = true;

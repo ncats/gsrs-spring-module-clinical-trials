@@ -6,6 +6,8 @@ import ix.core.SingleParent;
 import ix.core.models.ParentReference;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
+import org.hibernate.annotations.LazyCollection;
+import org.hibernate.annotations.LazyCollectionOption;
 
 import javax.persistence.*;
 import java.util.List;
@@ -59,7 +61,8 @@ public class ClinicalTrialEuropeProduct extends AbstractGsrsTablePerClassEntity 
 
     // @JsonIgnore
     @ToString.Exclude
-    @OneToMany(mappedBy = "owner", fetch=FetchType.EAGER, cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "owner", fetch=FetchType.LAZY, cascade = CascadeType.ALL)
+    @LazyCollection(LazyCollectionOption.FALSE)
     public List<ClinicalTrialEuropeDrug> clinicalTrialEuropeDrugList = new ArrayList<>();
 
 

@@ -10,6 +10,8 @@ import ix.ginas.models.serialization.GsrsDateDeserializer;
 import ix.ginas.models.serialization.GsrsDateSerializer;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
+import org.hibernate.annotations.LazyCollection;
+import org.hibernate.annotations.LazyCollectionOption;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -117,15 +119,16 @@ public class ClinicalTrialUS extends ClinicalTrialBase {
     @Transient
     public List<String> sponsorList = new ArrayList<String>();
 
-    @OneToMany(mappedBy = "owner", cascade = CascadeType.ALL, fetch= FetchType.EAGER)
+    @OneToMany(mappedBy = "owner", cascade = CascadeType.ALL, fetch= FetchType.LAZY)
     // @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     // @Basic(fetch= FetchType.EAGER)
     // had to add this or I got circular references when string building.
     @ToString.Exclude
-    public Set<ClinicalTrialUSDrug> clinicalTrialUSDrug = new HashSet<ClinicalTrialUSDrug>();
+    @LazyCollection(LazyCollectionOption.FALSE)
+    public List<ClinicalTrialUSDrug> clinicalTrialUSDrug = new ArrayList<ClinicalTrialUSDrug>();
 
-    public void setClinicalTrialUSDrug(Set<ClinicalTrialUSDrug> clinicalTrialUSDrugs) {
-        System.out.println("Runing setClinicalTrialUSDrug");
+    public void setClinicalTrialUSDrug(List<ClinicalTrialUSDrug> clinicalTrialUSDrugs) {
+        System.out.println("Running setClinicalTrialUSDrug");
         // System.out.println("HERE1");
         this.clinicalTrialUSDrug = clinicalTrialUSDrugs;
         // System.out.println("HERE2");

@@ -112,7 +112,8 @@ public class ClinicalTrialUS extends ClinicalTrialBase {
 
     @Column(name = "LOCATIONS", length=4000)
     public String locations;
-
+    // had to add orphan removal or would not delete.
+    // long term should find a better solution.
     @OneToMany(mappedBy = "owner", cascade = CascadeType.ALL, fetch= FetchType.LAZY, orphanRemoval = true)
     // had to add this or I got circular references when string building.
     @ToString.Exclude

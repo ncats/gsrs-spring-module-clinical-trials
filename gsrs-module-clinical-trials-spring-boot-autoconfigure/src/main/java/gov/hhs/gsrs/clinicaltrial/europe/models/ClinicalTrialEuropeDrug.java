@@ -1,15 +1,12 @@
 package gov.hhs.gsrs.clinicaltrial.europe.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import gov.hhs.gsrs.clinicaltrial.base.models.AbstractGsrsEntityAlt;
 import gsrs.model.AbstractGsrsManualDirtyEntity;
-import gsrs.model.AbstractGsrsTablePerClassEntity;
 import ix.core.SingleParent;
 import ix.core.models.ParentReference;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.experimental.SuperBuilder;
 
 import javax.persistence.*;
 

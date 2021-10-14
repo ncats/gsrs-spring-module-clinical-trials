@@ -1,14 +1,9 @@
 package gov.hhs.gsrs.clinicaltrial.us.models;
-import gov.hhs.gsrs.clinicaltrial.base.models.AbstractGsrsEntityAlt;
 import gsrs.model.AbstractGsrsManualDirtyEntity;
-import gsrs.model.AbstractGsrsTablePerClassEntity;
 import ix.core.SingleParent;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import ix.core.models.Backup;
-import ix.core.models.IndexableRoot;
 import ix.core.models.ParentReference;
 import lombok.*;
-import lombok.experimental.SuperBuilder;
 import org.springframework.beans.factory.annotation.Value;
 
 import javax.persistence.*;

@@ -1,6 +1,6 @@
 package gov.hhs.gsrs.clinicaltrial.europe.models;
 
-import gov.hhs.gsrs.clinicaltrial.base.models.AbstractGsrsEntityAlt;
+import gsrs.model.AbstractGsrsManualDirtyEntity;
 import ix.core.SingleParent;
 import lombok.Data;
 import lombok.Getter;
@@ -14,7 +14,7 @@ import javax.persistence.*;
 @SingleParent
 @Getter
 @Setter
-public class ClinicalTrialEuropeMedical extends AbstractGsrsEntityAlt {
+public class ClinicalTrialEuropeMedical extends AbstractGsrsManualDirtyEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name="ID")

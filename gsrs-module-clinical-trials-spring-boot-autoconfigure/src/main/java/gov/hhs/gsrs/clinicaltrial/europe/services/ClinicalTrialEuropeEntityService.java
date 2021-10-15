@@ -17,7 +17,7 @@ import java.util.regex.Pattern;
 
 @Service
 public class ClinicalTrialEuropeEntityService extends AbstractGsrsEntityService<ClinicalTrialEurope, String> {
-    public static final String  CONTEXT = "clinicaltrialeurope";
+    public static final String  CONTEXT = "clinicaltrialseurope";
 
 
     // @Value("${mygsrs.clinicaltrial.eu.ClinicalTrialEurope.trialNumberPattern}")
@@ -25,7 +25,7 @@ public class ClinicalTrialEuropeEntityService extends AbstractGsrsEntityService<
 
 
     public ClinicalTrialEuropeEntityService() {
-        super("clinicaltrialeurope", Pattern.compile("^\\d{4}-\\d{6}-\\d{2}-[A-Z]{2}$"), null, null, null);
+        super(CONTEXT, Pattern.compile("^\\d{4}-\\d{6}-\\d{2}-[A-Z]{2}$"), null, null, null);
     }
 
     @Autowired

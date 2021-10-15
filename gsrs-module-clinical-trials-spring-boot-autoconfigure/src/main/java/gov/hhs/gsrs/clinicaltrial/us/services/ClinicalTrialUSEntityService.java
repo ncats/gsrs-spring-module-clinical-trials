@@ -32,13 +32,13 @@ import java.util.regex.Pattern;
 @Service
 @Slf4j
 public class ClinicalTrialUSEntityService extends AbstractGsrsEntityService<ClinicalTrialUS, String> {
-    public static final String  CONTEXT = "clinicaltrialus";
+    public static final String  CONTEXT = "clinicaltrialsus";
 
     // @Value("${mygsrs.clinicaltrial.eu.ClinicalTrial.trialNumberPattern}")
     // private String trialNumberPattern;
 
     public ClinicalTrialUSEntityService() {
-        super("clinicaltrialus", Pattern.compile("^NCT\\d+$"), null, null, null);
+        super(CONTEXT, Pattern.compile("^NCT\\d+$"), null, null, null);
     }
 
     @Autowired

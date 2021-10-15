@@ -71,8 +71,9 @@ public class ClinicalTrialEurope extends ClinicalTrialBase {
 
         // had to add this, or I got circular references when string building.
         @ToString.Exclude
-        // oct 3 changed from lazy to eager
-        @OneToMany(mappedBy = "owner", fetch=FetchType.LAZY, cascade = CascadeType.ALL)
+        // had to add orphan removal or would not delete.
+        // long term should find a better solution.
+        @OneToMany(mappedBy = "owner", fetch=FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
         @LazyCollection(LazyCollectionOption.FALSE)
         public List<ClinicalTrialEuropeProduct> clinicalTrialEuropeProductList = new ArrayList<>();
 

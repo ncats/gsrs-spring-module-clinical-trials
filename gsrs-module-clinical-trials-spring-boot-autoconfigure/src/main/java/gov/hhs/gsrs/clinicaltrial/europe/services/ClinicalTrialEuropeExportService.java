@@ -15,8 +15,6 @@ import java.util.*;
 @Service
 public class ClinicalTrialEuropeExportService {
 
-    public static final String  CONTEXT = "clinicaltrialeurope";
-
     @Autowired
     private ClinicalTrialEuropeEntityService clinicalTrialEuropeEntityService;
 

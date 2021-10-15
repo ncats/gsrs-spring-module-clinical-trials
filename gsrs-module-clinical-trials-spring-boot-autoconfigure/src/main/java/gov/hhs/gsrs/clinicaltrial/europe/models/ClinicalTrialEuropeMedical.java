@@ -1,6 +1,6 @@
 package gov.hhs.gsrs.clinicaltrial.europe.models;
 
-import gov.hhs.gsrs.clinicaltrial.base.models.AbstractGsrsEntityAlt;
+import gsrs.model.AbstractGsrsManualDirtyEntity;
 import ix.core.SingleParent;
 import lombok.Data;
 import lombok.Getter;
@@ -14,9 +14,12 @@ import javax.persistence.*;
 @SingleParent
 @Getter
 @Setter
-public class ClinicalTrialEuropeMedical extends AbstractGsrsEntityAlt {
+public class ClinicalTrialEuropeMedical extends AbstractGsrsManualDirtyEntity {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    // @GeneratedValue(strategy = GenerationType.AUTO)
+    @SequenceGenerator(name="cteumcSeq", sequenceName="CTRIALEUMC_SQ_ID",allocationSize=1)
+    @GeneratedValue(strategy = GenerationType.AUTO, generator = "cteudmcSeq")
+
     @Column(name="ID")
     public int id;
 

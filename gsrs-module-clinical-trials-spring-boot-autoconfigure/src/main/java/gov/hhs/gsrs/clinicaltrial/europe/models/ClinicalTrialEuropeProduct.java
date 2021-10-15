@@ -1,6 +1,7 @@
 package gov.hhs.gsrs.clinicaltrial.europe.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import gsrs.model.AbstractGsrsManualDirtyEntity;
 import gsrs.model.AbstractGsrsTablePerClassEntity;
 import ix.core.SingleParent;
 import ix.core.models.ParentReference;
@@ -17,17 +18,20 @@ import java.util.ArrayList;
 @Data
 // @EqualsAndHashCode(exclude="clinicalTrialEuropeDrug")
 @Entity
-@SuperBuilder
+// @SuperBuilder
 @SingleParent
 @AllArgsConstructor
 // @NoArgsConstructor
 @Table(name="CTRIAL_EU_PROD")
 // @ToString
-public class ClinicalTrialEuropeProduct extends AbstractGsrsTablePerClassEntity {
+public class ClinicalTrialEuropeProduct extends AbstractGsrsManualDirtyEntity {
     public ClinicalTrialEuropeProduct () {}
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    // @GeneratedValue(strategy = GenerationType.AUTO)
+    @SequenceGenerator(name="cteuprodSeq", sequenceName="CTRIALEUPROD_SQ_ID",allocationSize=1)
+    @GeneratedValue(strategy = GenerationType.AUTO, generator = "cteudprodSeq")
+
     @Column(name="ID")
     public int id;
 
@@ -61,7 +65,9 @@ public class ClinicalTrialEuropeProduct extends AbstractGsrsTablePerClassEntity 
 
     // @JsonIgnore
     @ToString.Exclude
-    @OneToMany(mappedBy = "owner", fetch=FetchType.LAZY, cascade = CascadeType.ALL)
+    // had to add orphan removal or would not delete.
+    // long term should find a better solution.
+    @OneToMany(mappedBy = "owner", fetch=FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
     @LazyCollection(LazyCollectionOption.FALSE)
     public List<ClinicalTrialEuropeDrug> clinicalTrialEuropeDrugList = new ArrayList<>();
 

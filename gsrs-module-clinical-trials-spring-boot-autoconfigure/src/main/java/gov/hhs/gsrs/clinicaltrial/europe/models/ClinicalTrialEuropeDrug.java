@@ -1,13 +1,12 @@
 package gov.hhs.gsrs.clinicaltrial.europe.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import gov.hhs.gsrs.clinicaltrial.base.models.AbstractGsrsEntityAlt;
+import gsrs.model.AbstractGsrsManualDirtyEntity;
 import ix.core.SingleParent;
 import ix.core.models.ParentReference;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.experimental.SuperBuilder;
 
 import javax.persistence.*;
 
@@ -15,13 +14,13 @@ import javax.persistence.*;
 @Entity
 @SingleParent
 @Table(name="CTRIAL_EU_DRUG")
-
-@Getter
-@Setter
-public class ClinicalTrialEuropeDrug extends AbstractGsrsEntityAlt {
+public class ClinicalTrialEuropeDrug extends AbstractGsrsManualDirtyEntity {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    // @GeneratedValue(strategy = GenerationType.AUTO)
+    @SequenceGenerator(name="cteudrugSeq", sequenceName="CTRIALEUDRUG_SQ_ID",allocationSize=1)
+    @GeneratedValue(strategy = GenerationType.AUTO, generator = "cteudrugSeq")
+
     @Column(name="ID")
     public int id;
 
@@ -37,7 +36,5 @@ public class ClinicalTrialEuropeDrug extends AbstractGsrsEntityAlt {
 
     @Column(name="SUBSTANCE_KEY_TYPE", length=50, nullable=false)
     public String substanceKeyType;
-
-    public ClinicalTrialEuropeDrug () {}
 
 }

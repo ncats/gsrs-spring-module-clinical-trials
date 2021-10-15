@@ -28,7 +28,10 @@ public class ClinicalTrialEuropeProduct extends AbstractGsrsManualDirtyEntity {
     public ClinicalTrialEuropeProduct () {}
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    // @GeneratedValue(strategy = GenerationType.AUTO)
+    @SequenceGenerator(name="cteuprodSeq", sequenceName="CTRIALEUPROD_SQ_ID",allocationSize=1)
+    @GeneratedValue(strategy = GenerationType.AUTO, generator = "cteudprodSeq")
+
     @Column(name="ID")
     public int id;
 

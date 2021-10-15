@@ -19,7 +19,11 @@ public class ClinicalTrialUSDrug extends AbstractGsrsManualDirtyEntity {
     static String substanceKeyTypeValue;
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    // @GeneratedValue(strategy = GenerationType.AUTO)
+
+    @SequenceGenerator(name="ctusdrugSeq", sequenceName="CTRIALUSDRUG_SQ_ID",allocationSize=1)
+    @GeneratedValue(strategy = GenerationType.AUTO, generator = "ctusdrugSeq")
+
     public Long id;
 
     @ParentReference

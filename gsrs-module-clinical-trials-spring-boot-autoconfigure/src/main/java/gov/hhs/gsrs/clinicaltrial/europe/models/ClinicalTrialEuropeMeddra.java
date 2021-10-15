@@ -15,9 +15,10 @@ import javax.persistence.*;
 @Getter
 @Setter
 public class ClinicalTrialEuropeMeddra extends AbstractGsrsManualDirtyEntity {
-
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    // @GeneratedValue(strategy = GenerationType.AUTO)
+    @SequenceGenerator(name="cteumeddSeq", sequenceName="CTRIALEUMEDD_SQ_ID",allocationSize=1)
+    @GeneratedValue(strategy = GenerationType.AUTO, generator = "cteudmeddSeq")
     @Column(name="ID")
     public int id;
 

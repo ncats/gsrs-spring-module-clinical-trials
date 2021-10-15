@@ -136,9 +136,11 @@ public class ClinicalTrialUS extends ClinicalTrialBase {
                 // System.out.println("this.toString" + this.toString());
                 ctd.setOwner(this);
                 // System.out.println("HERE5");
+                // ctd.setIsDirty("clinicalTrialDrug");
+                ctd.setIsDirty("substanceKey");
+
             }
         }
-        // setIsDirty("clinicalTrialDrug");
         System.out.println("Finished setClinicalTrialUSDrug");
     }
 

@@ -14,39 +14,12 @@ import javax.persistence.*;
 @Entity
 @Table(name="ctrial_us_drug")
 @SingleParent
-
 public class ClinicalTrialUSDrug extends AbstractGsrsEntity implements ForceUpdateDirtyMakerMixin {
-/*
-    @Transient
-    private transient boolean isAllDirty = false;
-
-    @Override
-    @JsonIgnore
-    public  boolean isAllDirty() {
-        return true;
-    }
-*/
-
-    @Transient
-    private transient boolean isAllDirty = false;
-
-    @Override
-    @JsonIgnore
-    public  boolean isAllDirty() {
-        return isAllDirty;
-    }
-
-    @Override
-    public void setIsAllDirty() {
-        isAllDirty=true;
-    }
 
     @Value("${mygsrs.clinicaltrial.us.substance.linking.keyType.value}")
     static String substanceKeyTypeValue;
 
     @Id
-    // @GeneratedValue(strategy = GenerationType.AUTO)
-
     @SequenceGenerator(name="ctusdrugSeq", sequenceName="CTRIALUSDRUG_SQ_ID",allocationSize=1)
     @GeneratedValue(strategy = GenerationType.AUTO, generator = "ctusdrugSeq")
 

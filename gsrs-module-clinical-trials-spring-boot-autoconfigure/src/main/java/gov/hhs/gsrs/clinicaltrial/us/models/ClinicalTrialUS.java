@@ -40,33 +40,6 @@ public class ClinicalTrialUS extends ClinicalTrialBase {
         this.setKind("US");
     }
 
-/*
-    @Transient
-    private transient boolean isAllDirty = false;
-
-    @Override
-    @JsonIgnore
-    public  boolean isAllDirty() {
-        return true;
-    }
-*/
-
-    @Transient
-    private transient boolean isAllDirty = false;
-
-    @Override
-    @JsonIgnore
-    public  boolean isAllDirty() {
-        return isAllDirty;
-    }
-
-    @Override
-    public void setIsAllDirty() {
-        isAllDirty=true;
-    }
-
-
-
     @Column(name = "RECRUITMENT", length=4000)
     public String recruitment;
 

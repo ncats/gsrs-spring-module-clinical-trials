@@ -1,4 +1,6 @@
 package gov.hhs.gsrs.clinicaltrial.us.models;
+import gsrs.ForceUpdateDirtyMakerMixin;
+import gsrs.model.AbstractGsrsEntity;
 import gsrs.model.AbstractGsrsManualDirtyEntity;
 import ix.core.SingleParent;
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -13,7 +15,31 @@ import javax.persistence.*;
 @Table(name="ctrial_us_drug")
 @SingleParent
 
-public class ClinicalTrialUSDrug extends AbstractGsrsManualDirtyEntity {
+public class ClinicalTrialUSDrug extends AbstractGsrsEntity implements ForceUpdateDirtyMakerMixin {
+/*
+    @Transient
+    private transient boolean isAllDirty = false;
+
+    @Override
+    @JsonIgnore
+    public  boolean isAllDirty() {
+        return true;
+    }
+*/
+
+    @Transient
+    private transient boolean isAllDirty = false;
+
+    @Override
+    @JsonIgnore
+    public  boolean isAllDirty() {
+        return isAllDirty;
+    }
+
+    @Override
+    public void setIsAllDirty() {
+        isAllDirty=true;
+    }
 
     @Value("${mygsrs.clinicaltrial.us.substance.linking.keyType.value}")
     static String substanceKeyTypeValue;

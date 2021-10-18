@@ -3,6 +3,7 @@ package gov.hhs.gsrs.clinicaltrial.base.models;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import gsrs.BackupEntityProcessorListener;
+import gsrs.ForceUpdateDirtyMakerMixin;
 import gsrs.GsrsEntityProcessorListener;
 import gsrs.indexer.IndexerEntityListener;
 import gsrs.model.AbstractGsrsEntity;
@@ -37,7 +38,7 @@ import javax.persistence.InheritanceType;
 @EntityListeners({AuditingEntityListener.class, GsrsEntityProcessorListener.class, IndexerEntityListener.class, BackupEntityProcessorListener.class})
 public abstract class ClinicalTrialBase extends
         AbstractGsrsTablePerClassEntity
-                implements FetchableEntity {
+                implements FetchableEntity, ForceUpdateDirtyMakerMixin {
     @Id
     @Column(name="TRIAL_NUMBER", length=255)
     public String trialNumber;

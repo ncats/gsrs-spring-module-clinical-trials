@@ -2,6 +2,8 @@ package gov.hhs.gsrs.clinicaltrial.us.models;
 
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import gsrs.ForceUpdateDirtyMakerMixin;
+import gsrs.MixinUtil;
 import ix.core.models.Backup;
 import ix.core.models.Indexable;
 import gov.hhs.gsrs.clinicaltrial.base.models.ClinicalTrialBase;
@@ -37,6 +39,33 @@ public class ClinicalTrialUS extends ClinicalTrialBase {
     public ClinicalTrialUS() {
         this.setKind("US");
     }
+
+/*
+    @Transient
+    private transient boolean isAllDirty = false;
+
+    @Override
+    @JsonIgnore
+    public  boolean isAllDirty() {
+        return true;
+    }
+*/
+
+    @Transient
+    private transient boolean isAllDirty = false;
+
+    @Override
+    @JsonIgnore
+    public  boolean isAllDirty() {
+        return isAllDirty;
+    }
+
+    @Override
+    public void setIsAllDirty() {
+        isAllDirty=true;
+    }
+
+
 
     @Column(name = "RECRUITMENT", length=4000)
     public String recruitment;
@@ -137,7 +166,7 @@ public class ClinicalTrialUS extends ClinicalTrialBase {
                 ctd.setOwner(this);
                 // System.out.println("HERE5");
                 // ctd.setIsDirty("clinicalTrialDrug");
-                ctd.setIsDirty("substanceKey");
+                // ctd.setIsDirty("substanceKey");
 
             }
         }

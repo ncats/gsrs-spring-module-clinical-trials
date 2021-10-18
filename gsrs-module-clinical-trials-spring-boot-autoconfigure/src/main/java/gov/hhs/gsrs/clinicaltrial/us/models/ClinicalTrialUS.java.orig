@@ -39,6 +39,50 @@ public class ClinicalTrialUS extends ClinicalTrialBase {
     public ClinicalTrialUS() {
         this.setKind("US");
     }
+<<<<<<< HEAD
+/*
+    Strategy 1
+    @Override
+    @JsonIgnore
+    public  boolean isAllDirty() {
+        return true;
+    }
+*/
+
+
+    // Strategy 2
+    @Transient
+    private transient boolean isAllDirty = false;
+    @Override
+    @JsonIgnore
+    public  boolean isAllDirty() {
+        return isAllDirty;
+    }
+    @Override
+    public void setIsAllDirty() {
+        isAllDirty=true;
+    }
+
+
+/*
+    // Strategy 3
+    @Transient
+    private transient boolean isAllDirty = false;
+
+    @Override
+    @JsonIgnore
+    public  boolean isAllDirty() {
+        return isAllDirty;
+    }
+
+    @Override
+    public void setIsAllDirty() {
+        isAllDirty=true;
+    }
+*/
+
+=======
+>>>>>>> 2a1ed91da7fbd7322f2870f79d6dd3450f47982f
 
     @Column(name = "RECRUITMENT", length=4000)
     public String recruitment;

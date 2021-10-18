@@ -39,11 +39,8 @@ public class ClinicalTrialUS extends ClinicalTrialBase {
     public ClinicalTrialUS() {
         this.setKind("US");
     }
-
 /*
-    @Transient
-    private transient boolean isAllDirty = false;
-
+    Strategy 1
     @Override
     @JsonIgnore
     public  boolean isAllDirty() {
@@ -51,6 +48,23 @@ public class ClinicalTrialUS extends ClinicalTrialBase {
     }
 */
 
+
+    // Strategy 2
+    @Transient
+    private transient boolean isAllDirty = false;
+    @Override
+    @JsonIgnore
+    public  boolean isAllDirty() {
+        return isAllDirty;
+    }
+    @Override
+    public void setIsAllDirty() {
+        isAllDirty=true;
+    }
+
+
+/*
+    // Strategy 3
     @Transient
     private transient boolean isAllDirty = false;
 
@@ -64,7 +78,7 @@ public class ClinicalTrialUS extends ClinicalTrialBase {
     public void setIsAllDirty() {
         isAllDirty=true;
     }
-
+*/
 
 
     @Column(name = "RECRUITMENT", length=4000)

@@ -16,10 +16,9 @@ import javax.persistence.*;
 @SingleParent
 
 public class ClinicalTrialUSDrug extends AbstractGsrsEntity implements ForceUpdateDirtyMakerMixin {
-/*
-    @Transient
-    private transient boolean isAllDirty = false;
 
+/*
+    Strategy 1
     @Override
     @JsonIgnore
     public  boolean isAllDirty() {
@@ -27,6 +26,23 @@ public class ClinicalTrialUSDrug extends AbstractGsrsEntity implements ForceUpda
     }
 */
 
+
+    // Strategy 2
+    @Transient
+    private transient boolean isAllDirty = false;
+    @Override
+    @JsonIgnore
+    public  boolean isAllDirty() {
+        return isAllDirty;
+    }
+    @Override
+    public void setIsAllDirty() {
+        isAllDirty=true;
+    }
+
+
+/*
+    // Strategy 3
     @Transient
     private transient boolean isAllDirty = false;
 
@@ -40,6 +56,9 @@ public class ClinicalTrialUSDrug extends AbstractGsrsEntity implements ForceUpda
     public void setIsAllDirty() {
         isAllDirty=true;
     }
+*/
+
+
 
     @Value("${mygsrs.clinicaltrial.us.substance.linking.keyType.value}")
     static String substanceKeyTypeValue;

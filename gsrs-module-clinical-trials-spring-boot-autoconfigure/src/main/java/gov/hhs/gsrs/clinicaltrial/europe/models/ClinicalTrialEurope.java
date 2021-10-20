@@ -73,7 +73,8 @@ public class ClinicalTrialEurope extends ClinicalTrialBase {
         @ToString.Exclude
         // had to add orphan removal or would not delete.
         // long term should find a better solution.
-        @OneToMany(mappedBy = "owner", fetch=FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
+        // orphanRemoval = true
+        @OneToMany(mappedBy = "owner", fetch=FetchType.LAZY, cascade = CascadeType.ALL)
         @LazyCollection(LazyCollectionOption.FALSE)
         public List<ClinicalTrialEuropeProduct> clinicalTrialEuropeProductList = new ArrayList<>();
 

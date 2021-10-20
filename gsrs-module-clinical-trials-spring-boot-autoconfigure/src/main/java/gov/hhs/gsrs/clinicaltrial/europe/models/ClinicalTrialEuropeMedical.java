@@ -1,5 +1,7 @@
 package gov.hhs.gsrs.clinicaltrial.europe.models;
 
+import gsrs.ForceUpdateDirtyMakerMixin;
+import gsrs.model.AbstractGsrsEntity;
 import gsrs.model.AbstractGsrsManualDirtyEntity;
 import ix.core.SingleParent;
 import lombok.Data;
@@ -14,7 +16,7 @@ import javax.persistence.*;
 @SingleParent
 @Getter
 @Setter
-public class ClinicalTrialEuropeMedical extends AbstractGsrsManualDirtyEntity {
+public class ClinicalTrialEuropeMedical extends AbstractGsrsEntity implements ForceUpdateDirtyMakerMixin {
     @Id
     // @GeneratedValue(strategy = GenerationType.AUTO)
     @SequenceGenerator(name="cteumcSeq", sequenceName="CTRIALEUMC_SQ_ID",allocationSize=1)

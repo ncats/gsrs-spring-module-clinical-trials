@@ -1,6 +1,8 @@
 package gov.hhs.gsrs.clinicaltrial.europe.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import gsrs.ForceUpdateDirtyMakerMixin;
+import gsrs.model.AbstractGsrsEntity;
 import gsrs.model.AbstractGsrsManualDirtyEntity;
 import gsrs.model.AbstractGsrsTablePerClassEntity;
 import ix.core.SingleParent;
@@ -24,11 +26,10 @@ import java.util.ArrayList;
 // @NoArgsConstructor
 @Table(name="CTRIAL_EU_PROD")
 // @ToString
-public class ClinicalTrialEuropeProduct extends AbstractGsrsManualDirtyEntity {
+public class ClinicalTrialEuropeProduct extends AbstractGsrsEntity implements ForceUpdateDirtyMakerMixin {
     public ClinicalTrialEuropeProduct () {}
 
     @Id
-    // @GeneratedValue(strategy = GenerationType.AUTO)
     @SequenceGenerator(name="cteuprodSeq", sequenceName="CTRIALEUPROD_SQ_ID",allocationSize=1)
     @GeneratedValue(strategy = GenerationType.AUTO, generator = "cteudprodSeq")
 
@@ -37,7 +38,7 @@ public class ClinicalTrialEuropeProduct extends AbstractGsrsManualDirtyEntity {
 
     @ParentReference
     @EqualsAndHashCode.Exclude
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.PERSIST)
     @JsonIgnore
     @JoinColumn(name="TRIAL_NUMBER", nullable=false)
     public ClinicalTrialEurope owner;
@@ -67,7 +68,8 @@ public class ClinicalTrialEuropeProduct extends AbstractGsrsManualDirtyEntity {
     @ToString.Exclude
     // had to add orphan removal or would not delete.
     // long term should find a better solution.
-    @OneToMany(mappedBy = "owner", fetch=FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
+    // , orphanRemoval = true
+    @OneToMany(mappedBy = "owner", fetch=FetchType.LAZY, cascade = CascadeType.ALL)
     @LazyCollection(LazyCollectionOption.FALSE)
     public List<ClinicalTrialEuropeDrug> clinicalTrialEuropeDrugList = new ArrayList<>();
 
@@ -88,7 +90,7 @@ public class ClinicalTrialEuropeProduct extends AbstractGsrsManualDirtyEntity {
                 System.out.println("HERE4 class" + this.getClass());
 
                 // produt_id does not get set correctly
-                // something is not working as epected.
+                // something is not working as expected.
                 // so modified parent class setClinicalTrialEuropeProductList
                 // setter.
                 ctd.setOwner(this);

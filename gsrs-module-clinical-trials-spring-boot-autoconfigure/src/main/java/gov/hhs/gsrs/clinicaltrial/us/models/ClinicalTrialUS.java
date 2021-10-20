@@ -116,7 +116,9 @@ public class ClinicalTrialUS extends ClinicalTrialBase {
     public String locations;
     // had to add orphan removal or would not delete.
     // long term should find a better solution.
-    @OneToMany(mappedBy = "owner", cascade = CascadeType.ALL, fetch= FetchType.LAZY, orphanRemoval = true)
+    //  orphanRemoval = true
+    // after wip_changes trying without
+    @OneToMany(mappedBy = "owner", cascade = CascadeType.ALL, fetch= FetchType.LAZY)
     // had to add this or I got circular references when string building.
     @ToString.Exclude
     @LazyCollection(LazyCollectionOption.FALSE)
@@ -173,6 +175,7 @@ public class ClinicalTrialUS extends ClinicalTrialBase {
     @CreatedDate
     @Indexable( name = "Create Date", sortable=true)
     public Date creationDate;
+
     public void setCreationDate(Date creationDate) {
         System.out.println("==== CREATION DATE ====" + creationDate.toString());
         this.creationDate = creationDate;

@@ -1,10 +1,13 @@
 package gov.hhs.gsrs.clinicaltrial.europe.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import gsrs.ForceUpdateDirtyMakerMixin;
 import gsrs.model.AbstractGsrsEntity;
 import gsrs.model.AbstractGsrsManualDirtyEntity;
 import ix.core.SingleParent;
+import ix.core.models.ParentReference;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -24,6 +27,13 @@ public class ClinicalTrialEuropeMedical extends AbstractGsrsEntity implements Fo
 
     @Column(name="ID")
     public int id;
+
+    @ParentReference
+    @EqualsAndHashCode.Exclude
+    @ManyToOne(cascade = CascadeType.PERSIST)
+    @JsonIgnore
+    @JoinColumn(name="TRIAL_NUMBER", nullable=false)
+    public ClinicalTrialEurope owner;
 
     @Column(name="MEDICAL_COND_INVSTGED", length=2000)
     public String medicalCondInvesigated;

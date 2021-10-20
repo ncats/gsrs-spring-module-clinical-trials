@@ -66,38 +66,20 @@ public class ClinicalTrialEuropeProduct extends AbstractGsrsEntity implements Fo
 
     // @JsonIgnore
     @ToString.Exclude
-    // had to add orphan removal or would not delete.
-    // long term should find a better solution.
-    // , orphanRemoval = true
     @OneToMany(mappedBy = "owner", fetch=FetchType.LAZY, cascade = CascadeType.ALL)
     @LazyCollection(LazyCollectionOption.FALSE)
     public List<ClinicalTrialEuropeDrug> clinicalTrialEuropeDrugList = new ArrayList<>();
 
-
-    // this setter "runs" but but even so the product_id in the datatable
-    // is null
-    // so I put the so I "added logic" to ClinicalTrialEuropeProduct
     public void setClinicalTrialEuropeDrugList(List<ClinicalTrialEuropeDrug>  clinicalTrialEuropeDrugList) {
-        System.out.println("HERE0 XX setClinicalTrialEuropeDrugList ");
-        System.out.println("HERE1 XX");
+        System.out.println("... setClinicalTrialEuropeDrugList ");
         this.clinicalTrialEuropeDrugList = clinicalTrialEuropeDrugList;
-        System.out.println("HERE2 XX");
         if(clinicalTrialEuropeDrugList != null) {
-            System.out.println("HERE3 XX");
             for ( ClinicalTrialEuropeDrug ctd : clinicalTrialEuropeDrugList )
             {
-                System.out.println("HERE4 XX" + ctd.getSubstanceKeyType());
-                System.out.println("HERE4 class" + this.getClass());
-
-                // produt_id does not get set correctly
-                // something is not working as expected.
-                // so modified parent class setClinicalTrialEuropeProductList
-                // setter.
                 ctd.setOwner(this);
-                System.out.println("HERE5 XX");
             }
         }
-        // setIsDirty("clinicalTrialDrug");
+        System.out.println("... finished setClinicalTrialEuropeDrugList");
     }
 
 

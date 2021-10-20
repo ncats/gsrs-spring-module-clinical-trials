@@ -71,9 +71,6 @@ public class ClinicalTrialEurope extends ClinicalTrialBase {
 
         // had to add this, or I got circular references when string building.
         @ToString.Exclude
-        // had to add orphan removal or would not delete.
-        // long term should find a better solution.
-        // orphanRemoval = true
         @OneToMany(mappedBy = "owner", fetch=FetchType.LAZY, cascade = CascadeType.ALL)
         @LazyCollection(LazyCollectionOption.FALSE)
         public List<ClinicalTrialEuropeProduct> clinicalTrialEuropeProductList = new ArrayList<>();
@@ -90,7 +87,7 @@ public class ClinicalTrialEurope extends ClinicalTrialBase {
                         {
                                 // System.out.println("HERE4" + ctd.getSubstanceKeyType());
                                 ctp.setOwner(this);
-                                // modified so grandchild produt_id gets correctly.
+                                // modified so grandchild product_id gets correctly.
                                 //     if(ctp.getClinicalTrialEuropeDrugList() != null) {
                                 //             for (ClinicalTrialEuropeDrug ctd : ctp.getClinicalTrialEuropeDrugList()) {
                                 //                     ctd.setOwner(ctp);
@@ -107,25 +104,44 @@ public class ClinicalTrialEurope extends ClinicalTrialBase {
         public String getDeprecated(){
                 return "Not Deprecated";
         }
-// oct 3 before
-        // had to add this or I got circular references when string building.
-//        @ToString.Exclude
-//        @JoinColumn(name = "TRIAL_NUMBER", referencedColumnName = "TRIAL_NUMBER")
-//        @OneToMany(fetch=FetchType.LAZY, cascade = CascadeType.ALL)
-//        public List<ClinicalTrialEuropeMedical> clinicalTrialEuropeMedicalList = new ArrayList<>();
-// oct 3 after
+
         @ToString.Exclude
+        @OneToMany(mappedBy = "owner", fetch=FetchType.LAZY, cascade = CascadeType.ALL)
         @LazyCollection(LazyCollectionOption.FALSE)
-        @JoinColumn(name = "TRIAL_NUMBER", referencedColumnName = "TRIAL_NUMBER")
-        @OneToMany(fetch=FetchType.LAZY, cascade = CascadeType.ALL)
         public List<ClinicalTrialEuropeMedical> clinicalTrialEuropeMedicalList = new ArrayList<>();
 
-        // had to add this or I got circular references when string building.
+        public void setClinicalTrialEuropeMedicalList(List<ClinicalTrialEuropeMedical> clinicalTrialEuropeMedicalList) {
+                System.out.println("... setClinicalTrialEuropeMedicalList");
+                this.clinicalTrialEuropeMedicalList = clinicalTrialEuropeMedicalList;
+                System.out.println("trialNumber: "  + this.trialNumber);
+                if(clinicalTrialEuropeMedicalList !=null) {
+                        for ( ClinicalTrialEuropeMedical ctp : clinicalTrialEuropeMedicalList )
+                        {
+                                ctp.setOwner(this);
+                        }
+                }
+                System.out.println("... finished setClinicalTrialEuropeMedicalList");
+        }
+
+
         @ToString.Exclude
+        @OneToMany(mappedBy = "owner", fetch=FetchType.LAZY, cascade = CascadeType.ALL)
         @LazyCollection(LazyCollectionOption.FALSE)
-        @JoinColumn(name = "TRIAL_NUMBER", referencedColumnName = "TRIAL_NUMBER")
-        @OneToMany(fetch=FetchType.LAZY, cascade = CascadeType.ALL)
         public List<ClinicalTrialEuropeMeddra> clinicalTrialEuropeMeddraList = new ArrayList<>();
+
+        public void setClinicalTrialEuropeMeddraList(List<ClinicalTrialEuropeMeddra> clinicalTrialEuropeMeddraList) {
+                System.out.println("... setClinicalTrialEuropeMeddraList");
+                this.clinicalTrialEuropeMeddraList = clinicalTrialEuropeMeddraList;
+                System.out.println("trialNumber: "  + this.trialNumber);
+                if(clinicalTrialEuropeMeddraList !=null) {
+                        for ( ClinicalTrialEuropeMeddra ctp : clinicalTrialEuropeMeddraList )
+                        {
+                                ctp.setOwner(this);
+                        }
+                }
+                System.out.println("... finished setClinicalTrialEuropeMeddraList");
+        }
+
 
         @JsonSerialize(using = GsrsDateSerializer.class)
         @JsonDeserialize(using = GsrsDateDeserializer.class)

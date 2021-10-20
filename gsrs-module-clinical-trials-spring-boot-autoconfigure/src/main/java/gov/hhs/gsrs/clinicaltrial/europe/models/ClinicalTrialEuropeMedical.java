@@ -1,8 +1,13 @@
 package gov.hhs.gsrs.clinicaltrial.europe.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import gsrs.ForceUpdateDirtyMakerMixin;
+import gsrs.model.AbstractGsrsEntity;
 import gsrs.model.AbstractGsrsManualDirtyEntity;
 import ix.core.SingleParent;
+import ix.core.models.ParentReference;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -14,7 +19,7 @@ import javax.persistence.*;
 @SingleParent
 @Getter
 @Setter
-public class ClinicalTrialEuropeMedical extends AbstractGsrsManualDirtyEntity {
+public class ClinicalTrialEuropeMedical extends AbstractGsrsEntity implements ForceUpdateDirtyMakerMixin {
     @Id
     // @GeneratedValue(strategy = GenerationType.AUTO)
     @SequenceGenerator(name="cteumcSeq", sequenceName="CTRIALEUMC_SQ_ID",allocationSize=1)
@@ -22,6 +27,13 @@ public class ClinicalTrialEuropeMedical extends AbstractGsrsManualDirtyEntity {
 
     @Column(name="ID")
     public int id;
+
+    @ParentReference
+    @EqualsAndHashCode.Exclude
+    @ManyToOne(cascade = CascadeType.PERSIST)
+    @JsonIgnore
+    @JoinColumn(name="TRIAL_NUMBER", nullable=false)
+    public ClinicalTrialEurope owner;
 
     @Column(name="MEDICAL_COND_INVSTGED", length=2000)
     public String medicalCondInvesigated;

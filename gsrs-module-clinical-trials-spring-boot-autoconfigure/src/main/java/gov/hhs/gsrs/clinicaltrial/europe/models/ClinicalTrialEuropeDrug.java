@@ -1,6 +1,8 @@
 package gov.hhs.gsrs.clinicaltrial.europe.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import gsrs.ForceUpdateDirtyMakerMixin;
+import gsrs.model.AbstractGsrsEntity;
 import gsrs.model.AbstractGsrsManualDirtyEntity;
 import ix.core.SingleParent;
 import ix.core.models.ParentReference;
@@ -14,7 +16,7 @@ import javax.persistence.*;
 @Entity
 @SingleParent
 @Table(name="CTRIAL_EU_DRUG")
-public class ClinicalTrialEuropeDrug extends AbstractGsrsManualDirtyEntity {
+public class ClinicalTrialEuropeDrug extends AbstractGsrsEntity implements ForceUpdateDirtyMakerMixin {
 
     @Id
     // @GeneratedValue(strategy = GenerationType.AUTO)
@@ -26,7 +28,7 @@ public class ClinicalTrialEuropeDrug extends AbstractGsrsManualDirtyEntity {
 
     @ParentReference
     @EqualsAndHashCode.Exclude
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.PERSIST)
     @JsonIgnore
     @JoinColumn(name="PRODUCT_ID", referencedColumnName="ID", nullable=false)
     public ClinicalTrialEuropeProduct owner;

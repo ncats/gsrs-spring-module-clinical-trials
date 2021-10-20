@@ -1,4 +1,6 @@
 package gov.hhs.gsrs.clinicaltrial.us.models;
+import gsrs.ForceUpdateDirtyMakerMixin;
+import gsrs.model.AbstractGsrsEntity;
 import gsrs.model.AbstractGsrsManualDirtyEntity;
 import ix.core.SingleParent;
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -12,15 +14,12 @@ import javax.persistence.*;
 @Entity
 @Table(name="ctrial_us_drug")
 @SingleParent
-
-public class ClinicalTrialUSDrug extends AbstractGsrsManualDirtyEntity {
+public class ClinicalTrialUSDrug extends AbstractGsrsEntity implements ForceUpdateDirtyMakerMixin {
 
     @Value("${mygsrs.clinicaltrial.us.substance.linking.keyType.value}")
     static String substanceKeyTypeValue;
 
     @Id
-    // @GeneratedValue(strategy = GenerationType.AUTO)
-
     @SequenceGenerator(name="ctusdrugSeq", sequenceName="CTRIALUSDRUG_SQ_ID",allocationSize=1)
     @GeneratedValue(strategy = GenerationType.AUTO, generator = "ctusdrugSeq")
 

@@ -24,7 +24,7 @@ public class GeneralTrialSetCreateDateOnCreateIfNullValidator implements Validat
     public boolean supports(ClinicalTrialUS newValue, ClinicalTrialUS oldValue, ValidatorConfig.METHOD_TYPE methodType) {
         return (methodType == ValidatorConfig.METHOD_TYPE.CREATE);
     }
-    final String createDateAutomaticallySetOnNull = "The creation date was to the current date because it was null.";
+    final String createDateAutomaticallySetOnNull = "The creation date was set to the current date because it was null.";
     @Override
     public void validate(ClinicalTrialUS objnew, ClinicalTrialUS objold, ValidatorCallback callback) {
         System.out.println("Inside TrialSetCreateDateOnCreateIfNullValidator");

@@ -24,8 +24,8 @@ public class GeneralTrialSetCreateUpdateDateOnUpdateIfNullValidator implements V
     public boolean supports(ClinicalTrialEurope newValue, ClinicalTrialEurope oldValue, ValidatorConfig.METHOD_TYPE methodType) {
         return (methodType == ValidatorConfig.METHOD_TYPE.UPDATE);
     }
-    final String createDateAutomaticallySetOnNull = "The creation date was to the current date because it was null.";
-    final String lastModifiedDateAutomaticallySetOnNull = "The update date was to the current date because it was null.";
+    final String createDateAutomaticallySetOnNull = "The creation date was set to the current date because it was null.";
+    final String lastModifiedDateAutomaticallySetOnNull = "The update date was set to the current date because it was null.";
 
     @Override
     public void validate(ClinicalTrialEurope objnew, ClinicalTrialEurope objold, ValidatorCallback callback) {

@@ -233,7 +233,7 @@ public class ClinicalTrialUS extends ClinicalTrialBase {
     @JsonIgnore
     @Indexable(facet= true, name = "Primary Completion Year")
     public String getPrimaryCompletionYear() {
-        if (this.lastUpdated!=null) {
+        if (this.primaryCompletionDate!=null) {
             return String.valueOf(TimeUtil.asLocalDate(primaryCompletionDate).getYear());
         } else {
             return "No Year";
@@ -241,9 +241,9 @@ public class ClinicalTrialUS extends ClinicalTrialBase {
     }
 
     @JsonIgnore
-    @Indexable(facet= true, name = "Primary Completion Year")
+    @Indexable(facet= true, name = "First Received Year")
     public String getFirstPostedYear() {
-        if (this.lastUpdated!=null) {
+        if (this.firstReceived!=null) {
             return String.valueOf(TimeUtil.asLocalDate(firstReceived).getYear());
         } else {
             return "No Year";
@@ -283,7 +283,7 @@ public class ClinicalTrialUS extends ClinicalTrialBase {
     }
 
     @JsonIgnore
-    @Indexable(facet= true, name = "Conditions")
+    @Indexable(suggest=true, facet=true, name="Conditions")
     public List<String> getConditionsIndexing() {
         if (this.conditions != null) {
             return Arrays.asList(this.conditions.split("\\|"));
@@ -301,7 +301,7 @@ public class ClinicalTrialUS extends ClinicalTrialBase {
     }
 
     @JsonIgnore
-    @Indexable(facet= true, name = "Sponsors")
+    @Indexable(suggest=true, facet= true, name="Sponsors")
     public List<String> getSponsorIndexing() {
         if (this.sponsor != null) {
             return Arrays.asList(this.sponsor.split("\\|"));

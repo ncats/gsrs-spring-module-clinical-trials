@@ -58,7 +58,9 @@ public class SubstanceAPIService {
         System.out.println("Inside "+ "substanceExists " + uuid);
 
         // is there a way to make this final and use property?
-        String urlTemplate1 = baseUrl +  "api/v1/substances(%s)";
+        String urlTemplate1 = baseUrl +  "api/v1/substances/%s";
+        System.out.println(urlTemplate1);
+
         Boolean exists;
         if (uuid == null) return null;
         ResponseEntity<String> response = null;
@@ -105,7 +107,7 @@ public class SubstanceAPIService {
         uuidList.add("a05ec20c-8fe2-4e02-ba7f-df69e5e30248");
         uuidList.add("ef3fc429-75a3-4691-9ccb-66715060dce8");
 
-        String urlTemplate1 = baseUrl + "ginas/app/api/v1/substances(%s)?view=internal";
+        String urlTemplate1 = baseUrl + "api/v1/substances/%s?view=internal";
         List<QuickResult> matches = new ArrayList<QuickResult>();
         for (String uuid : uuidList) {
             QuickResult qr = new QuickResult();
@@ -182,7 +184,7 @@ public class SubstanceAPIService {
 
         System.out.println("Inside "+ "getSubstanceDetailsFromUUID; uuid: " + uuid + " baseUrl:" + baseUrl );
         // is there a way to make this final and use property?
-        String urlTemplate1 = baseUrl +  "ginas/app/api/v1/substances(%s)";
+        String urlTemplate1 = baseUrl +  "api/v1/substances/%s";
         Boolean exists;
         if (uuid == null) {
             return ResponseEntity
@@ -210,7 +212,7 @@ public class SubstanceAPIService {
     public ResponseEntity<String> getSubstanceDetailsFromName(String name) {
         System.out.println("Inside "+ "getSubstanceDetailsFromName " + name);
         // is there a way to make this final and use property?
-        String urlTemplate1 = baseUrl +  "ginas/app/api/v1/substances/search?q=root_names_name:\"^%s$\"&fdim=1";
+        String urlTemplate1 = baseUrl +  "api/v1/substances/search?q=root_names_name:\"^%s$\"&fdim=1";
         Boolean exists;
         if (name == null) {
             return ResponseEntity

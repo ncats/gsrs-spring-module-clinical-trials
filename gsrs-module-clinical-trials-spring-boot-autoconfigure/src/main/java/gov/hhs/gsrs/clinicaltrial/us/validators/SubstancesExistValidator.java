@@ -42,7 +42,7 @@ public class SubstancesExistValidator implements ValidatorPlugin<ClinicalTrialUS
         if (!s) {
             for (ClinicalTrialUSDrug ctd : ctds) {
                 Boolean b = substanceAPIService.substanceExists(ctd.getSubstanceKey());
-                if (b != true)
+                if (b == null || b != true)
                     callback.addMessage(GinasProcessingMessage.ERROR_MESSAGE("Substance UUID not found"));
             }
         }

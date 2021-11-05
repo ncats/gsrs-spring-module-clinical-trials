@@ -19,7 +19,7 @@ import javax.sql.DataSource;
 @Configuration
 @Slf4j
 @ConfigurationProperties("gsrs.microservice.substances.api")
-public class ClinicalTrialGsrsRestApiConfiguration extends AbstractGsrsRestApiConfiguration {
+public class SubstancesApiConfiguration extends AbstractGsrsRestApiConfiguration {
 
 }
 

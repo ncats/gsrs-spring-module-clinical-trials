@@ -24,7 +24,6 @@ public class SubstancesExistValidator implements ValidatorPlugin<ClinicalTrialUS
     @Autowired
     private Environment env;
 
-
     @Override
     public boolean supports(ClinicalTrialUS newValue, ClinicalTrialUS oldValue, ValidatorConfig.METHOD_TYPE methodType) {
         return (methodType == ValidatorConfig.METHOD_TYPE.CREATE
@@ -41,7 +40,8 @@ public class SubstancesExistValidator implements ValidatorPlugin<ClinicalTrialUS
         System.out.println("Validating substances, boolean skip value is: " + s);
         if (!s) {
             for (ClinicalTrialUSDrug ctd : ctds) {
-                Boolean b = substanceAPIService.substanceExists(ctd.getSubstanceKey());
+                // Boolean b = substanceAPIService.substanceExists(ctd.getSubstanceKey());
+                Boolean b = substanceAPIService.substanceRestApiSubstanceExists(ctd.getSubstanceKey());
                 if (b == null || b != true)
                     callback.addMessage(GinasProcessingMessage.ERROR_MESSAGE("Substance UUID not found"));
             }

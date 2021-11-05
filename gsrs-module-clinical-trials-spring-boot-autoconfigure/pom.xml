@@ -5,21 +5,11 @@
     <parent>
         <artifactId>gsrs-module-clinical-trials</artifactId>
         <groupId>gov.nih.ncats</groupId>
-        <version>0.2.0-SNAPSHOT</version>
+        <version>0.2.1-SNAPSHOT</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>gsrs-module-clinical-trials-spring-boot-autoconfigure</artifactId>
-
-    <!--
-    <properties>
-        <maven.compiler.source>8</maven.compiler.source>
-        <maven.compiler.target>8</maven.compiler.target>
-        <java.version>1.8</java.version>
-        <gsrs.version>0.7.5-SNAPSHOT</gsrs.version>
-        <gsrs.substance.version>0.6.8-SNAPSHOT</gsrs.substance.version>
-    </properties>
-    -->
 
     <dependencies>
         <dependency>
@@ -83,6 +73,19 @@
             <artifactId>gsrs-controlled-vocabulary-api</artifactId>
             <version>${gsrs.version}</version>
         </dependency>
+
+        <dependency>
+            <groupId>gov.nih.ncats</groupId>
+            <artifactId>gsrs-module-substances-dto</artifactId>
+            <version>${gsrs.substance.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>gov.nih.ncats</groupId>
+            <artifactId>gsrs-module-substances-api</artifactId>
+            <version>${gsrs.substance.version}</version>
+        </dependency>
+
+
         <dependency>
             <groupId>gov.nih.ncats</groupId>
             <artifactId>gsrs-scheduled-tasks</artifactId>

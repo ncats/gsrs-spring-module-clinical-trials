@@ -4,6 +4,8 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ArrayNode;
+import gsrs.api.substances.SubstanceRestApi;
+import gsrs.substances.dto.SubstanceDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.env.Environment;
@@ -14,10 +16,12 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 
+import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class SubstanceAPIService {
@@ -52,10 +56,34 @@ public class SubstanceAPIService {
     @Value("${mygsrs.clinicaltrial.us.substance.linking.keyType.agencyCodeValue}")
     private String agencyCodeCodeSystemValue;
 
+    @Autowired
+    private SubstanceRestApi substanceRestApi;
+
+    public Boolean substanceRestApiSubstanceExists(String uuid) {
+        System.out.println("Inside "+ "substanceRestApiSubstanceExists " + uuid);
+        // UUID.fromString( string)
+        Boolean exists;
+
+        if (uuid == null) return null;
+        ResponseEntity<String> response = null;
+        Optional<SubstanceDTO> substanceDTO = null;
+        try {
+            substanceDTO = substanceRestApi.findByResolvedId(uuid);
+        } catch(IOException e) {
+            e.printStackTrace();
+            return null;
+        }
+        if (substanceDTO == null || !substanceDTO.isPresent()) { return null; }
+        if (substanceDTO.get().getUuid() != null) {
+            return true;
+        }
+        return null;
+    }
 
 
     public Boolean substanceExists(String uuid) {
         System.out.println("Inside "+ "substanceExists " + uuid);
+        System.out.println("Inside "+ "XXXXX" + uuid);
 
         // is there a way to make this final and use property?
         String urlTemplate1 = baseUrl +  "api/v1/substances/%s";

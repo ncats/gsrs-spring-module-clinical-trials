@@ -4,6 +4,9 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ArrayNode;
+import gsrs.api.substances.SubstanceRestApi;
+import gsrs.substances.dto.SubstanceDTO;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.env.Environment;
@@ -14,12 +17,15 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 
+import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
+@Slf4j
 public class SubstanceAPIService {
 
 
@@ -52,13 +58,40 @@ public class SubstanceAPIService {
     @Value("${mygsrs.clinicaltrial.us.substance.linking.keyType.agencyCodeValue}")
     private String agencyCodeCodeSystemValue;
 
+    @Autowired
+    private SubstanceRestApi substanceRestApi;
+
+    public Boolean substanceRestApiSubstanceExists(String uuid) {
+        System.out.println("Inside "+ "substanceRestApiSubstanceExists " + uuid);
+        // UUID.fromString( string)
+        Boolean exists;
+
+        if (uuid == null) return null;
+        ResponseEntity<String> response = null;
+        Optional<SubstanceDTO> substanceDTO = null;
+        try {
+            substanceDTO = substanceRestApi.findByResolvedId(uuid);
+        } catch(IOException e) {
+            e.printStackTrace();
+            return null;
+        }
+        if (substanceDTO == null || !substanceDTO.isPresent()) { return null; }
+        if (substanceDTO.get().getUuid() != null) {
+            return true;
+        } else {
+            log.debug("substanceDTO was not null, but could not getUuid from DTO");
+        }
+        return null;
+    }
 
 
     public Boolean substanceExists(String uuid) {
         System.out.println("Inside "+ "substanceExists " + uuid);
 
         // is there a way to make this final and use property?
-        String urlTemplate1 = baseUrl +  "api/v1/substances(%s)";
+        String urlTemplate1 = baseUrl +  "api/v1/substances/%s";
+        System.out.println(urlTemplate1);
+
         Boolean exists;
         if (uuid == null) return null;
         ResponseEntity<String> response = null;
@@ -105,7 +138,7 @@ public class SubstanceAPIService {
         uuidList.add("a05ec20c-8fe2-4e02-ba7f-df69e5e30248");
         uuidList.add("ef3fc429-75a3-4691-9ccb-66715060dce8");
 
-        String urlTemplate1 = baseUrl + "ginas/app/api/v1/substances(%s)?view=internal";
+        String urlTemplate1 = baseUrl + "api/v1/substances/%s?view=internal";
         List<QuickResult> matches = new ArrayList<QuickResult>();
         for (String uuid : uuidList) {
             QuickResult qr = new QuickResult();
@@ -182,7 +215,7 @@ public class SubstanceAPIService {
 
         System.out.println("Inside "+ "getSubstanceDetailsFromUUID; uuid: " + uuid + " baseUrl:" + baseUrl );
         // is there a way to make this final and use property?
-        String urlTemplate1 = baseUrl +  "ginas/app/api/v1/substances(%s)";
+        String urlTemplate1 = baseUrl +  "api/v1/substances/%s";
         Boolean exists;
         if (uuid == null) {
             return ResponseEntity
@@ -210,7 +243,7 @@ public class SubstanceAPIService {
     public ResponseEntity<String> getSubstanceDetailsFromName(String name) {
         System.out.println("Inside "+ "getSubstanceDetailsFromName " + name);
         // is there a way to make this final and use property?
-        String urlTemplate1 = baseUrl +  "ginas/app/api/v1/substances/search?q=root_names_name:\"^%s$\"&fdim=1";
+        String urlTemplate1 = baseUrl +  "api/v1/substances/search?q=root_names_name:\"^%s$\"&fdim=1";
         Boolean exists;
         if (name == null) {
             return ResponseEntity

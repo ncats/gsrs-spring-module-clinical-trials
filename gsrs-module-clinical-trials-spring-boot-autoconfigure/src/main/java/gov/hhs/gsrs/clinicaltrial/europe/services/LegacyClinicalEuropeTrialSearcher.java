@@ -8,7 +8,8 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class LegacyClinicalEuropeTrialSearcher extends LegacyGsrsSearchService<ClinicalTrialEurope> {
-
+    // this appears to be deprecated
+    // check if it can be deleted
     @Autowired
     public LegacyClinicalEuropeTrialSearcher(ClinicalTrialEuropeRepository repository) {
         super(ClinicalTrialEurope.class, repository);

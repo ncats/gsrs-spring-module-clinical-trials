@@ -7,6 +7,7 @@ import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import gov.hhs.gsrs.clinicaltrial.base.models.ClinicalTrialBase;
 import ix.core.models.Backup;
 import ix.core.models.Indexable;
+import ix.core.models.IndexableRoot;
 import ix.ginas.models.serialization.GsrsDateDeserializer;
 import ix.ginas.models.serialization.GsrsDateSerializer;
 import lombok.*;
@@ -22,6 +23,7 @@ import java.util.*;
 @Entity
 @AllArgsConstructor
 @Backup
+@IndexableRoot
 @SuperBuilder
 @Table(name="CTRIAL_EU")
 @JsonInclude(JsonInclude.Include.ALWAYS)

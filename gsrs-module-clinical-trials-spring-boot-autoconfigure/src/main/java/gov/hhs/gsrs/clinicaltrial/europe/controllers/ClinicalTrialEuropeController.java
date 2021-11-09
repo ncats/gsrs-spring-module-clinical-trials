@@ -56,6 +56,7 @@ public class ClinicalTrialEuropeController extends EtagLegacySearchEntityControl
     ClinicalTrialEuropeExportService clinicalTrialEuropeExportService;
 
     // experimental
+    /*
     @GetGsrsRestApiMapping("/@exp_exportToAllToJsonFile")
     public JSONObject test_exportToAllToJsonFile() {
         Map<String, String> hm = new Hashtable<String, String>();
@@ -68,6 +69,6 @@ public class ClinicalTrialEuropeController extends EtagLegacySearchEntityControl
         hm.put("two", "b");
         return new JSONObject(hm);
     }
-
+    */
 }
 

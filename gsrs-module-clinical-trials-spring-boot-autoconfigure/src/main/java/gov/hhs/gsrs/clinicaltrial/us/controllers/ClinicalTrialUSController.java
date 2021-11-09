@@ -36,18 +36,9 @@ public class ClinicalTrialUSController extends EtagLegacySearchEntityController<
 
     @PersistenceContext(unitName =  ClinicalTrialDataSourceConfig.NAME_ENTITY_MANAGER)
     private EntityManager entityManager;
-//    @Autowired
-//    private GsrsControllerConfiguration gsrsControllerConfiguration;
+
     @Autowired
     private PlatformTransactionManager transactionManager;
-//    @Autowired
-//    private ExportService exportService;
-//    @Autowired
-//    private TaskExecutor taskExecutor;
-//    @Autowired
-//    private GsrsExportConfiguration gsrsExportConfiguration;
-
-
 
     @Autowired
     private ClinicalTrialUSLegacySearchService clinicalTrialUSLegacySearchService;
@@ -87,12 +78,9 @@ public class ClinicalTrialUSController extends EtagLegacySearchEntityController<
         return stream;
     }
 
-
-
-
     // The below will be removed.
-
     // experimental
+    /*
     @GetGsrsRestApiMapping("/@exp_updateSmallSampleOfClinicalTrialUSMetaData")
     public JSONObject updateSmallSampleOfClinicalTrialUSMetaData()
     {
@@ -103,9 +91,10 @@ public class ClinicalTrialUSController extends EtagLegacySearchEntityController<
         hm.put("two", "b");
         return new JSONObject(hm);
     }
-
+    */
 
     // experimental
+    /*
     @GetGsrsRestApiMapping("/@exp_updateAllClinicalTrialUSMetaData")
     public JSONObject updateAllClinicalTrialUSMetaData()
     {
@@ -117,35 +106,6 @@ public class ClinicalTrialUSController extends EtagLegacySearchEntityController<
         hm.put("two", "b");
         return new JSONObject(hm);
     }
+    */
 
-    // experimental
-    @GetGsrsRestApiMapping("/@exp_testlog")
-    public JSONObject testlog()
-    {   log.debug("I am a log entry");
-        System.out.println("Running testlog");
-        Map<String, String> hm = new Hashtable<String, String>();
-        hm.put("one", "a");
-        hm.put("two", "b");
-        return new JSONObject(hm);
-    }
-
-    // experimental
-    @GetGsrsRestApiMapping("/@exp_testSubstanceExists/{uuid}")
-    public JSONObject testSubstanceExists(@PathVariable String uuid) {
-        System.out.println("checking if substance exists");
-        Boolean b = substanceAPIService.substanceExists(uuid);
-        System.out.println("value returned = "+ b);
-        Map<String, String> hm = new Hashtable<String, String>();
-        hm.put("one", "a");
-        hm.put("two", "b");
-        return new JSONObject(hm);
-    }
-
-    // experimental
-
-    @GetGsrsRestApiMapping("/@exp_testSubstanceQuickMatches")
-    public ResponseEntity<?> testSubstanceQuickMatches()  {
-        System.out.println("getting substance substanceQuickMatches");
-        return substanceAPIService.getQuickResultMatchesByUuids();
-    }
 }

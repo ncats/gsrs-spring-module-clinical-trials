@@ -1,8 +1,6 @@
 # gsrs-spring-module-clinical-trials 
 
-## Development branch is most active 
-
-At this point please consider the Master branch the latest code.
+At this point please use the master branch for production.
 
     git clone --branch master  https://github.com/ncats/gsrs-spring-module-clinical-trials.git
 

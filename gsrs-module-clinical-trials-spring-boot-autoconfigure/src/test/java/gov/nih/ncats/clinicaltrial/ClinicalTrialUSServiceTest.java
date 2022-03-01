@@ -5,6 +5,7 @@ import gov.hhs.gsrs.clinicaltrial.us.repositories.ClinicalTrialUSRepository;
 import gov.hhs.gsrs.clinicaltrial.us.services.ClinicalTrialUSEntityService;
 import gsrs.startertests.GsrsEntityTestConfiguration;
 import gsrs.startertests.GsrsJpaTest;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.io.TempDir;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -31,7 +32,7 @@ import static gsrs.assertions.GsrsMatchers.*;
 import static org.hamcrest.MatcherAssert.*;
 import static org.junit.jupiter.api.Assertions.*;
 
-
+@Disabled
 @ActiveProfiles("test")
 @GsrsJpaTest(classes = { GsrsSpringApplication.class, GsrsControllerConfiguration.class, GsrsEntityTestConfiguration.class, ClinicalTrialUSRepository.class})
 @Import({ClinicalTrialUS.class, ClinicalTrialUSEntityService.class})

@@ -12,6 +12,7 @@ import gsrs.startertests.GsrsEntityTestConfiguration;
 import gsrs.startertests.GsrsJpaTest;
 import gsrs.startertests.jupiter.AbstractGsrsJpaEntityJunit5Test;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.RegisterExtension;
 import org.junit.jupiter.api.io.TempDir;
@@ -27,7 +28,7 @@ import java.util.Date;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
 
-
+@Disabled
 @ActiveProfiles("test")
 @GsrsJpaTest(classes = { GsrsSpringApplication.class, GsrsControllerConfiguration.class, GsrsEntityTestConfiguration.class, ClinicalTrialUSRepository.class})
 @Import({ClinicalTrialUS.class, ClinicalTrialUSEntityService.class, ClinicalTrialUSMetaUpdaterService.class})

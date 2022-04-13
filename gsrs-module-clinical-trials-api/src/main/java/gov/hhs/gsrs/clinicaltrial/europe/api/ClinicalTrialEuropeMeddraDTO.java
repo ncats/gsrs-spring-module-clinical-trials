@@ -1,10 +1,16 @@
 package gov.hhs.gsrs.clinicaltrial.europe.api;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import ix.core.models.ParentReference;
-import lombok.EqualsAndHashCode;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.experimental.SuperBuilder;
 
-import javax.persistence.*;
+@Data
+@SuperBuilder
+@NoArgsConstructor
+@AllArgsConstructor
+@JsonIgnoreProperties(ignoreUnknown = true)
 
 public class ClinicalTrialEuropeMeddraDTO {
 

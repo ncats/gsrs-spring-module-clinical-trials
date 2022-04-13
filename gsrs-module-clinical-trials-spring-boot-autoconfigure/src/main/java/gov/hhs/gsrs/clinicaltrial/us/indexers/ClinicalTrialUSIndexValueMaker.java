@@ -6,8 +6,6 @@ import ix.core.search.text.IndexableValue;
 import org.springframework.stereotype.Component;
 
 import java.util.function.Consumer;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 @Component
 public class ClinicalTrialUSIndexValueMaker implements IndexValueMaker<ClinicalTrialUS> {
@@ -18,14 +16,8 @@ public class ClinicalTrialUSIndexValueMaker implements IndexValueMaker<ClinicalT
 
     @Override
     public void createIndexableValues(ClinicalTrialUS clinicalTrialUS, Consumer<IndexableValue> consumer) {
-        String conditions = clinicalTrialUS.getConditions();
-        if(conditions ==null){
-            return;
-        }
-        Matcher matcher = covid19Pattern.matcher(conditions);
-        if(matcher.find()){
-            conditions = conditions.replace("-","");
-            consumer.accept(IndexableValue.simpleFacetStringValue("conditions.covid19Pattern", conditions));
+        if(clinicalTrialUS.getTrialNumber()!=null){
+            consumer.accept(IndexableValue.simpleFacetStringValue("root_trialNumber", clinicalTrialUS.getTrialNumber()));
         }
     }
 }

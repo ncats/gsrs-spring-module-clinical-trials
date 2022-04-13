@@ -10,8 +10,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 @Component
-public class ClinicalTrialConditionsIndexValueMaker implements IndexValueMaker<ClinicalTrialUS> {
-    private static final Pattern covid19Pattern = Pattern.compile("covid19|SARSCoV2", Pattern.CASE_INSENSITIVE);
+public class ClinicalTrialUSIndexValueMaker implements IndexValueMaker<ClinicalTrialUS> {
     @Override
     public Class<ClinicalTrialUS> getIndexedEntityClass() {
         return ClinicalTrialUS.class;

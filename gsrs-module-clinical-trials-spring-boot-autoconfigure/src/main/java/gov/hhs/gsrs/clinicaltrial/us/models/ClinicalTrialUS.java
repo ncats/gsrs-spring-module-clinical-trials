@@ -95,7 +95,7 @@ public class ClinicalTrialUS extends ClinicalTrialBase {
     public String acronym;
 
     @Column(name = "STATUS", length=500)
-    @Indexable(name="Trial Status")
+    @Indexable(name="Trial Status", facet=true)
     public String status;
 
     @Column(name = "START_DATE")

@@ -34,7 +34,13 @@ import gov.nih.ncats.common.util.TimeUtil;
 @Table(name="ctrial_us")
 @EqualsAndHashCode(exclude="clinicalTrialUSDrug")
 public class ClinicalTrialUS extends ClinicalTrialBase {
-
+    /*
+    To do
+    done: Try to fix the ID thing to work in-situ if possible. Probably add a getter with a special @Indexable() annotation.
+    Make a specific IVM for all the convenience facets, remove the logic from the model.
+    done: Make a specific IVM for the entity links.
+    Make the entity link IVM use a SubstanceKeyResolver once that's available
+    */
     // see base class for basic fields
     public ClinicalTrialUS() {
         this.setKind("US");
@@ -89,6 +95,7 @@ public class ClinicalTrialUS extends ClinicalTrialBase {
     public String acronym;
 
     @Column(name = "STATUS", length=500)
+    @Indexable(name="Trial Status", facet=true)
     public String status;
 
     @Column(name = "START_DATE")
@@ -186,7 +193,7 @@ public class ClinicalTrialUS extends ClinicalTrialBase {
     }
 
 
-
+    @Indexable()
     public String getTrialNumber() {
         return this.trialNumber;
     }

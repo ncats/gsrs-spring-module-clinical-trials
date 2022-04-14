@@ -10,7 +10,7 @@
 
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>gsrs-module-clinical-trials-api</artifactId>
+    <artifactId>clinical-trials-api</artifactId>
 
     <dependencies>
         <dependency>

@@ -1,4 +1,4 @@
-package gov.hhs.gsrs.clinicaltrial.us.api;
+package gov.hhs.gsrs.clinicaltrial.europe.api;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.AfterEach;
@@ -11,15 +11,17 @@ import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.client.MockRestServiceServer;
+
 import java.io.IOException;
 
-import static org.springframework.test.web.client.match.MockRestRequestMatchers.*;
-import static org.springframework.test.web.client.response.MockRestResponseCreators.*;
-
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.springframework.test.web.client.match.MockRestRequestMatchers.requestTo;
+import static org.springframework.test.web.client.response.MockRestResponseCreators.withServerError;
+import static org.springframework.test.web.client.response.MockRestResponseCreators.withSuccess;
 //@SpringBootTest
-@RestClientTest(ClinicalTrialUSApi.class)
-public class ClinicalTrialUSApiTest {
+@RestClientTest(ClinicalTrialsEuropeApi.class)
+public class ClinicalTrialsEuropeApiTest {
 
     @Autowired
     private MockRestServiceServer mockRestServiceServer;
@@ -31,13 +33,13 @@ public class ClinicalTrialUSApiTest {
     RestTemplateBuilder restTemplateBuilder;
 
     @Autowired
-    private ClinicalTrialUSApi api;
+    private ClinicalTrialsEuropeApi api;
 
     @TestConfiguration
     static class Testconfig{
         @Bean
-        public ClinicalTrialUSApi clinicalTrialUSApi(RestTemplateBuilder restTemplateBuilder){
-            return new ClinicalTrialUSApi(restTemplateBuilder, "http://example.com", new ObjectMapper());
+        public ClinicalTrialsEuropeApi clinicalTrialsEuropeApi(RestTemplateBuilder restTemplateBuilder){
+            return new ClinicalTrialsEuropeApi(restTemplateBuilder, "http://example.com", new ObjectMapper());
         }
     }
 
@@ -54,7 +56,7 @@ public class ClinicalTrialUSApiTest {
     @Test
     public void count() throws IOException {
         this.mockRestServiceServer
-                .expect(requestTo("/api/v1/clinicaltrialsus/@count"))
+                .expect(requestTo("/api/v1/clinicaltrialseurope/@count"))
                 .andRespond(withSuccess("5", MediaType.APPLICATION_JSON));
 
         assertEquals(5L, api.count());
@@ -62,7 +64,7 @@ public class ClinicalTrialUSApiTest {
     @Test
     public void count0() throws IOException {
         this.mockRestServiceServer
-                .expect(requestTo("/api/v1/clinicaltrialsus/@count"))
+                .expect(requestTo("/api/v1/clinicaltrialseurope/@count"))
                 .andRespond(withSuccess("0", MediaType.APPLICATION_JSON));
 
         assertEquals(0L, api.count());
@@ -70,7 +72,7 @@ public class ClinicalTrialUSApiTest {
     @Test
     public void countError(){
         this.mockRestServiceServer
-                .expect(requestTo("/api/v1/clinicaltrialsus/@count"))
+                .expect(requestTo("/api/v1/clinicaltrialseurope/@count"))
                 .andRespond(withServerError());
         boolean exThrown = false;
         assertThrows(IOException.class,()-> api.count());

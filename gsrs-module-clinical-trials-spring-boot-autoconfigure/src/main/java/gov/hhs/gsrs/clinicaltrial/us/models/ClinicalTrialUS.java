@@ -36,9 +36,9 @@ import gov.nih.ncats.common.util.TimeUtil;
 public class ClinicalTrialUS extends ClinicalTrialBase {
     /*
     To do
-    Try to fix the ID thing to work in-situ if possible. Probably add a getter with a special @Indexable() annotation.
+    done: Try to fix the ID thing to work in-situ if possible. Probably add a getter with a special @Indexable() annotation.
     Make a specific IVM for all the convenience facets, remove the logic from the model.
-    Make a specific IVM for the entity links.
+    done: Make a specific IVM for the entity links.
     Make the entity link IVM use a SubstanceKeyResolver once that's available
     */
     // see base class for basic fields

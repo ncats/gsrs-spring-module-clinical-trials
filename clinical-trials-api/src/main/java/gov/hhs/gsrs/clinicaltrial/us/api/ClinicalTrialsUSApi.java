@@ -5,8 +5,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import gsrs.api.AbstractLegacySearchGsrsEntityRestTemplate;
 import org.springframework.boot.web.client.RestTemplateBuilder;
 
-public class ClinicalTrialUSApi extends AbstractLegacySearchGsrsEntityRestTemplate<ClinicalTrialUSDTO, String> {
-    public ClinicalTrialUSApi(RestTemplateBuilder restTemplateBuilder, String baseUrl, ObjectMapper mapper) {
+public class ClinicalTrialsUSApi extends AbstractLegacySearchGsrsEntityRestTemplate<ClinicalTrialUSDTO, String> {
+    public ClinicalTrialsUSApi(RestTemplateBuilder restTemplateBuilder, String baseUrl, ObjectMapper mapper) {
         super(restTemplateBuilder, baseUrl, "clinicaltrialsus", mapper);
     }
 

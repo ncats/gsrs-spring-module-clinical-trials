@@ -193,7 +193,7 @@ public class ClinicalTrialUS extends ClinicalTrialBase {
     }
 
 
-    @Indexable()
+    @Indexable(sortable = true)
     public String getTrialNumber() {
         return this.trialNumber;
     }

@@ -11,8 +11,6 @@ import java.util.Collections;
 import java.util.LinkedHashSet;
 import java.util.Set;
 
-;
-
 public class ClinicalTrialUSExporterFactory implements ExporterFactory {
 
 /*
@@ -37,7 +35,7 @@ public class ClinicalTrialUSExporterFactory implements ExporterFactory {
         return params.getFormat() instanceof SpreadsheetFormat;
     }
 */
-    OutputFormat format = new OutputFormat("ctxlsx", "Spreadsheet File");
+    OutputFormat format = new OutputFormat("xlsx", "Spreadsheet File");
 
     @Override
     public boolean supports(Parameters params) {

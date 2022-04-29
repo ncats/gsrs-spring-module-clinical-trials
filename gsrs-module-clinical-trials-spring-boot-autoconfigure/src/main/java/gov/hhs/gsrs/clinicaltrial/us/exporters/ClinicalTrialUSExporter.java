@@ -37,8 +37,6 @@ public class ClinicalTrialUSExporter implements Exporter<ClinicalTrialUS> {
     @Override
     public void export(ClinicalTrialUS s) throws IOException {
         Spreadsheet.SpreadsheetRow row = spreadsheet.getRow( this.row++);
-        System.out.println("==== Inside export  ====");
-
         int j=0;
         for(ColumnValueRecipe<ClinicalTrialUS> recipe : recipeMap){
             j+= recipe.writeValuesFor(row, j, s);
@@ -62,7 +60,6 @@ public class ClinicalTrialUSExporter implements Exporter<ClinicalTrialUS> {
         }));
 
         DEFAULT_RECIPE_MAP.put(ClinicalTrialUSDefaultColumns.TITLE, SingleColumnValueRecipe.create( ClinicalTrialUSDefaultColumns.TITLE ,(s, cell) ->{
-            System.out.println("DEFAULT_RECIPE_MAP TITLE: " + s.getTitle());
             cell.writeString(s.getTitle());
         }));
 

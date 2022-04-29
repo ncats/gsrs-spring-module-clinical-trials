@@ -2,14 +2,20 @@ package gov.hhs.gsrs.clinicaltrial.us.exporters;
 
 import gov.hhs.gsrs.clinicaltrial.us.models.ClinicalTrialUS;
 import gov.hhs.gsrs.clinicaltrial.us.models.ClinicalTrialUSDrug;
+import gsrs.api.substances.SubstanceRestApi;
+import gsrs.substances.dto.NameDTO;
+import gsrs.substances.dto.SubstanceDTO;
 import ix.ginas.exporters.*;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.io.IOException;
 import java.util.*;
 
+
 enum ClinicalTrialUSDefaultColumns implements Column {
 	TRIAL_NUMBER,
 	TITLE,
+    SUBSTANCE_NAME,
 	SUBSTANCE_KEY,
     CONDITIONS,
     SPONSOR_NAME,
@@ -17,6 +23,9 @@ enum ClinicalTrialUSDefaultColumns implements Column {
 }
 
 public class ClinicalTrialUSExporter implements Exporter<ClinicalTrialUS> {
+
+    @Autowired
+    private static SubstanceRestApi substanceRestApi;
 
     private final Spreadsheet spreadsheet;
 
@@ -37,7 +46,6 @@ public class ClinicalTrialUSExporter implements Exporter<ClinicalTrialUS> {
     @Override
     public void export(ClinicalTrialUS s) throws IOException {
         Spreadsheet.SpreadsheetRow row = spreadsheet.getRow( this.row++);
-        System.out.println("==== Inside export  ====");
 
         int j=0;
         for(ColumnValueRecipe<ClinicalTrialUS> recipe : recipeMap){
@@ -62,8 +70,12 @@ public class ClinicalTrialUSExporter implements Exporter<ClinicalTrialUS> {
         }));
 
         DEFAULT_RECIPE_MAP.put(ClinicalTrialUSDefaultColumns.TITLE, SingleColumnValueRecipe.create( ClinicalTrialUSDefaultColumns.TITLE ,(s, cell) ->{
-            System.out.println("DEFAULT_RECIPE_MAP TITLE: " + s.getTitle());
             cell.writeString(s.getTitle());
+        }));
+
+        DEFAULT_RECIPE_MAP.put(ClinicalTrialUSDefaultColumns.SUBSTANCE_NAME, SingleColumnValueRecipe.create( ClinicalTrialUSDefaultColumns.SUBSTANCE_NAME ,(s, cell) ->{
+            StringBuilder sb = getSubstanceDetails(s, ClinicalTrialUSDefaultColumns.SUBSTANCE_NAME);
+            cell.writeString(sb.toString());
         }));
 
         DEFAULT_RECIPE_MAP.put(ClinicalTrialUSDefaultColumns.SUBSTANCE_KEY, SingleColumnValueRecipe.create( ClinicalTrialUSDefaultColumns.SUBSTANCE_KEY ,(s, cell) ->{
@@ -96,10 +108,35 @@ public class ClinicalTrialUSExporter implements Exporter<ClinicalTrialUS> {
                     sb.append("|");
                 }
                 switch (fieldName) {
+                    case SUBSTANCE_NAME:
+                        Optional<SubstanceDTO> substanceDTO = null;
+                        try {
+                            substanceDTO = substanceRestApi.findByResolvedId(ctd.getSubstanceKey());
+                            if(substanceDTO.isPresent()) {
+                                List<NameDTO> names = substanceDTO.get().getNames();
+                                    String   .getDisplayName();
+                                        String name = nameDTO.get().;
+                                    }
+
+
+                                String name = substanceDTO.get().getPreferredName().get().getName();
+                                sb.append((name != null) ?  : "(Exception)");
+
+
+                            }
+
+                        } catch(IOException e) {
+
+                        }
+
+
+                        sb.append((ctd.getSubstanceKey() != null) ? ctd.getSubstanceKey() : "(No SubstanceKey)");
+                        break;
                     case SUBSTANCE_KEY:
                         sb.append((ctd.getSubstanceKey() != null) ? ctd.getSubstanceKey() : "(No SubstanceKey)");
                         break;
-                        default: break;
+                    default:
+                        break;
                 }
             }
         }

@@ -3,10 +3,11 @@ package gov.hhs.gsrs.clinicaltrial.us.exporters;
 import gov.hhs.gsrs.clinicaltrial.us.models.ClinicalTrialUS;
 import gov.hhs.gsrs.clinicaltrial.us.models.ClinicalTrialUSDrug;
 import gsrs.api.substances.SubstanceRestApi;
+import gsrs.substances.dto.LazyFetchedCollection;
 import gsrs.substances.dto.NameDTO;
 import gsrs.substances.dto.SubstanceDTO;
 import ix.ginas.exporters.*;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.extern.slf4j.Slf4j;
 
 import java.io.IOException;
 import java.util.*;
@@ -21,10 +22,9 @@ enum ClinicalTrialUSDefaultColumns implements Column {
     SPONSOR_NAME,
     OUTCOME_MEASURES
 }
-
+@Slf4j
 public class ClinicalTrialUSExporter implements Exporter<ClinicalTrialUS> {
 
-    @Autowired
     private static SubstanceRestApi substanceRestApi;
 
     private final Spreadsheet spreadsheet;
@@ -33,7 +33,8 @@ public class ClinicalTrialUSExporter implements Exporter<ClinicalTrialUS> {
 
     private final List<ColumnValueRecipe<ClinicalTrialUS>> recipeMap;
 
-    private ClinicalTrialUSExporter(Builder builder){
+    private ClinicalTrialUSExporter(Builder builder, SubstanceRestApi substanceRestApi){
+        this.substanceRestApi = substanceRestApi;
         this.spreadsheet = builder.spreadsheet;
         this.recipeMap = builder.columns;
         
@@ -101,7 +102,7 @@ public class ClinicalTrialUSExporter implements Exporter<ClinicalTrialUS> {
     private static StringBuilder getSubstanceDetails(ClinicalTrialUS s, ClinicalTrialUSDefaultColumns fieldName) {
         StringBuilder sb = new StringBuilder();
 
-        if(s.getClinicalTrialUSDrug().size() > 0){
+        if(s.getClinicalTrialUSDrug() !=null && !s.getClinicalTrialUSDrug().isEmpty()){
 
             for(ClinicalTrialUSDrug ctd : s.getClinicalTrialUSDrug()){
                 if(sb.length()!=0) {
@@ -109,28 +110,27 @@ public class ClinicalTrialUSExporter implements Exporter<ClinicalTrialUS> {
                 }
                 switch (fieldName) {
                     case SUBSTANCE_NAME:
-                        Optional<SubstanceDTO> substanceDTO = null;
+                        // Maybe explore making a map of substances uuid to name for all substances in trials and
+                        // only get the substance if it's not been mapped.
+                        // SubstanceRestApi should also have a simple method to get the Name where displayName=true
                         try {
-                            substanceDTO = substanceRestApi.findByResolvedId(ctd.getSubstanceKey());
-                            if(substanceDTO.isPresent()) {
-                                List<NameDTO> names = substanceDTO.get().getNames();
-                                    String   .getDisplayName();
-                                        String name = nameDTO.get().;
-                                    }
-
-
-                                String name = substanceDTO.get().getPreferredName().get().getName();
-                                sb.append((name != null) ?  : "(Exception)");
-
-
+                            Optional<List<NameDTO>> namesDTO = substanceRestApi.getNamesOfSubstance(ctd.getSubstanceKey());
+                            if(namesDTO.isPresent()) {
+                                String value = namesDTO.get().stream().filter(n ->
+                                    // Pretty sure there is a coding error in the NameDTO object, displayName should be boolean not String.
+                                    (n.getDisplayName()!=null && n.getDisplayName()=="true") ? true: false
+                                )
+                                        .map(n -> n.getName()).findAny()
+                                        .orElse("(No Display Name)");
+                                sb.append(value);
+                            } else {
+                                sb.append("(Names Object Not Present)");
                             }
-
-                        } catch(IOException e) {
-
+                        // Should we be using throwable; Danny suggested that in other cases?
+                        } catch(Throwable e) {
+                            sb.append("(Exception Getting Name)");
+                            log.warn("Exception Getting Name in Clinical Trial US export.", e);
                         }
-
-
-                        sb.append((ctd.getSubstanceKey() != null) ? ctd.getSubstanceKey() : "(No SubstanceKey)");
                         break;
                     case SUBSTANCE_KEY:
                         sb.append((ctd.getSubstanceKey() != null) ? ctd.getSubstanceKey() : "(No SubstanceKey)");
@@ -199,8 +199,9 @@ public class ClinicalTrialUSExporter implements Exporter<ClinicalTrialUS> {
             return this;
         }
 
-        public ClinicalTrialUSExporter build(){
-            return new ClinicalTrialUSExporter(this);
+        public ClinicalTrialUSExporter build(SubstanceRestApi substanceRestApi){
+
+            return new ClinicalTrialUSExporter(this, substanceRestApi);
         }
 
         public Builder includePublicDataOnly(boolean publicOnly){

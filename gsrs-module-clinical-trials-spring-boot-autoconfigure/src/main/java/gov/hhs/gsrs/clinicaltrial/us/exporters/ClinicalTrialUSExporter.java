@@ -2,21 +2,30 @@ package gov.hhs.gsrs.clinicaltrial.us.exporters;
 
 import gov.hhs.gsrs.clinicaltrial.us.models.ClinicalTrialUS;
 import gov.hhs.gsrs.clinicaltrial.us.models.ClinicalTrialUSDrug;
+import gsrs.api.substances.SubstanceRestApi;
+import gsrs.substances.dto.LazyFetchedCollection;
+import gsrs.substances.dto.NameDTO;
+import gsrs.substances.dto.SubstanceDTO;
 import ix.ginas.exporters.*;
+import lombok.extern.slf4j.Slf4j;
 
 import java.io.IOException;
 import java.util.*;
 
+
 enum ClinicalTrialUSDefaultColumns implements Column {
 	TRIAL_NUMBER,
 	TITLE,
+    SUBSTANCE_NAME,
 	SUBSTANCE_KEY,
     CONDITIONS,
     SPONSOR_NAME,
     OUTCOME_MEASURES
 }
-
+@Slf4j
 public class ClinicalTrialUSExporter implements Exporter<ClinicalTrialUS> {
+
+    private static SubstanceRestApi substanceRestApi;
 
     private final Spreadsheet spreadsheet;
 
@@ -24,7 +33,8 @@ public class ClinicalTrialUSExporter implements Exporter<ClinicalTrialUS> {
 
     private final List<ColumnValueRecipe<ClinicalTrialUS>> recipeMap;
 
-    private ClinicalTrialUSExporter(Builder builder){
+    private ClinicalTrialUSExporter(Builder builder, SubstanceRestApi substanceRestApi){
+        this.substanceRestApi = substanceRestApi;
         this.spreadsheet = builder.spreadsheet;
         this.recipeMap = builder.columns;
         
@@ -37,6 +47,7 @@ public class ClinicalTrialUSExporter implements Exporter<ClinicalTrialUS> {
     @Override
     public void export(ClinicalTrialUS s) throws IOException {
         Spreadsheet.SpreadsheetRow row = spreadsheet.getRow( this.row++);
+
         int j=0;
         for(ColumnValueRecipe<ClinicalTrialUS> recipe : recipeMap){
             j+= recipe.writeValuesFor(row, j, s);
@@ -63,6 +74,11 @@ public class ClinicalTrialUSExporter implements Exporter<ClinicalTrialUS> {
             cell.writeString(s.getTitle());
         }));
 
+        DEFAULT_RECIPE_MAP.put(ClinicalTrialUSDefaultColumns.SUBSTANCE_NAME, SingleColumnValueRecipe.create( ClinicalTrialUSDefaultColumns.SUBSTANCE_NAME ,(s, cell) ->{
+            StringBuilder sb = getSubstanceDetails(s, ClinicalTrialUSDefaultColumns.SUBSTANCE_NAME);
+            cell.writeString(sb.toString());
+        }));
+
         DEFAULT_RECIPE_MAP.put(ClinicalTrialUSDefaultColumns.SUBSTANCE_KEY, SingleColumnValueRecipe.create( ClinicalTrialUSDefaultColumns.SUBSTANCE_KEY ,(s, cell) ->{
             StringBuilder sb = getSubstanceDetails(s, ClinicalTrialUSDefaultColumns.SUBSTANCE_KEY);
             cell.writeString(sb.toString());
@@ -86,17 +102,38 @@ public class ClinicalTrialUSExporter implements Exporter<ClinicalTrialUS> {
     private static StringBuilder getSubstanceDetails(ClinicalTrialUS s, ClinicalTrialUSDefaultColumns fieldName) {
         StringBuilder sb = new StringBuilder();
 
-        if(s.getClinicalTrialUSDrug().size() > 0){
+        if(s.getClinicalTrialUSDrug() !=null && !s.getClinicalTrialUSDrug().isEmpty()){
 
             for(ClinicalTrialUSDrug ctd : s.getClinicalTrialUSDrug()){
                 if(sb.length()!=0) {
                     sb.append("|");
                 }
                 switch (fieldName) {
+                    case SUBSTANCE_NAME:
+                        try {
+                            Optional<List<NameDTO>> namesDTO = substanceRestApi.getNamesOfSubstance(ctd.getSubstanceKey());
+                            if(namesDTO.isPresent()) {
+                                String value = namesDTO.get().stream().filter(n ->
+                                    // Pretty sure there is a coding error in the NameDTO object, displayName should be boolean not String.
+                                    (n.getDisplayName()!=null && n.getDisplayName()=="true") ? true: false
+                                )
+                                        .map(n -> n.getName()).findAny()
+                                        .orElse("(No Display Name)");
+                                sb.append(value);
+                            } else {
+                                sb.append("(Names Object Not Present)");
+                            }
+                        // Should we be using throwable; Danny suggested that in other cases?
+                        } catch(Exception e) {
+                            sb.append("(Exception Getting Name)");
+                            log.warn("Exception Getting Name in Clinical Trial US export.", e);
+                        }
+                        break;
                     case SUBSTANCE_KEY:
                         sb.append((ctd.getSubstanceKey() != null) ? ctd.getSubstanceKey() : "(No SubstanceKey)");
                         break;
-                        default: break;
+                    default:
+                        break;
                 }
             }
         }
@@ -159,8 +196,9 @@ public class ClinicalTrialUSExporter implements Exporter<ClinicalTrialUS> {
             return this;
         }
 
-        public ClinicalTrialUSExporter build(){
-            return new ClinicalTrialUSExporter(this);
+        public ClinicalTrialUSExporter build(SubstanceRestApi substanceRestApi){
+
+            return new ClinicalTrialUSExporter(this, substanceRestApi);
         }
 
         public Builder includePublicDataOnly(boolean publicOnly){

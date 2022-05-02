@@ -110,9 +110,6 @@ public class ClinicalTrialUSExporter implements Exporter<ClinicalTrialUS> {
                 }
                 switch (fieldName) {
                     case SUBSTANCE_NAME:
-                        // Maybe explore making a map of substances uuid to name for all substances in trials and
-                        // only get the substance if it's not been mapped.
-                        // SubstanceRestApi should also have a simple method to get the Name where displayName=true
                         try {
                             Optional<List<NameDTO>> namesDTO = substanceRestApi.getNamesOfSubstance(ctd.getSubstanceKey());
                             if(namesDTO.isPresent()) {
@@ -127,7 +124,7 @@ public class ClinicalTrialUSExporter implements Exporter<ClinicalTrialUS> {
                                 sb.append("(Names Object Not Present)");
                             }
                         // Should we be using throwable; Danny suggested that in other cases?
-                        } catch(Throwable e) {
+                        } catch(Exception e) {
                             sb.append("(Exception Getting Name)");
                             log.warn("Exception Getting Name in Clinical Trial US export.", e);
                         }

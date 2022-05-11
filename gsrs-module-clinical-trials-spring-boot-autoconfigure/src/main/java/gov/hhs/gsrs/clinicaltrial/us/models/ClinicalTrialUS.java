@@ -2,8 +2,6 @@ package gov.hhs.gsrs.clinicaltrial.us.models;
 
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import gsrs.ForceUpdateDirtyMakerMixin;
-import gsrs.MixinUtil;
 import ix.core.models.Backup;
 import ix.core.models.Indexable;
 import gov.hhs.gsrs.clinicaltrial.base.models.ClinicalTrialBase;
@@ -17,11 +15,8 @@ import org.hibernate.annotations.LazyCollectionOption;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import javax.persistence.*;
 import java.util.*;
-
-import gov.nih.ncats.common.util.TimeUtil;
 
 @Data
 @Entity
@@ -37,7 +32,7 @@ public class ClinicalTrialUS extends ClinicalTrialBase {
     /*
     To do
     done: Try to fix the ID thing to work in-situ if possible. Probably add a getter with a special @Indexable() annotation.
-    Make a specific IVM for all the convenience facets, remove the logic from the model.
+    done: Make a specific IVM for all the convenience facets, remove the logic from the model.
     done: Make a specific IVM for the entity links.
     Make the entity link IVM use a SubstanceKeyResolver once that's available
     */
@@ -198,152 +193,10 @@ public class ClinicalTrialUS extends ClinicalTrialBase {
         return this.trialNumber;
     }
 
-    // ******
-
-    // TODO ... move all these things to index value maker
-
     @JsonIgnore
     @Indexable(facet=true, name="Deprecated")
     public String getDeprecated(){
         return "Not Deprecated";
     }
-
-    @JsonIgnore
-    @Indexable(facet= true, name = "CT Matching Complete")
-    public String getCTMatchingComplete() {
-        if (this.gsrsMatchingComplete == true) {
-            return "Complete";
-        } else {
-            return "Not complete";
-        }
-    }
-
-    @JsonIgnore
-    @Indexable(facet= true, name = "Has Substances")
-    public String getHasSubstances() {
-        if (this.clinicalTrialUSDrug != null && !this.clinicalTrialUSDrug.isEmpty()) {
-            return "Has Substances";
-        }
-        return "No Substances";
-    }
-
-    @JsonIgnore
-    @Indexable(facet= true, name = "Last Updated Year")
-    public String getLastUpdatedYear() {
-        if (this.lastUpdated!=null) {
-            return String.valueOf(TimeUtil.asLocalDate(lastUpdated).getYear());
-        } else {
-            return "No Year";
-        }
-    }
-
-    @JsonIgnore
-    @Indexable(facet= true, name = "Primary Completion Year")
-    public String getPrimaryCompletionYear() {
-        if (this.primaryCompletionDate!=null) {
-            return String.valueOf(TimeUtil.asLocalDate(primaryCompletionDate).getYear());
-        } else {
-            return "No Year";
-        }
-    }
-
-    @JsonIgnore
-    @Indexable(facet= true, name = "First Received Year")
-    public String getFirstPostedYear() {
-        if (this.firstReceived!=null) {
-            return String.valueOf(TimeUtil.asLocalDate(firstReceived).getYear());
-        } else {
-            return "No Year";
-        }
-    }
-
-    @JsonIgnore
-    @Indexable(facet= true, name = "Intervention Type")
-    public List<String> getInterventionTypeIndexing() {
-        if (this.intervention != null) {
-            HashMap m = new HashMap<String,Boolean>();
-            for (String i: Arrays.asList(this.intervention.split("\\|"))) {
-                if(i.startsWith("Drug:")) {
-                    m.put("Drug", true);
-                } else if(i.startsWith("Combination Product:")) {
-                    m.put("Combination Product", true);
-                } else if(i.startsWith("Procedure:")) {
-                    m.put("Procedure", true);
-                } else if(i.startsWith("Biological:")) {
-                    m.put("Behavioral", true);
-                } else if(i.startsWith("Other:")) {
-                    m.put("Other", true);
-                } else if(i.startsWith("Device:")) {
-                    m.put("Device", true);
-                } else if(i.startsWith("Dietary Supplement:")) {
-                    m.put("Dietary Supplement", true);
-                } else {
-                    m.put("Not-classified", true);
-                }
-            }
-            List<String> keys = new ArrayList<String>(m.keySet());
-            if(keys!=null) {
-                return keys;
-            }
-        }
-        return null;
-    }
-
-    @JsonIgnore
-    @Indexable(suggest=true, facet=true, name="Conditions")
-    public List<String> getConditionsIndexing() {
-        if (this.conditions != null) {
-            return Arrays.asList(this.conditions.split("\\|"));
-        }
-        return new ArrayList<String>();
-    }
-
-    @JsonIgnore
-    @Indexable(facet= true, name = "Interventions")
-    public List<String> getInterventionIndexing() {
-        if (this.intervention != null) {
-            return Arrays.asList(this.intervention.split("\\|"));
-        }
-        return new ArrayList<String>();
-    }
-
-    @JsonIgnore
-    @Indexable(suggest=true, facet= true, name="Sponsors")
-    public List<String> getSponsorIndexing() {
-        if (this.sponsor != null) {
-            return Arrays.asList(this.sponsor.split("\\|"));
-        }
-        return new ArrayList<String>();
-    }
-
-    @JsonIgnore
-    @Indexable(facet= true, name = "Age Groups")
-    public List<String> getAgeGroupIndexing() {
-        if (this.ageGroups != null) {
-            return Arrays.asList(this.ageGroups.split("\\|"));
-        }
-        return new ArrayList<String>();
-    }
-
-    @JsonIgnore
-    @Indexable(facet= true, name = "Outcome Measures")
-    public List<String> getOutcomeMeasureIndexing() {
-        if (this.outcomeMeasures != null) {
-            return Arrays.asList(this.outcomeMeasures.split("\\|"));
-        }
-        return new ArrayList<String>();
-    }
-
-    @JsonIgnore
-    @Indexable(facet= true, name = "Study Types")
-    public List<String> getStudyTypesIndexing() {
-        if (this.studyTypes != null) {
-            return Arrays.asList(this.studyTypes.split("\\|"));
-        }
-        return new ArrayList<String>();
-    }
-    // ******  end
-
-
 
 }

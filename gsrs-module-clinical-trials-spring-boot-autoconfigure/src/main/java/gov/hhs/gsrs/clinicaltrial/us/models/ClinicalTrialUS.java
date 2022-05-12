@@ -2,16 +2,16 @@ package gov.hhs.gsrs.clinicaltrial.us.models;
 
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import ix.core.models.Backup;
-import ix.core.models.Indexable;
+import gsrs.security.GsrsSecurityUtils;
+import ix.core.models.*;
 import gov.hhs.gsrs.clinicaltrial.base.models.ClinicalTrialBase;
-import ix.core.models.IndexableRoot;
 import ix.ginas.models.serialization.GsrsDateDeserializer;
 import ix.ginas.models.serialization.GsrsDateSerializer;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
 import org.hibernate.annotations.LazyCollection;
 import org.hibernate.annotations.LazyCollectionOption;
+import org.springframework.data.annotation.CreatedBy;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -187,7 +187,6 @@ public class ClinicalTrialUS extends ClinicalTrialBase {
         return this.creationDate;
     }
 
-
     @Indexable(sortable = true)
     public String getTrialNumber() {
         return this.trialNumber;
@@ -198,5 +197,47 @@ public class ClinicalTrialUS extends ClinicalTrialBase {
     public String getDeprecated(){
         return "Not Deprecated";
     }
+
+
+    // I want to make this reusable. How?
+    @Indexable(facet = true, name = "Record Created By")
+    @Column(name = "CREATED_BY")
+    private String createdBy;
+
+    @Indexable(facet = true, name = "Record Last Edited By")
+    @Column(name = "MODIFIED_BY")
+    private String modifiedBy;
+
+    @PrePersist
+    public void prePersist() {
+        try {
+            UserProfile profile = (UserProfile) GsrsSecurityUtils.getCurrentUser();
+            if (profile != null) {
+                Principal p = profile.user;
+                if (p != null) {
+                    this.createdBy = p.username;
+                    this.modifiedBy = p.username;
+                }
+            }
+        }catch (Exception ex) {
+            ex.printStackTrace();
+        }
+    }
+
+    @PreUpdate
+    public void preUpdate() {
+        try {
+            UserProfile profile = (UserProfile) GsrsSecurityUtils.getCurrentUser();
+            if (profile != null) {
+                Principal p = profile.user;
+                if (p != null) {
+                    this.modifiedBy = p.username;
+                }
+            }
+        }catch (Exception ex) {
+            ex.printStackTrace();
+        }
+    }
+
 
 }

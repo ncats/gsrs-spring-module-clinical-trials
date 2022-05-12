@@ -28,11 +28,7 @@ public class GeneralTrialOnCreateValidator implements ValidatorPlugin<ClinicalTr
 
     @Override
     public void validate(ClinicalTrialUS objnew, ClinicalTrialUS objold, ValidatorCallback callback) {
-        System.out.println("Inside OnCreateValidator");
-
         String trialNumber = objnew.getTrialNumber();
-        System.out.println("Trial number: " + trialNumber);
-
         if(trialNumber==null) {
             callback.addMessage(GinasProcessingMessage.ERROR_MESSAGE(String.format(trialNumberNullErrorTemplate)));
         }
@@ -40,8 +36,6 @@ public class GeneralTrialOnCreateValidator implements ValidatorPlugin<ClinicalTr
         if(!formatOK) {
             callback.addMessage(GinasProcessingMessage.ERROR_MESSAGE(String.format(badlyFormattedTrialNumberTemplate, trialNumber)));
         }
-        System.out.println("Checking that trial doesn't already exists");
-
         Optional<ClinicalTrialUS> found = repository.findById(objnew.getTrialNumber());
         if(found.isPresent()) {
             callback.addMessage(GinasProcessingMessage.ERROR_MESSAGE(String.format(trialNumberAlreadyExistsErrorTemplate, trialNumber)));

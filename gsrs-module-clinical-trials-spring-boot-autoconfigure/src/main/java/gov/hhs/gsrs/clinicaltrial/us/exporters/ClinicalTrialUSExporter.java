@@ -114,8 +114,7 @@ public class ClinicalTrialUSExporter implements Exporter<ClinicalTrialUS> {
                             Optional<List<NameDTO>> namesDTO = substanceRestApi.getNamesOfSubstance(ctd.getSubstanceKey());
                             if(namesDTO.isPresent()) {
                                 String value = namesDTO.get().stream().filter(n ->
-                                    // Pretty sure there is a coding error in the NameDTO object, displayName should be boolean not String.
-                                    (n.getDisplayName()!=null && n.getDisplayName()=="true") ? true: false
+                                    (n.isDisplayName())
                                 )
                                         .map(n -> n.getName()).findAny()
                                         .orElse("(No Display Name)");

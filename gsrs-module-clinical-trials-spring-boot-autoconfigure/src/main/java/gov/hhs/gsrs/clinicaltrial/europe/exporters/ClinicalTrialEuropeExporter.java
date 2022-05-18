@@ -134,11 +134,10 @@ public class ClinicalTrialEuropeExporter implements Exporter<ClinicalTrialEurope
                                 Optional<List<NameDTO>> namesDTO = substanceRestApi.getNamesOfSubstance(ctd.getSubstanceKey());
                                 if (namesDTO.isPresent()) {
                                     String value = namesDTO.get().stream().filter(n -> {
-                                        System.out.println("===> n.getStdName(): "+ n.getStdName());
-                                                    return (n.isDisplayName());
-                                            })
-                                            .map(n -> n.getName()).findAny()
-                                            .orElse("(No Display Name)");
+                                            return (n.isDisplayName());
+                                    })
+                                    .map(n -> n.getName()).findAny()
+                                    .orElse("(No Display Name)");
                                     sb.append(value);
                                 } else {
                                     sb.append("(Names Object Not Present)");

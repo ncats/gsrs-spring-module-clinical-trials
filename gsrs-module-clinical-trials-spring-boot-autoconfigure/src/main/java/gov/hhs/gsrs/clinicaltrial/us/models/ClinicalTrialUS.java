@@ -9,6 +9,7 @@ import ix.ginas.models.serialization.GsrsDateDeserializer;
 import ix.ginas.models.serialization.GsrsDateSerializer;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
+import lombok.extern.slf4j.Slf4j;
 import org.hibernate.annotations.LazyCollection;
 import org.hibernate.annotations.LazyCollectionOption;
 import org.springframework.data.annotation.CreatedBy;
@@ -28,14 +29,14 @@ import java.util.*;
 @IndexableRoot
 @Table(name="ctrial_us")
 @EqualsAndHashCode(exclude="clinicalTrialUSDrug")
+@Slf4j
 public class ClinicalTrialUS extends ClinicalTrialBase {
     /*
     To do
-    done: Try to fix the ID thing to work in-situ if possible. Probably add a getter with a special @Indexable() annotation.
-    done: Make a specific IVM for all the convenience facets, remove the logic from the model.
-    done: Make a specific IVM for the entity links.
     Make the entity link IVM use a SubstanceKeyResolver once that's available
     */
+
+
     // see base class for basic fields
     public ClinicalTrialUS() {
         this.setKind("US");
@@ -116,10 +117,6 @@ public class ClinicalTrialUS extends ClinicalTrialBase {
 
     @Column(name = "LOCATIONS", length=4000)
     public String locations;
-    // had to add orphan removal or would not delete.
-    // long term should find a better solution.
-    //  orphanRemoval = true
-    // after wip_changes trying without
     @OneToMany(mappedBy = "owner", cascade = CascadeType.ALL, fetch= FetchType.LAZY)
     // had to add this or I got circular references when string building.
     @ToString.Exclude
@@ -128,23 +125,10 @@ public class ClinicalTrialUS extends ClinicalTrialBase {
 
     public void setClinicalTrialUSDrug(List<ClinicalTrialUSDrug> clinicalTrialUSDrugs) {
         System.out.println("Running setClinicalTrialUSDrug");
-        // System.out.println("HERE1");
         this.clinicalTrialUSDrug = clinicalTrialUSDrugs;
-        // System.out.println("HERE2");
         if(clinicalTrialUSDrugs !=null) {
-            // System.out.println("HERE3");
-            for ( ClinicalTrialUSDrug ctd : clinicalTrialUSDrugs)
-            {
-                // System.out.println("HERE4" + ctd.getSubstanceKeyType());
-                // System.out.println("this.getClass" + this.getClass());
-                // System.out.println("this.title" + this.getTitle());
-                // System.out.println("this.trialNumber" + this.getTrialNumber());
-                // System.out.println("this.toString" + this.toString());
+            for ( ClinicalTrialUSDrug ctd : clinicalTrialUSDrugs) {
                 ctd.setOwner(this);
-                // System.out.println("HERE5");
-                // ctd.setIsDirty("clinicalTrialDrug");
-                // ctd.setIsDirty("substanceKey");
-
             }
         }
         System.out.println("Finished setClinicalTrialUSDrug");
@@ -160,14 +144,12 @@ public class ClinicalTrialUS extends ClinicalTrialBase {
     @Indexable( name = "Last Modified Date", sortable=true)
     public Date lastModifiedDate;
 
-    // this added during a debugging session could prob be removed.
+    // try to remove
     public void setLastModifiedDate(Date lastModifiedDate) {
-        System.out.println("==== LAST MODIFIED DATE ====" + lastModifiedDate.toString());
         this.lastModifiedDate = lastModifiedDate;
-
     }
 
-    // this added during a debugging session could prob be removed.
+    // try to remove
     public Date getLastModifiedDate() {
         return this.lastModifiedDate;
     }
@@ -220,7 +202,7 @@ public class ClinicalTrialUS extends ClinicalTrialBase {
                 }
             }
         }catch (Exception ex) {
-            ex.printStackTrace();
+            log.error("Exception while setting user in prePersist.", ex);
         }
     }
 
@@ -235,9 +217,7 @@ public class ClinicalTrialUS extends ClinicalTrialBase {
                 }
             }
         }catch (Exception ex) {
-            ex.printStackTrace();
+            log.error("Exception while setting user in preUpdate.", ex);
         }
     }
-
-
 }

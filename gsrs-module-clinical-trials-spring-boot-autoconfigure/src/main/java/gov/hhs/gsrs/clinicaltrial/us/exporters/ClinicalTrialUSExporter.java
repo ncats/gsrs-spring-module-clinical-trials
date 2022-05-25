@@ -13,17 +13,19 @@ import java.io.IOException;
 import java.util.*;
 
 
-enum ClinicalTrialUSDefaultColumns implements Column {
-	TRIAL_NUMBER,
-	TITLE,
-    SUBSTANCE_NAME,
-	SUBSTANCE_KEY,
-    CONDITIONS,
-    SPONSOR_NAME,
-    OUTCOME_MEASURES
-}
+
 @Slf4j
 public class ClinicalTrialUSExporter implements Exporter<ClinicalTrialUS> {
+
+    enum ClinicalTrialUSDefaultColumns implements Column {
+        TRIAL_NUMBER,
+        TITLE,
+        SUBSTANCE_NAME,
+        SUBSTANCE_KEY,
+        CONDITIONS,
+        SPONSOR_NAME,
+        OUTCOME_MEASURES
+    }
 
     private static SubstanceRestApi substanceRestApi;
 

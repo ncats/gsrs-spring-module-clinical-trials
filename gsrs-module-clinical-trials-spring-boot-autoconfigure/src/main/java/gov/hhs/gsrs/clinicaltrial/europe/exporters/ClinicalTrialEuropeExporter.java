@@ -12,18 +12,18 @@ import lombok.extern.slf4j.Slf4j;
 import java.io.IOException;
 import java.util.*;
 
-
-enum ClinicalTrialEuropeDefaultColumns implements Column {
-	TRIAL_NUMBER,
-	TITLE,
-    SUBSTANCE_NAME,
-	SUBSTANCE_KEY,
-    CONDITIONS,
-    SPONSOR_NAME,
-    RESULTS
-}
 @Slf4j
 public class ClinicalTrialEuropeExporter implements Exporter<ClinicalTrialEurope> {
+
+    enum ClinicalTrialEuropeDefaultColumns implements Column {
+        TRIAL_NUMBER,
+        TITLE,
+        SUBSTANCE_NAME,
+        SUBSTANCE_KEY,
+        CONDITIONS,
+        SPONSOR_NAME,
+        RESULTS
+    }
 
     private static SubstanceRestApi substanceRestApi;
 

@@ -5,6 +5,8 @@ import gov.hhs.gsrs.clinicaltrial.europe.models.ClinicalTrialEuropeDrug;
 import gov.hhs.gsrs.clinicaltrial.europe.models.ClinicalTrialEuropeMeddra;
 import gov.hhs.gsrs.clinicaltrial.europe.models.ClinicalTrialEuropeProduct;
 import gsrs.api.substances.SubstanceRestApi;
+import gsrs.cache.GsrsCache;
+import gsrs.springUtils.StaticContextAccessor;
 import gsrs.substances.dto.NameDTO;
 import ix.ginas.exporters.*;
 import lombok.extern.slf4j.Slf4j;
@@ -19,13 +21,13 @@ public class ClinicalTrialEuropeExporter implements Exporter<ClinicalTrialEurope
         TRIAL_NUMBER,
         TITLE,
         SUBSTANCE_NAME,
-        SUBSTANCE_KEY,
+        SUBSTANCE_UUID,
         CONDITIONS,
         SPONSOR_NAME,
         RESULTS
     }
 
-    private static SubstanceRestApi substanceRestApi;
+    private static SubstanceRestApi staticSubstanceRestApi;
 
     private final Spreadsheet spreadsheet;
 
@@ -33,8 +35,14 @@ public class ClinicalTrialEuropeExporter implements Exporter<ClinicalTrialEurope
 
     private final List<ColumnValueRecipe<ClinicalTrialEurope>> recipeMap;
 
+    private static GsrsCache gsrsCache;
+
     private ClinicalTrialEuropeExporter(Builder builder, SubstanceRestApi substanceRestApi){
-        this.substanceRestApi = substanceRestApi;
+
+        if(staticSubstanceRestApi ==null){
+            staticSubstanceRestApi = substanceRestApi;
+        }
+
         this.spreadsheet = builder.spreadsheet;
         this.recipeMap = builder.columns;
         
@@ -79,8 +87,8 @@ public class ClinicalTrialEuropeExporter implements Exporter<ClinicalTrialEurope
             cell.writeString(sb.toString());
         }));
 
-        DEFAULT_RECIPE_MAP.put(ClinicalTrialEuropeDefaultColumns.SUBSTANCE_KEY, SingleColumnValueRecipe.create( ClinicalTrialEuropeDefaultColumns.SUBSTANCE_KEY ,(s, cell) ->{
-            StringBuilder sb = getSubstanceDetails(s, ClinicalTrialEuropeDefaultColumns.SUBSTANCE_KEY);
+        DEFAULT_RECIPE_MAP.put(ClinicalTrialEuropeDefaultColumns.SUBSTANCE_UUID, SingleColumnValueRecipe.create( ClinicalTrialEuropeDefaultColumns.SUBSTANCE_UUID ,(s, cell) ->{
+            StringBuilder sb = getSubstanceDetails(s, ClinicalTrialEuropeDefaultColumns.SUBSTANCE_UUID);
             cell.writeString(sb.toString());
         }));
 
@@ -130,24 +138,29 @@ public class ClinicalTrialEuropeExporter implements Exporter<ClinicalTrialEurope
                     }
                     switch (fieldName) {
                         case SUBSTANCE_NAME:
+                            if(gsrsCache==null){
+                                gsrsCache  = StaticContextAccessor.getBean(GsrsCache.class);
+                            }
                             try {
-                                Optional<List<NameDTO>> namesDTO = substanceRestApi.getNamesOfSubstance(ctd.getSubstanceKey());
-                                if (namesDTO.isPresent()) {
-                                    String value = namesDTO.get().stream().filter(n -> {
-                                            return (n.isDisplayName());
-                                    })
-                                    .map(n -> n.getName()).findAny()
-                                    .orElse("(No Display Name)");
-                                    sb.append(value);
-                                } else {
-                                    sb.append("(Names Object Not Present)");
-                                }
+                                String nm = gsrsCache.getOrElse("CTEUEXPSKEY:" + ctd.getSubstanceKey(), ()->{
+                                    Optional<List<NameDTO>> namesDTO = staticSubstanceRestApi.getNamesOfSubstance(ctd.getSubstanceKey());
+                                    if (namesDTO.isPresent()) {
+                                        return namesDTO.get().stream().filter(n -> {
+                                                    return (n.isDisplayName());
+                                                })
+                                                .map(n -> n.getName()).findAny()
+                                                .orElse("(No Display Name)");
+                                    } else {
+                                        return "(Names Object Not Present)";
+                                    }
+                                });
+                                sb.append(nm);
                             } catch (Exception e) {
                                 sb.append("(Exception Getting Name)");
                                 log.warn("Exception Getting Name in Clinical Trial Europe export.", e);
                             }
                             break;
-                        case SUBSTANCE_KEY:
+                        case SUBSTANCE_UUID:
                             sb.append((ctd.getSubstanceKey() != null) ? ctd.getSubstanceKey() : "(No SubstanceKey)");
                             break;
                         default:
@@ -158,7 +171,6 @@ public class ClinicalTrialEuropeExporter implements Exporter<ClinicalTrialEurope
         }
         return sb;
     }
-
 
     /**
      * Builder class that makes a SpreadsheetExporter.  By default, the default columns are used
@@ -224,6 +236,5 @@ public class ClinicalTrialEuropeExporter implements Exporter<ClinicalTrialEurope
             this.publicOnly = publicOnly;
             return this;
         }
-
     }
 }

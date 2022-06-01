@@ -12,7 +12,6 @@ import lombok.experimental.SuperBuilder;
 import lombok.extern.slf4j.Slf4j;
 import org.hibernate.annotations.LazyCollection;
 import org.hibernate.annotations.LazyCollectionOption;
-import org.springframework.data.annotation.CreatedBy;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -95,21 +94,27 @@ public class ClinicalTrialUS extends ClinicalTrialBase {
     public String status;
 
     @Column(name = "START_DATE")
+    @Indexable(name = "Start Date at Source", sortable=true)
     public Date startDate;
 
     @Column(name = "LAST_VERIFIED")
+    @Indexable(name = "Last Verified Date at Source", sortable=true)
     public Date lastVerified;
 
     @Column(name = "COMPLETION_DATE")
+    @Indexable(name = "Completion Date at Source", sortable=true)
     public Date completionDate;
 
     @Column(name = "PRIMARY_COMPLETION_DATE")
+    @Indexable(name = "Primary Completion Date at Source", sortable=true)
     public Date primaryCompletionDate;
 
     @Column(name = "FIRST_RECEIVED")
+    @Indexable(name = "First Received Date at Source", sortable=true)
     public Date firstReceived;
 
     @Column(name = "LAST_UPDATED")
+    @Indexable(name = "Last Updated at Source", sortable=true)
     public Date lastUpdated;
 
     @Column(name = "OUTCOME_MEASURES", length=4000)

@@ -3,6 +3,8 @@ package gov.hhs.gsrs.clinicaltrial.us.exporters;
 import gov.hhs.gsrs.clinicaltrial.us.models.ClinicalTrialUS;
 import gov.hhs.gsrs.clinicaltrial.us.models.ClinicalTrialUSDrug;
 import gsrs.api.substances.SubstanceRestApi;
+import gsrs.cache.GsrsCache;
+import gsrs.springUtils.StaticContextAccessor;
 import gsrs.substances.dto.LazyFetchedCollection;
 import gsrs.substances.dto.NameDTO;
 import gsrs.substances.dto.SubstanceDTO;
@@ -21,13 +23,13 @@ public class ClinicalTrialUSExporter implements Exporter<ClinicalTrialUS> {
         TRIAL_NUMBER,
         TITLE,
         SUBSTANCE_NAME,
-        SUBSTANCE_KEY,
+        SUBSTANCE_UUID,
         CONDITIONS,
         SPONSOR_NAME,
         OUTCOME_MEASURES
     }
 
-    private static SubstanceRestApi substanceRestApi;
+    private static SubstanceRestApi staticSubstanceRestApi;
 
     private final Spreadsheet spreadsheet;
 
@@ -35,8 +37,14 @@ public class ClinicalTrialUSExporter implements Exporter<ClinicalTrialUS> {
 
     private final List<ColumnValueRecipe<ClinicalTrialUS>> recipeMap;
 
+    private static GsrsCache gsrsCache;
+
     private ClinicalTrialUSExporter(Builder builder, SubstanceRestApi substanceRestApi){
-        this.substanceRestApi = substanceRestApi;
+
+        if(staticSubstanceRestApi ==null){
+            staticSubstanceRestApi = substanceRestApi;
+        }
+
         this.spreadsheet = builder.spreadsheet;
         this.recipeMap = builder.columns;
         
@@ -81,8 +89,8 @@ public class ClinicalTrialUSExporter implements Exporter<ClinicalTrialUS> {
             cell.writeString(sb.toString());
         }));
 
-        DEFAULT_RECIPE_MAP.put(ClinicalTrialUSDefaultColumns.SUBSTANCE_KEY, SingleColumnValueRecipe.create( ClinicalTrialUSDefaultColumns.SUBSTANCE_KEY ,(s, cell) ->{
-            StringBuilder sb = getSubstanceDetails(s, ClinicalTrialUSDefaultColumns.SUBSTANCE_KEY);
+        DEFAULT_RECIPE_MAP.put(ClinicalTrialUSDefaultColumns.SUBSTANCE_UUID, SingleColumnValueRecipe.create( ClinicalTrialUSDefaultColumns.SUBSTANCE_UUID ,(s, cell) ->{
+            StringBuilder sb = getSubstanceDetails(s, ClinicalTrialUSDefaultColumns.SUBSTANCE_UUID);
             cell.writeString(sb.toString());
         }));
 
@@ -93,7 +101,6 @@ public class ClinicalTrialUSExporter implements Exporter<ClinicalTrialUS> {
         DEFAULT_RECIPE_MAP.put(ClinicalTrialUSDefaultColumns.SPONSOR_NAME, SingleColumnValueRecipe.create( ClinicalTrialUSDefaultColumns.SPONSOR_NAME ,(s, cell) ->{
             cell.writeString(s.getSponsor());
         }));
-
 
         DEFAULT_RECIPE_MAP.put(ClinicalTrialUSDefaultColumns.OUTCOME_MEASURES, SingleColumnValueRecipe.create( ClinicalTrialUSDefaultColumns.OUTCOME_MEASURES ,(s, cell) ->{
             cell.writeString(s.getOutcomeMeasures());
@@ -112,25 +119,29 @@ public class ClinicalTrialUSExporter implements Exporter<ClinicalTrialUS> {
                 }
                 switch (fieldName) {
                     case SUBSTANCE_NAME:
+                        if(gsrsCache==null){
+                            gsrsCache  = StaticContextAccessor.getBean(GsrsCache.class);
+                        }
                         try {
-                            Optional<List<NameDTO>> namesDTO = substanceRestApi.getNamesOfSubstance(ctd.getSubstanceKey());
-                            if(namesDTO.isPresent()) {
-                                String value = namesDTO.get().stream().filter(n ->
-                                    (n.isDisplayName())
-                                )
-                                        .map(n -> n.getName()).findAny()
-                                        .orElse("(No Display Name)");
-                                sb.append(value);
-                            } else {
-                                sb.append("(Names Object Not Present)");
-                            }
-                        // Should we be using throwable; Danny suggested that in other cases?
-                        } catch(Exception e) {
+                            String nm = gsrsCache.getOrElse("CTUSEXPSKEY:" + ctd.getSubstanceKey(), ()->{
+                                Optional<List<NameDTO>> namesDTO = staticSubstanceRestApi.getNamesOfSubstance(ctd.getSubstanceKey());
+                                if (namesDTO.isPresent()) {
+                                    return namesDTO.get().stream().filter(n -> {
+                                                return (n.isDisplayName());
+                                            })
+                                            .map(n -> n.getName()).findAny()
+                                            .orElse("(No Display Name)");
+                                } else {
+                                    return "(Names Object Not Present)";
+                                }
+                            });
+                            sb.append(nm);
+                        } catch (Exception e) {
                             sb.append("(Exception Getting Name)");
-                            log.warn("Exception Getting Name in Clinical Trial US export.", e);
+                            log.warn("Exception Getting Name in Clinical Trial Europe export.", e);
                         }
                         break;
-                    case SUBSTANCE_KEY:
+                    case SUBSTANCE_UUID:
                         sb.append((ctd.getSubstanceKey() != null) ? ctd.getSubstanceKey() : "(No SubstanceKey)");
                         break;
                     default:

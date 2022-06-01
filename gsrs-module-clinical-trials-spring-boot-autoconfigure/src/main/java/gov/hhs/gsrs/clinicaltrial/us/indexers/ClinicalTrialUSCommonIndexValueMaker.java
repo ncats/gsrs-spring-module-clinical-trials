@@ -5,10 +5,8 @@ import gov.nih.ncats.common.util.TimeUtil;
 import ix.core.search.text.IndexValueMaker;
 import ix.core.search.text.IndexableValue;
 import org.springframework.stereotype.Component;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
+
+import java.util.*;
 import java.util.function.Consumer;
 
 @Component
@@ -48,7 +46,7 @@ public class ClinicalTrialUSCommonIndexValueMaker implements IndexValueMaker<Cli
         }
 
         if (clinicalTrialUS.lastUpdated!=null) {
-            consumer.accept(IndexableValue.simpleFacetStringValue("Last Updated Year", String.valueOf(TimeUtil.asLocalDate(clinicalTrialUS.lastUpdated).getYear())));
+                consumer.accept(IndexableValue.simpleFacetStringValue("Last Updated Year", String.valueOf(TimeUtil.asLocalDate(clinicalTrialUS.lastUpdated).getYear())));
         } else {
             consumer.accept(IndexableValue.simpleFacetStringValue("Last Updated Year", "No Year"));
         }
@@ -67,7 +65,7 @@ public class ClinicalTrialUSCommonIndexValueMaker implements IndexValueMaker<Cli
             consumer.accept(IndexableValue.simpleFacetStringValue("First Received Year", "No Year" ));
         }
 
-        List<String> interventionTypeValues = getInterventionTypeIndexing(clinicalTrialUS);
+        Set<String> interventionTypeValues = getInterventionTypeIndexing(clinicalTrialUS);
         if (interventionTypeValues!=null) {
             for(String interventionTypeValue: interventionTypeValues) {
                 consumer.accept(IndexableValue.simpleFacetStringValue("Intervention Type", interventionTypeValue));
@@ -112,32 +110,42 @@ public class ClinicalTrialUSCommonIndexValueMaker implements IndexValueMaker<Cli
 
     }
 
-    public List<String> getInterventionTypeIndexing(ClinicalTrialUS c) {
+    public Set<String> getInterventionTypeIndexing(ClinicalTrialUS c) {
         if (c.intervention != null) {
-            HashMap m = new HashMap<String,Boolean>();
+            Set<String> types = new HashSet<String>();
             for (String i: Arrays.asList(c.intervention.split("\\|"))) {
-                if(i.startsWith("Drug:")) {
-                    m.put("Drug", true);
-                } else if(i.startsWith("Combination Product:")) {
-                    m.put("Combination Product", true);
-                } else if(i.startsWith("Procedure:")) {
-                    m.put("Procedure", true);
-                } else if(i.startsWith("Biological:")) {
-                    m.put("Behavioral", true);
-                } else if(i.startsWith("Other:")) {
-                    m.put("Other", true);
-                } else if(i.startsWith("Device:")) {
-                    m.put("Device", true);
-                } else if(i.startsWith("Dietary Supplement:")) {
-                    m.put("Dietary Supplement", true);
-                } else {
-                    m.put("Not-classified", true);
+                String type= i.split("[:]")[0];
+                switch(type){
+                    case "Drug":
+                        types.add("Drug");
+                    break;
+                    case "Combination Product":
+                        types.add("Combination Product");
+                        break;
+                    case "Procedure":
+                        types.add("Procedure");
+                        break;
+                    case "Behavioral":
+                        types.add("Behavioral");
+                        break;
+                    case "Biological":
+                        types.add("Biological");
+                        break;
+                    case "Other":
+                        types.add("Other");
+                        break;
+                    case "Device":
+                        types.add("Device");
+                        break;
+                    case "Dietary Supplement":
+                        types.add("Dietary Supplement");
+                        break;
+                    default:
+                        types.add("Not-classified");
+                        break;
                 }
             }
-            List<String> keys = new ArrayList<String>(m.keySet());
-            if(keys!=null) {
-                return keys;
-            }
+            return types;
         }
         return null;
     }

@@ -32,6 +32,7 @@ public class GeneralTrialOnUpdateValidator implements ValidatorPlugin<ClinicalTr
     final String objnewIsNullErrorTemplate = "The new trial object is null.";
     final String trialNumberNullErrorTemplate = "Trial Number is null.";
     final String badlyFormattedTrialNumberTemplate = "Trial Number [%s] had an incorrect format.";
+    final String trialNumberShouldAlreadyExistErrorTemplate = "Trial Number [%s] SHOULD already exist.";
     final String newCreationDateNullErrorTemplate = "New Creation Date is null.";
     final String newLastModifiedDateNullErrorTemplate = "New Last Modified Date is null.";
     final String oldCreationDateNullErrorTemplate = "Old Creation Date is null.";
@@ -39,64 +40,71 @@ public class GeneralTrialOnUpdateValidator implements ValidatorPlugin<ClinicalTr
     final String newOldCreationDatesDifferentErrorTemplate = "New and old Creation Dates must be equal in record to be updated.";
     final String newOldLastModifiedDatesDifferentErrorTemplate = "New and old Last Modified Dates must be equal in record to be updated.";
 
+    // TO DO: makes this come from a configuration.
     final Pattern trialNumberPattern = Pattern.compile("^NCT[\\d]+$");
 
     @Override
     public void validate(ClinicalTrialUS objnew, ClinicalTrialUS objold, ValidatorCallback callback) {
         if (objold == null) {
             callback.addMessage(GinasProcessingMessage.ERROR_MESSAGE(String.format(objoldIsNullErrorTemplate)));
-        } else if (objnew == null) {
+            return;
+        }
+
+        if (objnew == null) {
             callback.addMessage(GinasProcessingMessage.ERROR_MESSAGE(String.format(objnewIsNullErrorTemplate)));
-        } else {
-            String trialNumber = objnew.getTrialNumber();
-            if (trialNumber == null) {
-                callback.addMessage(GinasProcessingMessage.ERROR_MESSAGE(String.format(trialNumberNullErrorTemplate)));
-            }
-            boolean formatOK = trialNumberPattern.matcher(trialNumber).matches();
+            return;
+        }
+        String trialNumber = objnew.getTrialNumber();
+        if (trialNumber == null) {
+            callback.addMessage(GinasProcessingMessage.ERROR_MESSAGE(String.format(trialNumberNullErrorTemplate)));
+            return;
+        }
+        boolean formatOK = trialNumberPattern.matcher(trialNumber).matches();
 
-            if (!formatOK) {
-                callback.addMessage(GinasProcessingMessage.ERROR_MESSAGE(String.format(badlyFormattedTrialNumberTemplate, trialNumber)));
-            }
+        if (!formatOK) {
+            callback.addMessage(GinasProcessingMessage.ERROR_MESSAGE(String.format(badlyFormattedTrialNumberTemplate, trialNumber)));
+            return;
+        }
 
-            Date newCreationDate = objnew.getCreationDate();
-            Date newLastModifiedDate = objnew.getLastModifiedDate();
-            Date oldCreationDate = objold.getCreationDate();
-            Date oldLastModifiedDate = objold.getLastModifiedDate();
+        Optional<ClinicalTrialUS> found = repository.findById(objnew.getTrialNumber());
+        if(!found.isPresent()) {
+            callback.addMessage(GinasProcessingMessage.ERROR_MESSAGE(String.format(trialNumberShouldAlreadyExistErrorTemplate, trialNumber)));
+            return;
+        }
 
-            boolean abort1 = false;
+        Date newCreationDate = objnew.getCreationDate();
+        Date newLastModifiedDate = objnew.getLastModifiedDate();
+        Date oldCreationDate = objold.getCreationDate();
+        Date oldLastModifiedDate = objold.getLastModifiedDate();
 
-            if (newCreationDate == null) {
-                abort1 = true;
-                callback.addMessage(GinasProcessingMessage.ERROR_MESSAGE(String.format(newCreationDateNullErrorTemplate)));
-            }
-            if (newLastModifiedDate == null) {
-                abort1 = true;
-                callback.addMessage(GinasProcessingMessage.ERROR_MESSAGE(String.format(newLastModifiedDateNullErrorTemplate)));
-            }
-            if (oldCreationDate == null) {
-                abort1 = true;
-                callback.addMessage(GinasProcessingMessage.ERROR_MESSAGE(String.format(oldCreationDateNullErrorTemplate)));
-            }
-            if (oldLastModifiedDate == null) {
-                abort1 = true;
-                callback.addMessage(GinasProcessingMessage.ERROR_MESSAGE(String.format(oldLastModifiedDateNullErrorTemplate)));
-            }
+       if (newCreationDate == null) {
+            callback.addMessage(GinasProcessingMessage.ERROR_MESSAGE(String.format(newCreationDateNullErrorTemplate)));
+            return;
+        }
+        if (newLastModifiedDate == null) {
+            callback.addMessage(GinasProcessingMessage.ERROR_MESSAGE(String.format(newLastModifiedDateNullErrorTemplate)));
+            return;
+        }
+        if (oldCreationDate == null) {
+            callback.addMessage(GinasProcessingMessage.ERROR_MESSAGE(String.format(oldCreationDateNullErrorTemplate)));
+            return;
+        }
+        if (oldLastModifiedDate == null) {
+            callback.addMessage(GinasProcessingMessage.ERROR_MESSAGE(String.format(oldLastModifiedDateNullErrorTemplate)));
+            return;
+        }
 
-            if (!abort1) {
-                LocalDateTime ldtc1 = TimeUtil.asLocalDateTime(newCreationDate);
-                LocalDateTime ldtc2 = TimeUtil.asLocalDateTime(oldCreationDate);
-
-                LocalDateTime ldtm1 = TimeUtil.asLocalDateTime(newLastModifiedDate);
-                LocalDateTime ldtm2 = TimeUtil.asLocalDateTime(oldLastModifiedDate);
-                boolean cmpc = ldtc1.isEqual(ldtc2);
-                boolean cmpm = ldtm1.isEqual(ldtm2);
-                if (cmpc != true) {
-                    callback.addMessage(GinasProcessingMessage.ERROR_MESSAGE(String.format(newOldCreationDatesDifferentErrorTemplate)));
-                }
-                if (cmpm != true) {
-                    callback.addMessage(GinasProcessingMessage.ERROR_MESSAGE(String.format(newOldLastModifiedDatesDifferentErrorTemplate)));
-                }
-            }
+        LocalDateTime ldtc1 = TimeUtil.asLocalDateTime(newCreationDate);
+        LocalDateTime ldtc2 = TimeUtil.asLocalDateTime(oldCreationDate);
+        LocalDateTime ldtm1 = TimeUtil.asLocalDateTime(newLastModifiedDate);
+        LocalDateTime ldtm2 = TimeUtil.asLocalDateTime(oldLastModifiedDate);
+        boolean cmpc = ldtc1.isEqual(ldtc2);
+        boolean cmpm = ldtm1.isEqual(ldtm2);
+        if (cmpc != true) {
+            callback.addMessage(GinasProcessingMessage.ERROR_MESSAGE(String.format(newOldCreationDatesDifferentErrorTemplate)));
+        }
+        if (cmpm != true) {
+            callback.addMessage(GinasProcessingMessage.ERROR_MESSAGE(String.format(newOldLastModifiedDatesDifferentErrorTemplate)));
         }
     }
 }

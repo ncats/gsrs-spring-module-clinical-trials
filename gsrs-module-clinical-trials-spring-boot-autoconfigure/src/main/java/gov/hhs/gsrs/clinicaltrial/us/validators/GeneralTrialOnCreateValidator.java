@@ -21,6 +21,7 @@ public class GeneralTrialOnCreateValidator implements ValidatorPlugin<ClinicalTr
         return (methodType == ValidatorConfig.METHOD_TYPE.CREATE);
     }
 
+    final String objnewIsNullErrorTemplate = "The new trial object is null.";
     final String trialNumberNullErrorTemplate = "Trial Number is null.";
     final String badlyFormattedTrialNumberTemplate = "Trial Number [%s] had an incorrect format.";
     final String trialNumberAlreadyExistsErrorTemplate = "Trial Number [%s] already exists";
@@ -28,23 +29,27 @@ public class GeneralTrialOnCreateValidator implements ValidatorPlugin<ClinicalTr
 
     @Override
     public void validate(ClinicalTrialUS objnew, ClinicalTrialUS objold, ValidatorCallback callback) {
-        System.out.println("Inside OnCreateValidator");
-
+        if (objnew == null) {
+            callback.addMessage(GinasProcessingMessage.ERROR_MESSAGE(String.format(objnewIsNullErrorTemplate)));
+            return;
+        }
         String trialNumber = objnew.getTrialNumber();
-        System.out.println("Trial number: " + trialNumber);
-
         if(trialNumber==null) {
             callback.addMessage(GinasProcessingMessage.ERROR_MESSAGE(String.format(trialNumberNullErrorTemplate)));
+            return;
         }
+
         boolean formatOK = trialNumberPattern.matcher(trialNumber).matches();
+
         if(!formatOK) {
             callback.addMessage(GinasProcessingMessage.ERROR_MESSAGE(String.format(badlyFormattedTrialNumberTemplate, trialNumber)));
+            return;
         }
-        System.out.println("Checking that trial doesn't already exists");
 
         Optional<ClinicalTrialUS> found = repository.findById(objnew.getTrialNumber());
         if(found.isPresent()) {
             callback.addMessage(GinasProcessingMessage.ERROR_MESSAGE(String.format(trialNumberAlreadyExistsErrorTemplate, trialNumber)));
+            return;
         }
     }
 }

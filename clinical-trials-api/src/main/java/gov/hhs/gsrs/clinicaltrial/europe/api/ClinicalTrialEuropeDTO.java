@@ -31,13 +31,14 @@ public class ClinicalTrialEuropeDTO {
     public Date ethicsComOpinionDate;
     public String country;
     public List<ClinicalTrialEuropeProductDTO> clinicalTrialEuropeProductList = new ArrayList<>();
-    // omitting medical and meddra for now because, they generate error on conversion to DTO.
+    // this seems to be resolved now.
+    // medical and meddra for now because, they generate error on conversion to DTO.
     /* java.lang.IllegalArgumentException: Unrecognized field "id" (class gov.hhs.gsrs.clinicaltrial.europe.api.ClinicalTrialEuropeMedicalDTO), not marked as ignorable (0 known properties: ])
     at [Source: UNKNOWN; line: -1, column: -1] (through reference chain: gov.hhs.gsrs.clinicaltrial.europe.api.ClinicalTrialEuropeDTO["clinicalTrialEuropeMedicalList"]->java.util.ArrayList[0]->gov.hhs.gsrs.clinicaltrial.europe.api.ClinicalTrialEuropeMedicalDTO["id"])
     at com.fasterxml.jackson.databind.ObjectMapper._convert(ObjectMapper.java:4236)
     */
-    // public List<ClinicalTrialEuropeMedicalDTO> clinicalTrialEuropeMedicalList = new ArrayList<>();
-    // public List<ClinicalTrialEuropeMeddraDTO> clinicalTrialEuropeMeddraList = new ArrayList<>();
+    public List<ClinicalTrialEuropeMedicalDTO> clinicalTrialEuropeMedicalList = new ArrayList<>();
+    public List<ClinicalTrialEuropeMeddraDTO> clinicalTrialEuropeMeddraList = new ArrayList<>();
     public Date lastModifiedDate;
     public Date creationDate;
 }

@@ -1,29 +1,17 @@
 package gov.hhs.gsrs.clinicaltrial.base.models;
 
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import gsrs.BackupEntityProcessorListener;
 import gsrs.ForceUpdateDirtyMakerMixin;
 import gsrs.GsrsEntityProcessorListener;
 import gsrs.indexer.IndexerEntityListener;
-import gsrs.model.AbstractGsrsEntity;
 import gsrs.model.AbstractGsrsTablePerClassEntity;
-import ix.core.models.Backup;
-import ix.core.models.FetchableEntity;
-import ix.core.models.ForceUpdatableModel;
-import ix.core.models.Indexable;
-import ix.ginas.models.GinasAccessControlled;
-import ix.ginas.models.serialization.GsrsDateDeserializer;
-import ix.ginas.models.serialization.GsrsDateSerializer;
+import ix.core.models.*;
 import lombok.*;
 // Simple Builder annotation won't work here.
 import lombok.experimental.SuperBuilder;
-import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
-import java.util.*;
 import javax.persistence.InheritanceType;
 
 
@@ -77,6 +65,7 @@ public abstract class ClinicalTrialBase extends
     @Version
     @Column(name = "INTERNAL_VERSION", nullable = false)
     public Long internalVersion = 1L;
+
 
 
     @Override

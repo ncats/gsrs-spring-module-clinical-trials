@@ -29,21 +29,11 @@ public class GeneralTrialSetCreateUpdateDateOnUpdateIfNullValidator implements V
 
     @Override
     public void validate(ClinicalTrialEurope objnew, ClinicalTrialEurope objold, ValidatorCallback callback) {
-        System.out.println("Inside GeneralTrialSetCreateUpdateDateOnUpdateIfNullValidator");
         if (objnew != null && objnew.getCreationDate() == null) {
             Date date1 = TimeUtil.getCurrentDate();
             objnew.setCreationDate(date1);
             callback.addMessage(GinasProcessingMessage.INFO_MESSAGE(String.format(createDateAutomaticallySetOnNull)));
         }
-        System.out.println("objold.getLastModifiedDate():" + objold.getLastModifiedDate());
-        System.out.println("objnew.getLastModifiedDate():" + objnew.getLastModifiedDate());
-
-        System.out.println("objold.lastModifiedDate:" + objold.lastModifiedDate);
-        System.out.println("objnew.lastModifiedDate:" + objnew.lastModifiedDate);
-
-        System.out.println("objold.getClass():" + objold.getClass());
-        System.out.println("objnew.getClass():" + objnew.getClass());
-
         if (objnew != null && objnew.getLastModifiedDate() == null) {
             Date date2 = TimeUtil.getCurrentDate();
             objnew.setLastModifiedDate(date2);

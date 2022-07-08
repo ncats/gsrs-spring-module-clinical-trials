@@ -123,11 +123,8 @@ public class ClinicalTrialUSEntityService extends AbstractGsrsEntityService<Clin
 
     @Override
     public ClinicalTrialUS create(ClinicalTrialUS clinicalTrialUS) {
-        System.out.println("\n\n ==== Creating  ==== XX  \n\n");
         try {
-            // System.out.println(clinicalTrial.getTrialNumber());
             ClinicalTrialUS ctus = repository.saveAndFlush(clinicalTrialUS);
-            System.out.println("\n\n ==== Created (after save and flush) ==== XX  \n\n");
             return ctus;
         } catch(Throwable t){
             t.printStackTrace();
@@ -146,7 +143,6 @@ public class ClinicalTrialUSEntityService extends AbstractGsrsEntityService<Clin
         if(id==null) {
             
         }
-        System.out.println("\n\n ==== Getting ID: " + id + " ====\n\n");
         return repository.findById(id);
     }
 

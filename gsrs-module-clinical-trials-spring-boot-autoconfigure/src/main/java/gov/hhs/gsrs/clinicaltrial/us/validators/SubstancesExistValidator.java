@@ -32,12 +32,10 @@ public class SubstancesExistValidator implements ValidatorPlugin<ClinicalTrialUS
 
     @Override
     public void validate(ClinicalTrialUS objnew, ClinicalTrialUS objold, ValidatorCallback callback) {
-        System.out.println("Validating substances");
         List<ClinicalTrialUSDrug> ctds = objnew.getClinicalTrialUSDrug();
         String skip = env.getProperty("mygsrs.clinicaltrial.us.skipSubstanceValidation");
         Boolean s = false;
         if (skip != null && skip == "true") s = true;
-        System.out.println("Validating substances, boolean skip value is: " + s);
         if (!s) {
             for (ClinicalTrialUSDrug ctd : ctds) {
                 // Boolean b = substanceAPIService.substanceExists(ctd.getSubstanceKey());

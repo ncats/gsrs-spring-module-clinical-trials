@@ -63,7 +63,6 @@ public class ClinicalTrialEuropeEntityService extends AbstractGsrsEntityService<
 
     @Override
     protected ClinicalTrialEurope update(ClinicalTrialEurope clinicalTrialEurope) {
-        System.out.println("\n\n ==== Updating ====XX  \n\n");
         return repository.saveAndFlush(clinicalTrialEurope);
     }
     @Override
@@ -106,9 +105,7 @@ public class ClinicalTrialEuropeEntityService extends AbstractGsrsEntityService<
 
     @Override
     public ClinicalTrialEurope create(ClinicalTrialEurope clinicalTrialEurope) {
-        System.out.println("\n\n ==== Creating  ==== XX  \n\n");
         try {
-            // System.out.println(clinicalTrialEurope.getTrialNumber());
             return repository.saveAndFlush(clinicalTrialEurope);
         }catch(Throwable t){
             t.printStackTrace();
@@ -126,7 +123,6 @@ public class ClinicalTrialEuropeEntityService extends AbstractGsrsEntityService<
         if(id==null) {
             
         }
-        System.out.println("\n\n ==== Getting ID: " + id + " ====\n\n");
         return repository.findById(id);
     }
 

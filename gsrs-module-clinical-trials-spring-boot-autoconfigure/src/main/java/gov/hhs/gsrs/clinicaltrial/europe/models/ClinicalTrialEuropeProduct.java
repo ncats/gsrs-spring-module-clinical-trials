@@ -71,7 +71,6 @@ public class ClinicalTrialEuropeProduct extends AbstractGsrsEntity implements Fo
     public List<ClinicalTrialEuropeDrug> clinicalTrialEuropeDrugList = new ArrayList<>();
 
     public void setClinicalTrialEuropeDrugList(List<ClinicalTrialEuropeDrug>  clinicalTrialEuropeDrugList) {
-        System.out.println("... setClinicalTrialEuropeDrugList ");
         this.clinicalTrialEuropeDrugList = clinicalTrialEuropeDrugList;
         if(clinicalTrialEuropeDrugList != null) {
             for ( ClinicalTrialEuropeDrug ctd : clinicalTrialEuropeDrugList )
@@ -79,7 +78,6 @@ public class ClinicalTrialEuropeProduct extends AbstractGsrsEntity implements Fo
                 ctd.setOwner(this);
             }
         }
-        System.out.println("... finished setClinicalTrialEuropeDrugList");
     }
 
 

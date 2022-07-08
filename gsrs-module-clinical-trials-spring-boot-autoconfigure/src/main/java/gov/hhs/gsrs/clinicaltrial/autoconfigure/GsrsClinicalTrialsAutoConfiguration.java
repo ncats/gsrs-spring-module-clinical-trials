@@ -20,7 +20,6 @@ public class GsrsClinicalTrialsAutoConfiguration {
 //    public SubstanceRestApi substanceRestApi(RestTemplateBuilder builder, SubstancesApiConfiguration substancesApiConfiguration){
 //        substancesApiConfiguration.configure(builder);
 //        SubstanceRestApi api = new SubstanceRestApi(builder, substancesApiConfiguration.getBaseURL(), mapper);
-//        System.out.println("\n\n====\n\n API IS:" + api + "\n\n====\n\n");
 //        return api;
 //    }
 

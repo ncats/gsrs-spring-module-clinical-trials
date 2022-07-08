@@ -27,7 +27,6 @@ public class GeneralTrialSetCreateDateOnCreateIfNullValidator implements Validat
     final String createDateAutomaticallySetOnNull = "The creation date was to the current date because it was null.";
     @Override
     public void validate(ClinicalTrialUS objnew, ClinicalTrialUS objold, ValidatorCallback callback) {
-        System.out.println("Inside TrialSetCreateDateOnCreateIfNullValidator");
         if (objnew != null && objnew.getCreationDate() == null) {
             Date date1 = TimeUtil.getCurrentDate();
             objnew.setCreationDate(date1);

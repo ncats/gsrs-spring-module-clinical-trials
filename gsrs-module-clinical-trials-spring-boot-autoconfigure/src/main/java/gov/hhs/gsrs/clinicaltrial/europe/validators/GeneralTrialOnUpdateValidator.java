@@ -46,7 +46,6 @@ public class GeneralTrialOnUpdateValidator implements ValidatorPlugin<ClinicalTr
 
     @Override
     public void validate(ClinicalTrialEurope objnew, ClinicalTrialEurope objold, ValidatorCallback callback) {
-        System.out.println("Inside GeneralTrialOnUpdateValidator");
 
         String trialNumber = objnew.getTrialNumber();
         if(trialNumber==null) {
@@ -56,11 +55,8 @@ public class GeneralTrialOnUpdateValidator implements ValidatorPlugin<ClinicalTr
         if(!formatOK) {
             callback.addMessage(GinasProcessingMessage.ERROR_MESSAGE(String.format(badlyFormattedTrialNumberTemplate, trialNumber)));
         }
-        System.out.println("Checking that trial already exists");
         // ask danny about this? how is objold populated.
         if(objold != null) {
-            System.out.println("Checking that trial already exists: " + objold.getTrialNumber());
-            System.out.println("Old Modified date: " + objold.getLastModifiedDate());
         }
         Optional<ClinicalTrialEurope> found = repository.findById(objnew.getTrialNumber());
         if(!found.isPresent()) {
@@ -87,11 +83,6 @@ public class GeneralTrialOnUpdateValidator implements ValidatorPlugin<ClinicalTr
             LocalDateTime ldt1 = TimeUtil.asLocalDateTime(newLastModifiedDate);
             LocalDateTime ldt2 = TimeUtil.asLocalDateTime(oldLastModifiedDate);
             boolean cmp = ldt1.isEqual(ldt2);
-            System.out.println("CMP: "+cmp);
-            System.out.println("new: "+newLastModifiedDate);
-            System.out.println("old: "+oldLastModifiedDate);
-            System.out.println("ld1: "+ldt1.toString());
-            System.out.println("ld2: "+ldt2.toString());
 
             if (cmp != true) {
                 callback.addMessage(GinasProcessingMessage.ERROR_MESSAGE(String.format(newOldLastModifiedDatesDifferentErrorTemplate)));

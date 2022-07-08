@@ -84,7 +84,6 @@ public class ClinicalTrialUSController extends EtagLegacySearchEntityController<
     @GetGsrsRestApiMapping("/@exp_updateSmallSampleOfClinicalTrialUSMetaData")
     public JSONObject updateSmallSampleOfClinicalTrialUSMetaData()
     {
-        System.out.println("Running Clinical Trials Meta Updater");
         clinicalTrialUSMetaUpdaterService.download();
         Map<String, String> hm = new Hashtable<String, String>();
         hm.put("one", "a");
@@ -98,7 +97,6 @@ public class ClinicalTrialUSController extends EtagLegacySearchEntityController<
     @GetGsrsRestApiMapping("/@exp_updateAllClinicalTrialUSMetaData")
     public JSONObject updateAllClinicalTrialUSMetaData()
     {
-        System.out.println("Running Clinical Trials Meta Updater");
         clinicalTrialUSMetaUpdaterService.download2();
 
         Map<String, String> hm = new Hashtable<String, String>();

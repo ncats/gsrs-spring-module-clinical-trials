@@ -67,14 +67,12 @@ public class SourceToTargetFieldsMapper {
                 .filter(f -> f.getAnnotation(Column.class) != null)
                 .map(f -> "\n" + f.getType() + ":" + f.getAnnotation(Column.class).name() + ":" + String.valueOf(f.getAnnotation(Column.class).length()))
                 .collect(Collectors.toList());
-        System.out.println(columns.toString());
     }
 
     public static void dumpExtendedSourceToTargetFieldsMap()  {
         LinkedHashMap<String, SourceToTargetField> map  = generateExtendedSourceToTargetFieldsMap();
         for(String key : map.keySet()) {
             SourceToTargetField sourceToTargetField = map.get(key);
-            System.out.printf("%s|%s|%s|%s\n", sourceToTargetField.sourceName, sourceToTargetField.targetName, sourceToTargetField.targetType, sourceToTargetField.targetLength);
         }
     }
 

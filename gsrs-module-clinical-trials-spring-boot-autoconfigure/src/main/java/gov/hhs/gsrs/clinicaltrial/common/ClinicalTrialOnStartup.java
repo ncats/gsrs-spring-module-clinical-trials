@@ -20,6 +20,7 @@ public class ClinicalTrialOnStartup implements WebApplicationInitializer {
 
     @Override
     public void onStartup(ServletContext servletContext) throws ServletException {
+        // servletContext.setInitParameter(spring.profiles.active", "devh2");
     }
 
     @Bean

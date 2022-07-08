@@ -78,24 +78,11 @@ public class ClinicalTrialEurope extends ClinicalTrialBase {
         public List<ClinicalTrialEuropeProduct> clinicalTrialEuropeProductList = new ArrayList<>();
 
         public void setClinicalTrialEuropeProductList(List<ClinicalTrialEuropeProduct> clinicalTrialEuropeProductList) {
-                System.out.println("... setClinicalTrialEuropeProductList");
-                System.out.println("HERE1");
                 this.clinicalTrialEuropeProductList = clinicalTrialEuropeProductList;
-                System.out.println("HERE2");
-                System.out.println("TN: "  + this.trialNumber);
                 if(clinicalTrialEuropeProductList !=null) {
-                        // System.out.println("HERE3");
                         for ( ClinicalTrialEuropeProduct ctp : clinicalTrialEuropeProductList )
                         {
-                                // System.out.println("HERE4" + ctd.getSubstanceKeyType());
                                 ctp.setOwner(this);
-                                // modified so grandchild product_id gets correctly.
-                                //     if(ctp.getClinicalTrialEuropeDrugList() != null) {
-                                //             for (ClinicalTrialEuropeDrug ctd : ctp.getClinicalTrialEuropeDrugList()) {
-                                //                     ctd.setOwner(ctp);
-                                //             }
-                                //    }
-                // System.out.println("HERE5");
                         }
                 }
                 // setIsDirty("clinicalTrialDrugEurope");
@@ -113,16 +100,13 @@ public class ClinicalTrialEurope extends ClinicalTrialBase {
         public List<ClinicalTrialEuropeMedical> clinicalTrialEuropeMedicalList = new ArrayList<>();
 
         public void setClinicalTrialEuropeMedicalList(List<ClinicalTrialEuropeMedical> clinicalTrialEuropeMedicalList) {
-                System.out.println("... setClinicalTrialEuropeMedicalList");
                 this.clinicalTrialEuropeMedicalList = clinicalTrialEuropeMedicalList;
-                System.out.println("trialNumber: "  + this.trialNumber);
                 if(clinicalTrialEuropeMedicalList !=null) {
                         for ( ClinicalTrialEuropeMedical ctp : clinicalTrialEuropeMedicalList )
                         {
                                 ctp.setOwner(this);
                         }
                 }
-                System.out.println("... finished setClinicalTrialEuropeMedicalList");
         }
 
 
@@ -132,16 +116,13 @@ public class ClinicalTrialEurope extends ClinicalTrialBase {
         public List<ClinicalTrialEuropeMeddra> clinicalTrialEuropeMeddraList = new ArrayList<>();
 
         public void setClinicalTrialEuropeMeddraList(List<ClinicalTrialEuropeMeddra> clinicalTrialEuropeMeddraList) {
-                System.out.println("... setClinicalTrialEuropeMeddraList");
                 this.clinicalTrialEuropeMeddraList = clinicalTrialEuropeMeddraList;
-                System.out.println("trialNumber: "  + this.trialNumber);
                 if(clinicalTrialEuropeMeddraList !=null) {
                         for ( ClinicalTrialEuropeMeddra ctp : clinicalTrialEuropeMeddraList )
                         {
                                 ctp.setOwner(this);
                         }
                 }
-                System.out.println("... finished setClinicalTrialEuropeMeddraList");
         }
 
 

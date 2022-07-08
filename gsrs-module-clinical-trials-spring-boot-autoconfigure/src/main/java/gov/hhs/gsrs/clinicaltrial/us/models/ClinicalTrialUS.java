@@ -129,14 +129,12 @@ public class ClinicalTrialUS extends ClinicalTrialBase {
     public List<ClinicalTrialUSDrug> clinicalTrialUSDrug = new ArrayList<ClinicalTrialUSDrug>();
 
     public void setClinicalTrialUSDrug(List<ClinicalTrialUSDrug> clinicalTrialUSDrugs) {
-        System.out.println("Running setClinicalTrialUSDrug");
         this.clinicalTrialUSDrug = clinicalTrialUSDrugs;
         if(clinicalTrialUSDrugs !=null) {
             for ( ClinicalTrialUSDrug ctd : clinicalTrialUSDrugs) {
                 ctd.setOwner(this);
             }
         }
-        System.out.println("Finished setClinicalTrialUSDrug");
     }
 
     @Column(name = "GSRS_MATCHING_COMPLETE")
@@ -166,7 +164,6 @@ public class ClinicalTrialUS extends ClinicalTrialBase {
     public Date creationDate;
 
     public void setCreationDate(Date creationDate) {
-        System.out.println("==== CREATION DATE ====" + creationDate.toString());
         this.creationDate = creationDate;
 
     }

@@ -62,7 +62,6 @@ public class SubstanceAPIService {
     private SubstanceRestApi substanceRestApi;
 
     public Boolean substanceRestApiSubstanceExists(String uuid) {
-        System.out.println("Inside "+ "substanceRestApiSubstanceExists " + uuid);
         // UUID.fromString( string)
         Boolean exists;
 
@@ -86,11 +85,9 @@ public class SubstanceAPIService {
 
 
     public Boolean substanceExists(String uuid) {
-        System.out.println("Inside "+ "substanceExists " + uuid);
 
         // is there a way to make this final and use property?
         String urlTemplate1 = baseUrl +  "api/v1/substances/%s";
-        System.out.println(urlTemplate1);
 
         Boolean exists;
         if (uuid == null) return null;
@@ -213,7 +210,6 @@ public class SubstanceAPIService {
 
     public ResponseEntity<String> getSubstanceDetailsFromUUID(String uuid) {
 
-        System.out.println("Inside "+ "getSubstanceDetailsFromUUID; uuid: " + uuid + " baseUrl:" + baseUrl );
         // is there a way to make this final and use property?
         String urlTemplate1 = baseUrl +  "api/v1/substances/%s";
         Boolean exists;
@@ -241,7 +237,6 @@ public class SubstanceAPIService {
     // actually not needed; at least GSRS public version is not giving me CORS problem
 
     public ResponseEntity<String> getSubstanceDetailsFromName(String name) {
-        System.out.println("Inside "+ "getSubstanceDetailsFromName " + name);
         // is there a way to make this final and use property?
         String urlTemplate1 = baseUrl +  "api/v1/substances/search?q=root_names_name:\"^%s$\"&fdim=1";
         Boolean exists;

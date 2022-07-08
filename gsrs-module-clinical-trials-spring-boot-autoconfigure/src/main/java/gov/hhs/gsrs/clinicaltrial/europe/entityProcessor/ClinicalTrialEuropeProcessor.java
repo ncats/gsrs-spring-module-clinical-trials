@@ -12,6 +12,5 @@ public class ClinicalTrialEuropeProcessor implements EntityProcessor<ClinicalTri
 
     @Override
     public void postLoad(ClinicalTrialEurope obj) throws FailProcessingException {
-        System.out.println("post Load ClincalTrialEurope " + obj);
     }
 }

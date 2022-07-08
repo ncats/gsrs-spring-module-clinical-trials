@@ -38,11 +38,9 @@ public class SubstancesExistValidator implements ValidatorPlugin<ClinicalTrialEu
 
     @Override
     public void validate(ClinicalTrialEurope objnew, ClinicalTrialEurope objold, ValidatorCallback callback) {
-        System.out.println("Validating substances");
         String skip = env.getProperty("mygsrs.clinicaltrial.eu.skipSubstanceValidation");
         Boolean s = false;
         if (skip != null && skip == "true") s = true;
-        System.out.println("Validating substances, boolean skip value is: " + s);
         if (!s) {
             List<ClinicalTrialEuropeProduct> products = objnew.getClinicalTrialEuropeProductList();
             for (ClinicalTrialEuropeProduct product : products) {

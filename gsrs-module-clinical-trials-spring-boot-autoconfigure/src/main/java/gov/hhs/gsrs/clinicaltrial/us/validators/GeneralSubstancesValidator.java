@@ -50,7 +50,6 @@ public class GeneralSubstancesValidator implements ValidatorPlugin<ClinicalTrial
 
     @Override
     public void validate(ClinicalTrialUS objnew, ClinicalTrialUS objold, ValidatorCallback callback) {
-        System.out.println("Inside GeneralSubstancesValidator");
         String substanceKeyTypeValue = "UUID";
         String substanceKeyPatternRegex = "^[-0-9a-f]{36}$";
         String substanceLinkingKeyTypeAgencyCode = "BDNUM";
@@ -60,7 +59,6 @@ public class GeneralSubstancesValidator implements ValidatorPlugin<ClinicalTrial
         List<ClinicalTrialUSDrug> ctds = objnew.getClinicalTrialUSDrug();
         HashMap<String, Boolean> map = new HashMap<>();
             for (ClinicalTrialUSDrug ctd : ctds) {
-                // System.out.println("Inside GeneralSubstancesValidator Loop");
 
                 String substanceKeyType = ctd.getSubstanceKeyType();
 
@@ -84,14 +82,10 @@ public class GeneralSubstancesValidator implements ValidatorPlugin<ClinicalTrial
 
                 boolean formatOK = substanceKeyPattern.matcher(substanceKey).matches();
 
-                // System.out.println("formatOK value:" + formatOK);
-
                 if(!formatOK) {
                     callback.addMessage(GinasProcessingMessage.ERROR_MESSAGE(String.format(badlyFormattedSubstanceKeyTemplate, substanceKey)));
                     continue;
                 }
-
-                System.out.println("\n\n===== Substance  key: =====\n\n" + substanceKey);
 
                 if(map.get(substanceKey)==null) {
                     map.put(substanceKey, true);

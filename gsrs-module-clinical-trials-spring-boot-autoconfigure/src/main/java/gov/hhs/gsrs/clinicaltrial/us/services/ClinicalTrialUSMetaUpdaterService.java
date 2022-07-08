@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import gov.hhs.gsrs.clinicaltrial.us.models.ClinicalTrialUS;
 import gov.hhs.gsrs.clinicaltrial.us.utils.importmapper.SourceToTargetField;
 import gov.hhs.gsrs.clinicaltrial.us.utils.importmapper.SourceToTargetFieldsMapper;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -18,6 +19,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.*;
 
 @Service
+@Slf4j
 public class ClinicalTrialUSMetaUpdaterService {
 
     @Autowired
@@ -75,7 +77,6 @@ public class ClinicalTrialUSMetaUpdaterService {
             }
 
         }
-        System.out.println("Processed rows: "+processedRows);
     }
 
 
@@ -103,7 +104,6 @@ public class ClinicalTrialUSMetaUpdaterService {
                         ctOld.get().getLastUpdated(),
                         convertDateString((String) lhm.get("Last Update Posted"))
                 );
-                System.out.println("Comparison result = " + compare);
                 if (compare.equals("DO_UPDATE") || compare.equals("DO_UPDATE_ON_DATE1_NULL")) {
                     ctNew = applyCTApiV1TsvHashMapToClinicalTrial(lhm, ctOld.orElse(null));
                     clinicalTrialUSEntityService.updateEntity(objectMapper.valueToTree(ctNew));
@@ -137,7 +137,7 @@ public class ClinicalTrialUSMetaUpdaterService {
             date = Date.from(localDate.atStartOfDay(ZoneId.systemDefault()).toInstant());
             return date;
         } catch (Exception ex) {
-            System.out.println("Date x conversion error 1 occurred. Will try strategy 2 on:" + s);
+            log.warn("Date x conversion error 1 occurred. Will try strategy 2 on:" + s);
         }
         try {
             YearMonth ym = YearMonth.parse(s, dateFormatter2);
@@ -145,7 +145,7 @@ public class ClinicalTrialUSMetaUpdaterService {
             date = Date.from(localDate.atStartOfDay(ZoneId.systemDefault()).toInstant());
             return date;
         } catch (Exception ex) {
-            System.out.println("Date conversion error 2 occurred on:" + s);
+            log.warn("Date conversion error 2 occurred on:" + s);
         }
         return null;
     }
@@ -233,8 +233,6 @@ public class ClinicalTrialUSMetaUpdaterService {
         String inputLine;
         String[] rawFields = null;
         String [] fieldNames = sourceToTargetFieldsMapper.sourceFields();
-
-        System.out.println("fieldNames.length: " + fieldNames.length);
         int c=0;
         while (true) {
             try {
@@ -253,16 +251,16 @@ public class ClinicalTrialUSMetaUpdaterService {
                     }
                     list.add(lhm);
                 } catch (IOException e) {
-                    e.printStackTrace();
+                    log.warn("Exception while parsing ct.gov record", e);
                 }
             } catch(Exception e) {
-                System.out.println(e.toString());
+                log.warn("Exception while processing ct.gov record", e);
             }
         }
         try {
             br.close();
         } catch (IOException e) {
-            e.printStackTrace();
+            log.error("Error closing ct.gov stream.", e);
         }
         return list;
     }

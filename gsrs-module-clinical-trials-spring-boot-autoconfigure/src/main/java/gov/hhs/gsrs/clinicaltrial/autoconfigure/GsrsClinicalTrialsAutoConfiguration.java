@@ -4,11 +4,13 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import gsrs.EnableGsrsApi;
 import gsrs.EnableGsrsJpaEntities;
 import gsrs.api.substances.SubstanceRestApi;
+import ix.core.search.bulk.EnableBulkSearch;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 @EnableGsrsJpaEntities
 @EnableGsrsApi
+@EnableBulkSearch
 @Configuration
 // @Import({})
 public class GsrsClinicalTrialsAutoConfiguration {

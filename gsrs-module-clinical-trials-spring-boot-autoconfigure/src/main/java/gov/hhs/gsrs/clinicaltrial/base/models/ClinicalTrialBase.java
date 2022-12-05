@@ -28,7 +28,7 @@ public abstract class ClinicalTrialBase extends
         AbstractGsrsTablePerClassEntity
                 implements FetchableEntity, ForceUpdateDirtyMakerMixin {
     @Id
-    @Indexable(sortable = true)
+    // Apply sortable on getter method since this is an id
     @Column(name="TRIAL_NUMBER", length=255)
     public String trialNumber;
 

@@ -138,10 +138,9 @@ public class ClinicalTrialEurope extends ClinicalTrialBase {
         @Indexable( name = "Create Date", sortable=true)
         public Date creationDate;
 
-        @Indexable()
+        @Indexable(sortable = true)
         public String getTrialNumber() {
                 return this.trialNumber;
         }
-
 }
 

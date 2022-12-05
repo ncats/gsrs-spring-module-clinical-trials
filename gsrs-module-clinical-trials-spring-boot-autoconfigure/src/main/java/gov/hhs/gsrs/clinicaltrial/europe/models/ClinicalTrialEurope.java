@@ -35,7 +35,7 @@ public class ClinicalTrialEurope extends ClinicalTrialBase {
         }
         // see base class for basic fields
 
-        @Indexable(facet=true, name="Sponsor")
+        @Indexable(facet=true, name="Sponsor", sortable = true)
         @Column(name="SPONSOR_NAME", length=2000)
         public String sponsorName;
 

@@ -47,12 +47,14 @@ public class ClinicalTrialUS extends ClinicalTrialBase {
     @Column(name = "RESULTS_FIRST_RECEIVED", length=4000)
     public String resultsFirstReceived;
 
+    @Indexable(sortable = true)
     @Column(name = "CONDITIONS", length=4000)
     public String conditions;
 
     @Column(name = "INTERVENTION", length=4000)
     public String intervention;
 
+    @Indexable(sortable = true)
     @Column(name = "SPONSOR", length=4000)
     public String sponsor;
 

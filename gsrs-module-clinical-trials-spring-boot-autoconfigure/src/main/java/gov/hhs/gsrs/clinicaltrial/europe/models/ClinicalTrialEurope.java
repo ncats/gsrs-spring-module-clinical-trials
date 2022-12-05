@@ -35,7 +35,7 @@ public class ClinicalTrialEurope extends ClinicalTrialBase {
         }
         // see base class for basic fields
 
-        @Indexable(facet=true, name="Sponsor")
+        @Indexable(facet=true, name="Sponsor", sortable = true)
         @Column(name="SPONSOR_NAME", length=2000)
         public String sponsorName;
 
@@ -138,10 +138,9 @@ public class ClinicalTrialEurope extends ClinicalTrialBase {
         @Indexable( name = "Create Date", sortable=true)
         public Date creationDate;
 
-        @Indexable()
+        @Indexable(sortable = true)
         public String getTrialNumber() {
                 return this.trialNumber;
         }
-
 }
 

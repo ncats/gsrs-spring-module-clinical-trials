@@ -5,6 +5,7 @@ import gsrs.ForceUpdateDirtyMakerMixin;
 import gsrs.model.AbstractGsrsEntity;
 import gsrs.model.AbstractGsrsManualDirtyEntity;
 import ix.core.SingleParent;
+import ix.core.models.Indexable;
 import ix.core.models.ParentReference;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -40,6 +41,7 @@ public class ClinicalTrialEuropeMeddra extends AbstractGsrsEntity implements For
     @Column(name="MEDDRA_CLASS_CODE", length=2000)
     public String meddraClassCode;
 
+    @Indexable(sortable = true)
     @Column(name="MEDDRA_TERM", length=2000)
     public String meddraTerm;
 

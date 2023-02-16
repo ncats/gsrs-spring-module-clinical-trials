@@ -1,4 +1,4 @@
-package gov.nih.ncats.clinicaltrial;
+package gov.hhs.gsrs.clinicaltrial;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import gov.hhs.gsrs.clinicaltrial.us.models.ClinicalTrialUS;

@@ -1,0 +1,13 @@
+{
+  "created" : 1676560810307,
+  "version" : "5.5.0",
+  "warning" : "AUTOMATICALLY GENERATED FILE; DO NOT EDIT",
+  "size" : 1,
+  "dims" : [ {
+    "dim" : "ix.Class",
+    "hierarchical" : false,
+    "indexFieldName" : "$facets",
+    "multiValued" : true,
+    "requireDimCount" : true
+  } ]
+}

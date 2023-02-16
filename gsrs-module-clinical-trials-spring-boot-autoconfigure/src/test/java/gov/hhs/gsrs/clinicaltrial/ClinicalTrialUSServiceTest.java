@@ -1,4 +1,4 @@
-package gov.nih.ncats.clinicaltrial;
+package gov.hhs.gsrs.clinicaltrial;
 
 import gov.hhs.gsrs.clinicaltrial.us.models.ClinicalTrialUS;
 import gov.hhs.gsrs.clinicaltrial.us.repositories.ClinicalTrialUSRepository;
@@ -23,6 +23,7 @@ import org.springframework.context.annotation.Import;
 // import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.ActiveProfiles;
 
+import javax.persistence.EntityManager;
 import java.io.File;
 import java.time.LocalDate;
 // import java.util.UUID;
@@ -49,6 +50,9 @@ public class ClinicalTrialUSServiceTest extends AbstractGsrsJpaEntityJunit5Test 
     private JacksonTester<ClinicalTrialUS> json;
     ObjectMapper objectMapper = new ObjectMapper();
 
+    @Autowired
+    private EntityManager em;
+
     @BeforeEach
     public void setup() {
 
@@ -61,6 +65,7 @@ public class ClinicalTrialUSServiceTest extends AbstractGsrsJpaEntityJunit5Test 
 
     @Test
     public void loadSingleRecord() throws Exception {
+
         ClinicalTrialUS clinicalTrialUS = new ClinicalTrialUS();
         clinicalTrialUS.setTitle("myFoo");
         clinicalTrialUS.setTrialNumber("NCT101");

@@ -33,7 +33,7 @@ public class ClinicalTrialEuropeExporterFactory implements ExporterFactory {
     public ClinicalTrialEuropeExporter createNewExporter(OutputStream out, Parameters params) throws IOException {
 
         SpreadsheetFormat format = SpreadsheetFormat.XLSX;
-        Spreadsheet spreadsheet = format.createSpeadsheet(out);
+        Spreadsheet spreadsheet = format.createSpreadsheet(out);
 
         ClinicalTrialEuropeExporter.Builder builder = new ClinicalTrialEuropeExporter.Builder(spreadsheet);
 

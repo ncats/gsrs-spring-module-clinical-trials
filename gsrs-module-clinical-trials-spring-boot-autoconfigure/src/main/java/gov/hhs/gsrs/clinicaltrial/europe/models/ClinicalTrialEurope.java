@@ -25,7 +25,7 @@ import java.util.*;
 @Backup
 @IndexableRoot
 @SuperBuilder
-@Table(name="CTRIAL_EU")
+@Table(name="ctrial_eu")
 @JsonInclude(JsonInclude.Include.ALWAYS)
 @EqualsAndHashCode(exclude="clinicalTrialEuropeProduct")
 public class ClinicalTrialEurope extends ClinicalTrialBase {
@@ -36,39 +36,39 @@ public class ClinicalTrialEurope extends ClinicalTrialBase {
         // see base class for basic fields
 
         @Indexable(facet=true, name="Sponsor", sortable = true)
-        @Column(name="SPONSOR_NAME", length=2000)
+        @Column(name="sponsor_name", length=2000)
         public String sponsorName;
 
         @Indexable(facet=true, name="Trial Status")
-        @Column(name="TRIAL_STATUS", length=2000)
+        @Column(name="trial_status", length=2000)
         public String trialStatus;
 
-        @Column(name="DATE_FIRST_ENTERED_DB")
+        @Column(name="date_first_entered_db")
         public Date dateFirstEnteredDb;
 
-        @Column(name="TRIAL_RESULTS", length=2000)
+        @Column(name="trial_results", length=2000)
         public String trialResults;
 
         @Indexable(facet=true, name="National Competent Authority")
-        @Column(name="NATIONAL_COMPETENT_AUTH", length=2000)
+        @Column(name="national_competent_auth", length=2000)
         public String nationalCompetentAuthority;
 
-        @Column(name="COMPETENT_AUTH_DECISION", length=2000)
+        @Column(name="competent_auth_decision", length=2000)
         public String competentAuthorityDecision;
 
-        @Column(name="DATE_COMP_AUTH_DECISION")
+        @Column(name="date_comp_auth_decision")
         public Date competentAuthorityDecisionDate;
 
-        @Column(name="ETHICS_COM_OPINION_APP", length=2000)
+        @Column(name="ethics_com_opinion_app", length=2000)
         public String ethicsComOpinionApp;
 
-        @Column(name="ETHICS_COM_OPINION_REASON", length=2000)
+        @Column(name="ethics_com_opinion_reason", length=2000)
         public String ethicsComOpinionReason;
 
-        @Column(name="DATE_ETHICS_COM_OPINION")
+        @Column(name="date_ethics_com_opinion")
         public Date ethicsComOpinionDate;
 
-        @Column(name="COUNTRY", length=255)
+        @Column(name="country", length=255)
         public String country;
 
         // had to add this, or I got circular references when string building.

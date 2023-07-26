@@ -15,7 +15,7 @@ import javax.persistence.*;
 @Data
 @Entity
 @SingleParent
-@Table(name="CTRIAL_EU_DRUG")
+@Table(name="ctrial_eu_drug")
 public class ClinicalTrialEuropeDrug extends AbstractGsrsEntity implements ForceUpdateDirtyMakerMixin {
 
     @Id
@@ -23,20 +23,20 @@ public class ClinicalTrialEuropeDrug extends AbstractGsrsEntity implements Force
     @SequenceGenerator(name="cteudrugSeq", sequenceName="CTRIALEUDRUG_SQ_ID",allocationSize=1)
     @GeneratedValue(strategy = GenerationType.AUTO, generator = "cteudrugSeq")
 
-    @Column(name="ID")
+    @Column(name="id")
     public int id;
 
     @ParentReference
     @EqualsAndHashCode.Exclude
     @ManyToOne(cascade = CascadeType.PERSIST)
     @JsonIgnore
-    @JoinColumn(name="PRODUCT_ID", referencedColumnName="ID", nullable=false)
+    @JoinColumn(name="product_id", referencedColumnName="id", nullable=false)
     public ClinicalTrialEuropeProduct owner;
 
-    @Column(name="SUBSTANCE_KEY", length=255, nullable=false)
+    @Column(name="substance_key", length=255, nullable=false)
     public String substanceKey;
 
-    @Column(name="SUBSTANCE_KEY_TYPE", length=50, nullable=false)
+    @Column(name="substance_key_type", length=50, nullable=false)
     public String substanceKeyType;
 
 }

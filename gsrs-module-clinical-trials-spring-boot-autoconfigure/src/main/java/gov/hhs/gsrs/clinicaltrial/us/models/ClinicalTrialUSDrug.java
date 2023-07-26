@@ -28,16 +28,18 @@ public class ClinicalTrialUSDrug extends AbstractGsrsEntity implements ForceUpda
     @ParentReference
     @ManyToOne(cascade = CascadeType.PERSIST)
     @JsonIgnore //ignore in json to avoid infinite recursion
-    @JoinColumn(name = "TRIAL_NUMBER")
+    @JoinColumn(name = "trial_number", referencedColumnName = "trial_number")
+
+
     public ClinicalTrialUS owner;
 
-    @Column(name="SUBSTANCE_KEY")
+    @Column(name="substance_key")
     public String substanceKey;
     public void setSubstanceKey(String substanceKey) {
         this.substanceKey = substanceKey;
     }
 
-    @Column(name="SUBSTANCE_KEY_TYPE")
+    @Column(name="substance_key_type")
     public String substanceKeyType = substanceKeyTypeValue;
     public void setSubstanceKeyType(String substanceKeyType) {
         this.substanceKeyType = substanceKeyType;

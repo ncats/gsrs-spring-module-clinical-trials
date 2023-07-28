@@ -40,41 +40,51 @@ public class ClinicalTrialUS extends ClinicalTrialBase {
     public ClinicalTrialUS() {
         this.setKind("US");
     }
-
+    @Lob
     @Column(name = "RECRUITMENT", length=4000)
     public String recruitment;
 
+    @Lob
     @Column(name = "RESULTS_FIRST_RECEIVED", length=4000)
     public String resultsFirstReceived;
 
+    @Lob
     @Indexable(sortable = true)
     @Column(name = "CONDITIONS", length=4000)
     public String conditions;
 
+    @Lob
     @Column(name = "INTERVENTION", length=4000)
     public String intervention;
 
+    @Lob
     @Indexable(sortable = true)
     @Column(name = "SPONSOR", length=4000)
     public String sponsor;
 
+    @Lob
     @Column(name = "PHASES", length=2000)
     public String phases;
 
+    @Lob
     @Column(name = "FUNDED_BYS", length=2000)
     public String fundedBys;
 
+    @Lob
     @Indexable(facet = true, name = "Study Types")
     @Column(name = "STUDY_TYPES", length=2000)
     public String studyTypes;
 
+    @Lob
     @Column(name = "STUDY_DESIGNS", length=2000)
     public String studyDesigns;
 
+    @Lob
     @Column(name = "STUDY_RESULTS", length=4000)
     @Indexable(facet= true, name = "Study Results")
     public String studyResults;
 
+    @Lob
     @Column(name = "AGE_GROUPS", length=50)
     public String ageGroups;
 
@@ -82,15 +92,19 @@ public class ClinicalTrialUS extends ClinicalTrialBase {
     @Indexable(facet= true, name = "Gender")
     public String gender;
 
+    @Lob
     @Column(name = "ENROLLMENT", length=2000)
     public String enrollment;
 
+    @Lob
     @Column(name = "OTHER_IDS", length=500)
     public String otherIds;
 
+    @Lob
     @Column(name = "ACRONYM", length=4000)
     public String acronym;
 
+    @Lob
     @Column(name = "STATUS", length=500)
     @Indexable(name="Trial Status", facet=true)
     public String status;
@@ -119,9 +133,11 @@ public class ClinicalTrialUS extends ClinicalTrialBase {
     @Indexable(name = "Last Updated at Source", sortable=true)
     public Date lastUpdated;
 
+    @Lob
     @Column(name = "OUTCOME_MEASURES", length=4000)
     public String outcomeMeasures;
 
+    @Lob
     @Column(name = "LOCATIONS", length=4000)
     public String locations;
     @OneToMany(mappedBy = "owner", cascade = CascadeType.ALL, fetch= FetchType.LAZY)

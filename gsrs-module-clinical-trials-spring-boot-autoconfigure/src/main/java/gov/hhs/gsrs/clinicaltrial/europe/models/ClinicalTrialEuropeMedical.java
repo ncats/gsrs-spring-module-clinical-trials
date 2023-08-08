@@ -15,7 +15,7 @@ import javax.persistence.*;
 
 @Data
 @Entity
-@Table(name="CTRIAL_EU_MC")
+@Table(name="ctrial_eu_mc")
 @SingleParent
 @Getter
 @Setter
@@ -25,23 +25,23 @@ public class ClinicalTrialEuropeMedical extends AbstractGsrsEntity implements Fo
     @SequenceGenerator(name="cteumcSeq", sequenceName="CTRIALEUMC_SQ_ID",allocationSize=1)
     @GeneratedValue(strategy = GenerationType.AUTO, generator = "cteudmcSeq")
 
-    @Column(name="ID")
+    @Column(name="id")
     public int id;
 
     @ParentReference
     @EqualsAndHashCode.Exclude
     @ManyToOne(cascade = CascadeType.PERSIST)
     @JsonIgnore
-    @JoinColumn(name="TRIAL_NUMBER", nullable=false)
+    @JoinColumn(name="trial_number", nullable=false)
     public ClinicalTrialEurope owner;
 
-    @Column(name="MEDICAL_COND_INVSTGED", length=2000)
+    @Column(name="medical_cond_invstged", length=2000)
     public String medicalCondInvesigated;
 
-    @Column(name="MEDICAL_COND_INVSTGED_EZ", length=2000)
+    @Column(name="medical_cond_invstged_ez", length=2000)
     public String medicalCondInvesigatedEz;
 
-    @Column(name="MEDICAL_COND_THERAP_AREA", length=2000)
+    @Column(name="medical_cond_therap_area", length=2000)
     public String medicalCondTherapyArea;
 
     public ClinicalTrialEuropeMedical () {}

@@ -31,17 +31,17 @@ public abstract class ClinicalTrialBase extends
                 implements FetchableEntity, ForceUpdateDirtyMakerMixin {
     @Id
     // Apply sortable on getter method since this is an id
-    @Column(name="TRIAL_NUMBER", length=255)
+    @Column(name="trial_number")
     public String trialNumber;
 
-    @Column(name = "KIND", length=100)
+    @Column(name = "kind")
     public String kind;
 
     @Indexable(sortable = true)
-    @Column(name = "TITLE", length=4000)
+    @Column(name = "title")
     public String title;
 
-    @Column(name = "URL", length=2000)
+    @Column(name = "url")
     public String url;
 
     // Be careful when making field with same name in subclasses; probably should not do that.
@@ -66,7 +66,7 @@ public abstract class ClinicalTrialBase extends
 
    // I think @Version will only work if it's in the base class. Got an error that said something like that.
     @Version
-    @Column(name = "INTERNAL_VERSION", nullable = false)
+    @Column(name = "internal_version", nullable = false)
     public Long internalVersion = 1L;
 
 

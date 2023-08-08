@@ -15,7 +15,7 @@
         <dependency>
             <groupId>gov.nih.ncats</groupId>
             <artifactId>ncats-common</artifactId>
-            <version>0.3.5</version>
+            <version>0.3.6</version>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -24,11 +24,6 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>io.springfox</groupId>
-            <artifactId>springfox-boot-starter</artifactId>
-            <version>3.0.0</version>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>

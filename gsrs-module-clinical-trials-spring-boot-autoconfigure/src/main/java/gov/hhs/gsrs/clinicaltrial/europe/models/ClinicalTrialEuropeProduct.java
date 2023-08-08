@@ -24,7 +24,7 @@ import java.util.ArrayList;
 @SingleParent
 @AllArgsConstructor
 // @NoArgsConstructor
-@Table(name="CTRIAL_EU_PROD")
+@Table(name="ctrial_eu_prod")
 // @ToString
 public class ClinicalTrialEuropeProduct extends AbstractGsrsEntity implements ForceUpdateDirtyMakerMixin {
     public ClinicalTrialEuropeProduct () {}
@@ -33,32 +33,32 @@ public class ClinicalTrialEuropeProduct extends AbstractGsrsEntity implements Fo
     @SequenceGenerator(name="cteuprodSeq", sequenceName="CTRIALEUPROD_SQ_ID",allocationSize=1)
     @GeneratedValue(strategy = GenerationType.AUTO, generator = "cteudprodSeq")
 
-    @Column(name="ID")
+    @Column(name="id")
     public int id;
 
     @ParentReference
     @EqualsAndHashCode.Exclude
     @ManyToOne(cascade = CascadeType.PERSIST)
     @JsonIgnore
-    @JoinColumn(name="TRIAL_NUMBER", nullable=false)
+    @JoinColumn(name="trial_number", nullable=false)
     public ClinicalTrialEurope owner;
 
-    @Column(name="IMP_SECTION", length=255)
+    @Column(name="imp_section", length=255)
     public String impSection;
 
-    @Column(name="PRODUCT_NAME", length=2000)
+    @Column(name="product_name", length=2000)
     public String productName;
 
-    @Column(name="TRADE_NAME", length=2000)
+    @Column(name="trade_name", length=2000)
     public String tradeName;
 
-    @Column(name="IMP_ROLE", length=255)
+    @Column(name="imp_role", length=255)
     public String impRole;
 
-    @Column(name="IMP_ROUTES_ADMIN", length=2000)
+    @Column(name="imp_routes_admin", length=2000)
     public String impRoutesAdmin;
 
-    @Column(name="PHARMACEUTICAL_FORM", length=2000)
+    @Column(name="pharmaceutical_form", length=2000)
     public String pharmaceuticalForm;
 
     @Transient

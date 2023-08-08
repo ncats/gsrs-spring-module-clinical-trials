@@ -41,89 +41,105 @@ public class ClinicalTrialUS extends ClinicalTrialBase {
         this.setKind("US");
     }
 
+    @Lob
     @Column(name = "RECRUITMENT", length=4000)
     public String recruitment;
 
+    @Lob
     @Column(name = "RESULTS_FIRST_RECEIVED", length=4000)
     public String resultsFirstReceived;
 
+    @Lob
     @Indexable(sortable = true)
-    @Column(name = "CONDITIONS", length=4000)
+    @Column(name = "conditions", length=4000)
     public String conditions;
 
-    @Column(name = "INTERVENTION", length=4000)
+    @Lob
+    @Column(name = "intervention", length=4000)
     public String intervention;
 
+    @Lob
     @Indexable(sortable = true)
-    @Column(name = "SPONSOR", length=4000)
+    @Column(name = "sponsor", length=4000)
     public String sponsor;
 
-    @Column(name = "PHASES", length=2000)
+    @Lob
+    @Column(name = "phases", length=2000)
     public String phases;
 
-    @Column(name = "FUNDED_BYS", length=2000)
+    @Lob
+    @Column(name = "funded_bys", length=2000)
     public String fundedBys;
 
+    @Lob
     @Indexable(facet = true, name = "Study Types")
-    @Column(name = "STUDY_TYPES", length=2000)
+    @Column(name = "study_types", length=2000)
     public String studyTypes;
 
-    @Column(name = "STUDY_DESIGNS", length=2000)
+    @Lob
+    @Column(name = "study_designs", length=2000)
     public String studyDesigns;
 
-    @Column(name = "STUDY_RESULTS", length=4000)
+    @Lob
+    @Column(name = "study_results", length=4000)
     @Indexable(facet= true, name = "Study Results")
     public String studyResults;
 
-    @Column(name = "AGE_GROUPS", length=50)
+    @Column(name = "age_groups", length=50)
     public String ageGroups;
 
-    @Column(name = "GENDER", length=50)
+    @Column(name = "gender", length=50)
     @Indexable(facet= true, name = "Gender")
     public String gender;
 
-    @Column(name = "ENROLLMENT", length=2000)
+    @Lob
+    @Column(name = "enrollment", length=2000)
     public String enrollment;
 
-    @Column(name = "OTHER_IDS", length=500)
+    @Lob
+    @Column(name = "other_ids", length=500)
     public String otherIds;
 
-    @Column(name = "ACRONYM", length=4000)
+    @Lob
+    @Column(name = "acronym", length=4000)
     public String acronym;
 
-    @Column(name = "STATUS", length=500)
+    @Column(name = "status", length=500)
     @Indexable(name="Trial Status", facet=true)
     public String status;
 
-    @Column(name = "START_DATE")
+    @Column(name = "start_date")
     @Indexable(name = "Start Date at Source", sortable=true)
     public Date startDate;
 
-    @Column(name = "LAST_VERIFIED")
+    @Column(name = "last_verified")
     @Indexable(name = "Last Verified Date at Source", sortable=true)
     public Date lastVerified;
 
-    @Column(name = "COMPLETION_DATE")
+    @Column(name = "completion_date")
     @Indexable(name = "Completion Date at Source", sortable=true)
     public Date completionDate;
 
-    @Column(name = "PRIMARY_COMPLETION_DATE")
+    @Column(name = "primary_completion_date")
     @Indexable(name = "Primary Completion Date at Source", sortable=true)
     public Date primaryCompletionDate;
 
-    @Column(name = "FIRST_RECEIVED")
+    @Column(name = "first_received")
     @Indexable(name = "First Received Date at Source", sortable=true)
     public Date firstReceived;
 
-    @Column(name = "LAST_UPDATED")
+    @Column(name = "last_updated")
     @Indexable(name = "Last Updated at Source", sortable=true)
     public Date lastUpdated;
 
-    @Column(name = "OUTCOME_MEASURES", length=4000)
+    @Lob
+    @Column(name = "outcome_measures", length=4000)
     public String outcomeMeasures;
 
-    @Column(name = "LOCATIONS", length=4000)
+    @Lob
+    @Column(name = "locations", length=4000)
     public String locations;
+
     @OneToMany(mappedBy = "owner", cascade = CascadeType.ALL, fetch= FetchType.LAZY)
     // had to add this or I got circular references when string building.
     @ToString.Exclude
@@ -139,7 +155,7 @@ public class ClinicalTrialUS extends ClinicalTrialBase {
         }
     }
 
-    @Column(name = "GSRS_MATCHING_COMPLETE")
+    @Column(name = "gsrs_matching_complete")
     public boolean gsrsMatchingComplete;
 
 
@@ -187,11 +203,11 @@ public class ClinicalTrialUS extends ClinicalTrialBase {
 
     // I want to make this reusable. How?
     @Indexable(facet = true, name = "Record Created By")
-    @Column(name = "CREATED_BY")
+    @Column(name = "created_by")
     private String createdBy;
 
     @Indexable(facet = true, name = "Record Last Edited By")
-    @Column(name = "MODIFIED_BY")
+    @Column(name = "modified_by")
     private String modifiedBy;
 
     @PrePersist

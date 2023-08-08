@@ -16,7 +16,7 @@ import javax.persistence.*;
 
 @Data
 @Entity
-@Table(name="CTRIAL_EU_MEDD")
+@Table(name="ctrial_eu_medd")
 @SingleParent
 @Getter
 @Setter
@@ -25,27 +25,27 @@ public class ClinicalTrialEuropeMeddra extends AbstractGsrsEntity implements For
 
     @SequenceGenerator(name="cteumeddSeq", sequenceName="CTRIALEUMEDD_SQ_ID",allocationSize=1)
     @GeneratedValue(strategy = GenerationType.AUTO, generator = "cteudmeddSeq")
-    @Column(name="ID")
+    @Column(name="id")
     public int id;
 
     @ParentReference
     @EqualsAndHashCode.Exclude
     @ManyToOne(cascade = CascadeType.PERSIST)
     @JsonIgnore
-    @JoinColumn(name="TRIAL_NUMBER", nullable=false)
+    @JoinColumn(name="trial_number", nullable=false)
     public ClinicalTrialEurope owner;
 
-    @Column(name="MEDDRA_VERSION", length=2000)
+    @Column(name="meddra_version", length=2000)
     public String meddraVersion;
 
-    @Column(name="MEDDRA_CLASS_CODE", length=2000)
+    @Column(name="meddra_class_code", length=2000)
     public String meddraClassCode;
 
     @Indexable(sortable = true)
-    @Column(name="MEDDRA_TERM", length=2000)
+    @Column(name="meddra_term", length=2000)
     public String meddraTerm;
 
-    @Column(name="MEDDRA_SYSTEM_ORGAN_CLASS", length=2000)
+    @Column(name="meddra_system_organ_class", length=2000)
     public String meddraSystemOrganClass;
 
     public ClinicalTrialEuropeMeddra () {}

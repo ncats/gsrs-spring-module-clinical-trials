@@ -5,13 +5,13 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import gov.hhs.gsrs.clinicaltrial.base.models.ClinicalTrialBase;
-import ix.core.models.Backup;
-import ix.core.models.Indexable;
-import ix.core.models.IndexableRoot;
+import gsrs.security.GsrsSecurityUtils;
+import ix.core.models.*;
 import ix.ginas.models.serialization.GsrsDateDeserializer;
 import ix.ginas.models.serialization.GsrsDateSerializer;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
+import lombok.extern.slf4j.Slf4j;
 import org.hibernate.annotations.LazyCollection;
 import org.hibernate.annotations.LazyCollectionOption;
 import org.springframework.data.annotation.CreatedDate;
@@ -28,6 +28,7 @@ import java.util.*;
 @Table(name="ctrial_eu")
 @JsonInclude(JsonInclude.Include.ALWAYS)
 @EqualsAndHashCode(exclude="clinicalTrialEuropeProduct")
+@Slf4j
 public class ClinicalTrialEurope extends ClinicalTrialBase {
 
         public ClinicalTrialEurope() {
@@ -138,9 +139,49 @@ public class ClinicalTrialEurope extends ClinicalTrialBase {
         @Indexable( name = "Create Date", sortable=true)
         public Date creationDate;
 
+        @Indexable(facet = true, name = "Record Created By")
+        @Column(name = "created_by", length=500)
+        private String createdBy;
+
+        @Indexable(facet = true, name = "Record Last Edited By")
+        @Column(name = "modified_by", length=500)
+        private String modifiedBy;
+
+        @PrePersist
+        public void prePersist() {
+                try {
+                        UserProfile profile = (UserProfile) GsrsSecurityUtils.getCurrentUser();
+                        if (profile != null) {
+                                Principal p = profile.user;
+                                if (p != null) {
+                                        this.createdBy = p.username;
+                                        this.modifiedBy = p.username;
+                                }
+                        }
+                }catch (Exception ex) {
+                        log.error("Exception while setting user in prePersist.", ex);
+                }
+        }
+
+        @PreUpdate
+        public void preUpdate() {
+                try {
+                        UserProfile profile = (UserProfile) GsrsSecurityUtils.getCurrentUser();
+                        if (profile != null) {
+                                Principal p = profile.user;
+                                if (p != null) {
+                                        this.modifiedBy = p.username;
+                                }
+                        }
+                }catch (Exception ex) {
+                        log.error("Exception while setting user in preUpdate.", ex);
+                }
+        }
+
         @Indexable(sortable = true)
         public String getTrialNumber() {
                 return this.trialNumber;
         }
+
 }
 

@@ -203,11 +203,11 @@ public class ClinicalTrialUS extends ClinicalTrialBase {
 
     // I want to make this reusable. How?
     @Indexable(facet = true, name = "Record Created By")
-    @Column(name = "created_by")
+    @Column(name = "created_by", length=500)
     private String createdBy;
 
     @Indexable(facet = true, name = "Record Last Edited By")
-    @Column(name = "modified_by")
+    @Column(name = "modified_by", length=500)
     private String modifiedBy;
 
     @PrePersist

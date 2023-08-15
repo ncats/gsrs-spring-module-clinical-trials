@@ -31,17 +31,18 @@ public abstract class ClinicalTrialBase extends
                 implements FetchableEntity, ForceUpdateDirtyMakerMixin {
     @Id
     // Apply sortable on getter method since this is an id
-    @Column(name="trial_number")
+    @Column(name="trial_number", length=255)
     public String trialNumber;
 
-    @Column(name = "kind")
+    @Column(name = "kind", length=100)
     public String kind;
 
+    @Lob
     @Indexable(sortable = true)
     @Column(name = "title")
     public String title;
 
-    @Column(name = "url")
+    @Column(name = "url", length=2000)
     public String url;
 
     // Be careful when making field with same name in subclasses; probably should not do that.

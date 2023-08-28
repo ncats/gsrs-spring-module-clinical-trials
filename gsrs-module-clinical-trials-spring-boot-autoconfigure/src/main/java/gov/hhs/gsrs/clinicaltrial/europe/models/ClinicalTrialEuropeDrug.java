@@ -20,8 +20,8 @@ public class ClinicalTrialEuropeDrug extends AbstractGsrsEntity implements Force
 
     @Id
     // @GeneratedValue(strategy = GenerationType.AUTO)
-    @SequenceGenerator(name="cteudrugSeq", sequenceName="CTRIALEUDRUG_SQ_ID",allocationSize=1)
-    @GeneratedValue(strategy = GenerationType.AUTO, generator = "cteudrugSeq")
+    @SequenceGenerator(name="cteudrugseq", sequenceName="ctrialeudrug_sq_id",allocationSize=1)
+    @GeneratedValue(strategy = GenerationType.AUTO, generator = "cteudrugseq")
 
     @Column(name="id")
     public int id;

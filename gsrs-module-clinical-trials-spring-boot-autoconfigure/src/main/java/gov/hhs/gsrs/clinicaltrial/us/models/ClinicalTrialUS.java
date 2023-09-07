@@ -10,6 +10,7 @@ import ix.ginas.models.serialization.GsrsDateSerializer;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
 import org.hibernate.annotations.LazyCollection;
 import org.hibernate.annotations.LazyCollectionOption;
 import org.springframework.data.annotation.CreatedDate;
@@ -22,7 +23,7 @@ import java.util.*;
 @Entity
 // @NoArgsConstructor
 @AllArgsConstructor
-@ToString
+// @ToString
 @SuperBuilder
 @Backup
 @IndexableRoot
@@ -142,7 +143,7 @@ public class ClinicalTrialUS extends ClinicalTrialBase {
 
     @OneToMany(mappedBy = "owner", cascade = CascadeType.ALL, fetch= FetchType.LAZY)
     // had to add this or I got circular references when string building.
-    @ToString.Exclude
+    // @ToString.Exclude
     @LazyCollection(LazyCollectionOption.FALSE)
     public List<ClinicalTrialUSDrug> clinicalTrialUSDrug = new ArrayList<ClinicalTrialUSDrug>();
 
@@ -151,6 +152,20 @@ public class ClinicalTrialUS extends ClinicalTrialBase {
         if(clinicalTrialUSDrugs !=null) {
             for ( ClinicalTrialUSDrug ctd : clinicalTrialUSDrugs) {
                 ctd.setOwner(this);
+            }
+        }
+    }
+
+    @OneToMany(mappedBy = "owner", cascade = CascadeType.ALL, fetch= FetchType.LAZY)
+    // @ToString.Exclude
+    @LazyCollection(LazyCollectionOption.FALSE)
+    public List<OutcomeResultNote> outcomeResultNotes = new ArrayList<OutcomeResultNote>();
+
+    public void setOutcomeResultNotes(List<OutcomeResultNote> outcomeResultNotes) {
+        this.outcomeResultNotes = outcomeResultNotes;
+        if(outcomeResultNotes !=null) {
+            for (OutcomeResultNote note : outcomeResultNotes) {
+                note.setOwner(this);
             }
         }
     }
@@ -240,4 +255,12 @@ public class ClinicalTrialUS extends ClinicalTrialBase {
             log.error("Exception while setting user in preUpdate.", ex);
         }
     }
+
+    @Override
+    public String toString() {
+        ReflectionToStringBuilder rtsb = new ReflectionToStringBuilder(this);
+        rtsb.setExcludeNullValues(true);
+        return rtsb.toString();
+    }
+
 }

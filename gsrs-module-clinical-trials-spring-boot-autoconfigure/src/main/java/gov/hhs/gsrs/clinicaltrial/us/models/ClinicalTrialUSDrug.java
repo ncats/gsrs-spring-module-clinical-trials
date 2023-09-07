@@ -1,14 +1,18 @@
 package gov.hhs.gsrs.clinicaltrial.us.models;
 import gsrs.ForceUpdateDirtyMakerMixin;
 import gsrs.model.AbstractGsrsEntity;
-import gsrs.model.AbstractGsrsManualDirtyEntity;
 import ix.core.SingleParent;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import ix.core.models.ParentReference;
 import lombok.*;
+import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
+import org.hibernate.annotations.LazyCollection;
+import org.hibernate.annotations.LazyCollectionOption;
 import org.springframework.beans.factory.annotation.Value;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Data
 @Entity
@@ -20,8 +24,8 @@ public class ClinicalTrialUSDrug extends AbstractGsrsEntity implements ForceUpda
     static String substanceKeyTypeValue;
 
     @Id
-    @SequenceGenerator(name="ctusdrugSeq", sequenceName="CTRIALUSDRUG_SQ_ID",allocationSize=1)
-    @GeneratedValue(strategy = GenerationType.AUTO, generator = "ctusdrugSeq")
+    @SequenceGenerator(name="ctusdrugseq", sequenceName="ctrialusdrug_sq_id",allocationSize=1)
+    @GeneratedValue(strategy = GenerationType.AUTO, generator = "ctusdrugseq")
 
     public Long id;
 
@@ -29,7 +33,6 @@ public class ClinicalTrialUSDrug extends AbstractGsrsEntity implements ForceUpda
     @ManyToOne(cascade = CascadeType.PERSIST)
     @JsonIgnore //ignore in json to avoid infinite recursion
     @JoinColumn(name = "trial_number", referencedColumnName = "trial_number")
-
 
     public ClinicalTrialUS owner;
 
@@ -47,5 +50,28 @@ public class ClinicalTrialUSDrug extends AbstractGsrsEntity implements ForceUpda
 
     @Column(name="protected_match")
     public boolean protectedMatch;
+
+    // @JsonIgnore
+    // @ToString.Exclude
+    @OneToMany(mappedBy = "owner", fetch=FetchType.LAZY, cascade = CascadeType.ALL)
+    @LazyCollection(LazyCollectionOption.FALSE)
+    public List<SubstanceRole> substanceRoles = new ArrayList<>();
+
+    public void setSubstanceRoles (List<SubstanceRole>  substanceRoles) {
+        this.substanceRoles = substanceRoles;
+        if(substanceRoles != null) {
+            for ( SubstanceRole sr : substanceRoles )
+            {
+                sr.setOwner(this);
+            }
+        }
+    }
+
+    @Override
+    public String toString() {
+        ReflectionToStringBuilder rtsb = new ReflectionToStringBuilder(this);
+        rtsb.setExcludeNullValues(true);
+        return rtsb.toString();
+    }
 
 }

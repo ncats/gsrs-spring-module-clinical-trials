@@ -23,8 +23,8 @@ import javax.persistence.*;
 public class ClinicalTrialEuropeMeddra extends AbstractGsrsEntity implements ForceUpdateDirtyMakerMixin {
     @Id
 
-    @SequenceGenerator(name="cteumeddSeq", sequenceName="CTRIALEUMEDD_SQ_ID",allocationSize=1)
-    @GeneratedValue(strategy = GenerationType.AUTO, generator = "cteudmeddSeq")
+    @SequenceGenerator(name="cteumeddseq", sequenceName="ctrialeumedd_sq_id",allocationSize=1)
+    @GeneratedValue(strategy = GenerationType.AUTO, generator = "cteudmeddseq")
     @Column(name="id")
     public int id;
 

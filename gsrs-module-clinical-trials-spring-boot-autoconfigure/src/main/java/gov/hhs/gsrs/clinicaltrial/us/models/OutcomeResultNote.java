@@ -1,7 +1,6 @@
 package gov.hhs.gsrs.clinicaltrial.us.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.google.common.base.MoreObjects;
 import gsrs.ForceUpdateDirtyMakerMixin;
 import gsrs.model.AbstractGsrsEntity;
 import ix.core.SingleParent;

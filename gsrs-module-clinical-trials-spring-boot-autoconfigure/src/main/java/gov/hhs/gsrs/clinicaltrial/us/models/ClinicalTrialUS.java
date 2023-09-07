@@ -2,7 +2,6 @@ package gov.hhs.gsrs.clinicaltrial.us.models;
 
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import com.google.common.base.MoreObjects;
 import gsrs.security.GsrsSecurityUtils;
 import ix.core.models.*;
 import gov.hhs.gsrs.clinicaltrial.base.models.ClinicalTrialBase;

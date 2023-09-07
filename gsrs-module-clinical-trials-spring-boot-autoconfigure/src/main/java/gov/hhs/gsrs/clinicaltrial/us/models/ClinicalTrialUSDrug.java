@@ -1,8 +1,6 @@
 package gov.hhs.gsrs.clinicaltrial.us.models;
-import com.google.common.base.MoreObjects;
 import gsrs.ForceUpdateDirtyMakerMixin;
 import gsrs.model.AbstractGsrsEntity;
-import gsrs.model.AbstractGsrsManualDirtyEntity;
 import ix.core.SingleParent;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import ix.core.models.ParentReference;
@@ -15,7 +13,6 @@ import org.springframework.beans.factory.annotation.Value;
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 @Data
 @Entity

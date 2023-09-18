@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import gsrs.ForceUpdateDirtyMakerMixin;
 import gsrs.model.AbstractGsrsEntity;
 import ix.core.SingleParent;
+import ix.core.models.Indexable;
 import ix.core.models.ParentReference;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -31,6 +32,7 @@ public class SubstanceRole extends AbstractGsrsEntity implements ForceUpdateDirt
 
 
     @Column(length=500)
+    @Indexable(facet= true, name = "Substance Role")
     public String substanceRole;
 
     @Override

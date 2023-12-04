@@ -37,33 +37,33 @@ public class ClinicalTrialEurope extends ClinicalTrialBase {
         // see base class for basic fields
 
         @Indexable(facet=true, name="Sponsor", sortable = true)
-        @Column(name="sponsor_name", length=2000)
+        @Column(name="sponsor_name", length=1750)
         public String sponsorName;
 
         @Indexable(facet=true, name="Trial Status")
-        @Column(name="trial_status", length=2000)
+        @Column(name="trial_status", length=1750)
         public String trialStatus;
 
         @Column(name="date_first_entered_db")
         public Date dateFirstEnteredDb;
 
-        @Column(name="trial_results", length=2000)
+        @Column(name="trial_results", length=1750)
         public String trialResults;
 
         @Indexable(facet=true, name="National Competent Authority")
-        @Column(name="national_competent_auth", length=2000)
+        @Column(name="national_competent_auth", length=1750)
         public String nationalCompetentAuthority;
 
-        @Column(name="competent_auth_decision", length=2000)
+        @Column(name="competent_auth_decision", length=1750)
         public String competentAuthorityDecision;
 
         @Column(name="date_comp_auth_decision")
         public Date competentAuthorityDecisionDate;
 
-        @Column(name="ethics_com_opinion_app", length=2000)
+        @Column(name="ethics_com_opinion_app", length=1750)
         public String ethicsComOpinionApp;
 
-        @Column(name="ethics_com_opinion_reason", length=2000)
+        @Column(name="ethics_com_opinion_reason", length=1750)
         public String ethicsComOpinionReason;
 
         @Column(name="date_ethics_com_opinion")

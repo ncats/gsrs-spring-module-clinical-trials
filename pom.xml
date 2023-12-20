@@ -22,7 +22,7 @@
 
     <groupId>gov.nih.ncats</groupId>
     <artifactId>gsrs-module-clinical-trials</artifactId>
-    <version>3.1-SNAPSHOT</version>
+    <version>3.1.1-SNAPSHOT</version>
     <name>GSRS Clinical Trials Module</name>
     <description>GSRS Clinical Trials Module for Spring Boot</description>
 
@@ -33,9 +33,9 @@
     <properties>
         <java.version>1.8</java.version>
         <spring-cloud.version>Hoxton.SR1</spring-cloud.version>
-        <gsrs.version>3.1</gsrs.version>
-        <gsrs.substance.version>3.1</gsrs.substance.version>
-        <gsrs.clinical-trials.version>3.1-SNAPSHOT</gsrs.clinical-trials.version>
+        <gsrs.version>3.1.1-SNAPSHOT</gsrs.version>
+        <gsrs.substance.version>3.1.1-SNAPSHOT</gsrs.substance.version>
+        <gsrs.clinical-trials.version>3.1.1-SNAPSHOT</gsrs.clinical-trials.version>
         <log4j2.version>2.17.1</log4j2.version>
     </properties>
 

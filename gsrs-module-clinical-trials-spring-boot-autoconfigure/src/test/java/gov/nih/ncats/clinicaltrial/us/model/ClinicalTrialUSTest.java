@@ -1,6 +1,5 @@
 package gov.nih.ncats.clinicaltrial.us.model;
 
-import com.hp.hpl.jena.shared.uuid.UUID_V1_Gen;
 import gov.hhs.gsrs.clinicaltrial.us.models.ClinicalTrialUS;
 import gov.hhs.gsrs.clinicaltrial.us.models.ClinicalTrialUSDrug;
 import gov.hhs.gsrs.clinicaltrial.us.models.OutcomeResultNote;
@@ -8,6 +7,7 @@ import gov.hhs.gsrs.clinicaltrial.us.models.SubstanceRole;
 import org.junit.jupiter.api.Test;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 import static org.junit.Assert.assertEquals;
 
@@ -22,8 +22,8 @@ public class ClinicalTrialUSTest {
         s.setOwner(ctus);
         s.setId(0L);
         ctus.getClinicalTrialUSDrug().add(s);
-        UUID_V1_Gen u = new UUID_V1_Gen();
-        s.setSubstanceKey(u.generate().toString());
+        UUID u = UUID.randomUUID();
+        s.setSubstanceKey(u.toString());
         s.setSubstanceKeyType("UUID");
         List<SubstanceRole> srl = new ArrayList<SubstanceRole>();
         SubstanceRole sr1 = new SubstanceRole();
@@ -60,3 +60,4 @@ public class ClinicalTrialUSTest {
     }
 
 }
+

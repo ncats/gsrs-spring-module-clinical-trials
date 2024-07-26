@@ -97,11 +97,11 @@ return "gsrs";
 }
 
 public String getCollectionID() {
-return "export-all-gsrs";
+return "export-all-ctus-gsrs";
 }
 
 public Function<String, String> fileNameGenerator() {
-return date -> "auto-export-" + date;
+return date -> "auto-export-ctus-" + date;
 }
 
 public ExportService getExportService() {

@@ -1,10 +1,12 @@
 package gov.hhs.gsrs.clinicaltrial.us.models;
 
+import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import gsrs.security.GsrsSecurityUtils;
 import ix.core.models.*;
 import gov.hhs.gsrs.clinicaltrial.base.models.ClinicalTrialBase;
+import ix.core.util.EntityUtils;
 import ix.ginas.models.serialization.GsrsDateDeserializer;
 import ix.ginas.models.serialization.GsrsDateSerializer;
 import lombok.*;
@@ -261,6 +263,14 @@ public class ClinicalTrialUS extends ClinicalTrialBase {
         ReflectionToStringBuilder rtsb = new ReflectionToStringBuilder(this);
         rtsb.setExcludeNullValues(true);
         return rtsb.toString();
+    }
+    public JsonNode toInternalJsonNode(){
+        return EntityUtils.EntityWrapper.of(this).toInternalJsonNode();
+    }
+
+    @Override
+    protected Object clone() throws CloneNotSupportedException {
+        return super.clone();
     }
 
 }

@@ -15,6 +15,7 @@ import org.junit.jupiter.api.Test;
 
 import java.io.File;
 import java.io.InputStream;
+import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -67,10 +68,21 @@ public void xyzTest(){
     }
 
     @Test
+    public void setTrialNumberTest(){
+        ClinicalTrialUS ctus = new ClinicalTrialUSBuilder()
+        .setTrialNumber("NCT001")
+        .build();
+        assertEquals("NCT001", ctus.getTrialNumber());
+    }
+
+    @Test
     public void builderTest(){
         ClinicalTrialUS ctus = new ClinicalTrialUS();
         ctus.setTrialNumber("NCT001");
         ctus.setTitle("Trial 1");
+        ctus.setKind("US");
+        ctus.setUrl("Url 1");
+
         ClinicalTrialUSDrug s = new ClinicalTrialUSDrug();
         s.setOwner(ctus);
         s.setId(0L);
@@ -87,9 +99,20 @@ public void xyzTest(){
         sr2.setOwner(s);
         sr2.setSubstanceRole("Role 2");
         srl.add(sr2);
+
+
+
         ClinicalTrialUSBuilder testBuilder = new ClinicalTrialUSBuilder(ctus);
+
+
+
+
         ClinicalTrialUS newCtus = testBuilder.build();
         assertEquals(ctus.getTrialNumber(), newCtus.getTrialNumber());
+        assertEquals(ctus.getTitle(), newCtus.getTitle());
+        assertEquals(ctus.getKind(), newCtus.getKind());
+        assertEquals(ctus.getUrl(), newCtus.getUrl());
+
     }
 
 

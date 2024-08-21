@@ -2,7 +2,7 @@ package gov.hhs.gsrs.clinicaltrial.europe.controllers;
 
 import gov.hhs.gsrs.clinicaltrial.europe.models.ClinicalTrialEurope;
 import gov.hhs.gsrs.clinicaltrial.europe.services.ClinicalTrialEuropeEntityService;
-import gov.hhs.gsrs.clinicaltrial.europe.services.ClinicalTrialEuropeExportService;
+// import gov.hhs.gsrs.clinicaltrial.europe.services.ClinicalTrialEuropeExportService;
 import gov.hhs.gsrs.clinicaltrial.europe.services.ClinicalTrialEuropeLegacySearchService;
 import gsrs.controller.EtagLegacySearchEntityController;
 import gsrs.controller.GetGsrsRestApiMapping;
@@ -52,8 +52,8 @@ public class ClinicalTrialEuropeController extends EtagLegacySearchEntityControl
 
     public ClinicalTrialEuropeController() {}
 
-    @Autowired
-    ClinicalTrialEuropeExportService clinicalTrialEuropeExportService;
+//    @Autowired
+//    ClinicalTrialEuropeExportService clinicalTrialEuropeExportService;
 
     // experimental
     /*

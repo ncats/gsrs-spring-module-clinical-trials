@@ -1,5 +1,6 @@
 package gov.hhs.gsrs.clinicaltrial.base.models;
 
+import gov.hhs.gsrs.clinicaltrial.us.models.ClinicalTrialUS;
 import gsrs.BackupEntityProcessorListener;
 import gsrs.ForceUpdateDirtyMakerMixin;
 import gsrs.GsrsEntityProcessorListener;
@@ -77,5 +78,6 @@ public abstract class ClinicalTrialBase extends
         if (this.trialNumber!=null) return this.getClass().getName() + ":" + this.trialNumber;
         return null;
     }
+
 
 }

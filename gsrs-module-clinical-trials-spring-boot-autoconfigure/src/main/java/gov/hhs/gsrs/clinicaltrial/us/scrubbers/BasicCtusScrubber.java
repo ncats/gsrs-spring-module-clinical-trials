@@ -2,17 +2,7 @@ package gov.hhs.gsrs.clinicaltrial.us.scrubbers;
 
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
-import java.util.Optional;
-import java.util.Set;
-import java.util.UUID;
+import java.util.*;
 import java.util.function.Consumer;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
@@ -23,8 +13,12 @@ import com.jayway.jsonpath.PathNotFoundException;
 import com.jayway.jsonpath.Predicate;
 
 import gov.hhs.gsrs.clinicaltrial.ClinicalTrialDataSourceConfig;
+import gov.hhs.gsrs.clinicaltrial.us.modelBuilders.ClinicalTrialUSBuilder;
 import gov.hhs.gsrs.clinicaltrial.us.models.ClinicalTrialUS;
+import gov.hhs.gsrs.clinicaltrial.us.models.ClinicalTrialUSDrug;
 import gov.nih.ncats.common.stream.StreamUtil;
+import gsrs.api.substances.SubstanceRestApi;
+import gsrs.substances.dto.SubstanceDTO;
 import ix.core.EntityFetcher;
 import ix.core.models.Group;
 import ix.core.util.EntityUtils;
@@ -37,6 +31,7 @@ import ix.ginas.models.GinasCommonData;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import net.minidev.json.JSONArray;
+import org.springframework.beans.factory.annotation.Autowired;
 
 /*
 Note: as of 22 September, most of this class is commented out and a quick and dirty implementation is in place.
@@ -44,7 +39,8 @@ This will change in the ensuing weeks
  */
 @Slf4j
 public class BasicCtusScrubber implements RecordScrubber<ClinicalTrialUS>{
-
+@Autowired
+    SubstanceRestApi substanceRestApi;
 
 private static final String TO_DELETE = "TO_DELETE";
 private static final String TO_FORCE_KEEP = "TO_FORCE_KEEP";
@@ -55,7 +51,7 @@ private static Set<Group> toKeep = new HashSet<>();
 
 
 public BasicCtusScrubber(BasicCtusScrubberParameters scrubberSettings){
-this.scrubberSettings = scrubberSettings;
+    this.scrubberSettings = scrubberSettings;
 }
 
 //public void setResolver( ClinicalTrialUSReferenceResolver newResolver) {
@@ -77,15 +73,28 @@ this.scrubberSettings = scrubberSettings;
             ctusJson = ctusRefetch.get().toInternalJsonNode().toString();
         }
 
-//        try {
-//            //TODO: confirm if this forces as a concept. It should not,
-//            // but we need to check.
-////            ClinicalTrialUS ctusNew = ClinicalTrialUSBuilder.from(ctusJson).build();
-//  //          return Optional.of(ctusNew);
-//        }
-//        catch (Exception ex) {
-//            log.warn("error processing record; Will return empty", ex);
-//        }
+        try {
+            ClinicalTrialUSBuilder builder = ClinicalTrialUSBuilder.from(ctusJson);
+            ClinicalTrialUS ctusNew = builder.build();
+
+            List<ClinicalTrialUSDrug> list = ctusNew.getClinicalTrialUSDrug();
+            ListIterator<ClinicalTrialUSDrug> iter = list.listIterator();
+
+            while (iter.hasNext()) {
+                boolean remove = false;
+                ClinicalTrialUSDrug s = iter.next();
+                if (s.isProtectedMatch()) {
+                    remove = true;
+                }
+                if (remove) {
+                    iter.remove();
+                }
+            }
+            return Optional.of(ctusNew);
+        }
+        catch (Exception ex) {
+            log.warn("error processing record; Will return empty", ex);
+        }
         return Optional.empty();
     }
 

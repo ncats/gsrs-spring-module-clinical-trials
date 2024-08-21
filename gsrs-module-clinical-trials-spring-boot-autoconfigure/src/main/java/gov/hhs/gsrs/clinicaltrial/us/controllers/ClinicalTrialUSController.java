@@ -46,11 +46,11 @@ public class ClinicalTrialUSController extends EtagLegacySearchEntityController<
     @Autowired
     private ClinicalTrialUSEntityService clinicalTrialUSEntityService;
 
-    @Autowired
-    private ClinicalTrialUSMetaUpdaterService clinicalTrialUSMetaUpdaterService;
+//    @Autowired
+//    private ClinicalTrialUSMetaUpdaterService clinicalTrialUSMetaUpdaterService;
 
-    @Autowired
-    private SubstanceAPIService substanceAPIService;
+//    @Autowired
+//    private SubstanceAPIService substanceAPIService;
 
 
     @Autowired

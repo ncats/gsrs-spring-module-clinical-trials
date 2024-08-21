@@ -5,7 +5,6 @@ package gov.hhs.gsrs.clinicaltrial.us.validators;
 import gov.hhs.gsrs.clinicaltrial.us.models.ClinicalTrialUS;
 import gov.hhs.gsrs.clinicaltrial.us.models.ClinicalTrialUSDrug;
 import gov.hhs.gsrs.clinicaltrial.us.services.SubstanceAPIService;
-// import gsrs.module.substance.substanceapi.services.SubstanceAPIService;
 import gsrs.validator.ValidatorConfig;
 import ix.core.validator.GinasProcessingMessage;
 import ix.core.validator.ValidatorCallback;

@@ -44,6 +44,7 @@ public class ClinicalTrialUS extends ClinicalTrialBase {
         this.setKind("US");
     }
 
+
     @Lob
     @Column(name = "RECRUITMENT", length=4000)
     public String recruitment;
@@ -266,11 +267,6 @@ public class ClinicalTrialUS extends ClinicalTrialBase {
     }
     public JsonNode toInternalJsonNode(){
         return EntityUtils.EntityWrapper.of(this).toInternalJsonNode();
-    }
-
-    @Override
-    protected Object clone() throws CloneNotSupportedException {
-        return super.clone();
     }
 
 }

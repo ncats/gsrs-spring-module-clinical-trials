@@ -5,7 +5,6 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import gov.hhs.gsrs.clinicaltrial.us.models.ClinicalTrialUS;
 import ix.core.controllers.EntityFactory;
-
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
@@ -45,6 +44,7 @@ public class ClinicalTrialUSBuilder extends AbstractClinicalTrialUSBuilder<Clini
     public static <S extends ClinicalTrialUS, B extends AbstractClinicalTrialUSBuilder<S,B>> B  from(InputStream json) throws IOException{
         return from(mapper.readTree(json));
     }
+
     public static <S extends ClinicalTrialUS, B extends AbstractClinicalTrialUSBuilder<S,B>> B  from(JsonNode json){
         ClinicalTrialUS ctus = null;
         try {
@@ -55,5 +55,8 @@ public class ClinicalTrialUSBuilder extends AbstractClinicalTrialUSBuilder<Clini
             throw new IllegalStateException("JSON parse error:" + e.getMessage(), e);
         }
     }
+
+
+
 
 }

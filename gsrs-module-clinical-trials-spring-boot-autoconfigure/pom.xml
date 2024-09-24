@@ -93,11 +93,6 @@
         </dependency>
         <dependency>
             <groupId>gov.nih.ncats</groupId>
-            <artifactId>gsrs-spring-boot-starter</artifactId>
-            <version>${gsrs.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>gov.nih.ncats</groupId>
             <artifactId>gsrs-spring-starter-tests</artifactId>
             <version>${gsrs.version}</version>
             <scope>test</scope>

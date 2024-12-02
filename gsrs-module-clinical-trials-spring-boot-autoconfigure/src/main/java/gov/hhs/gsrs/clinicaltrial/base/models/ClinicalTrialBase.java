@@ -25,7 +25,7 @@ import javax.persistence.InheritanceType;
 @Backup
 // (taking out of EventListners annotation for now and until substance indexing issue resolved)
 // BackupEntityProcessorListener.class
-@EntityListeners({AuditingEntityListener.class, GsrsEntityProcessorListener.class, IndexerEntityListener.class})
+@EntityListeners({AuditingEntityListener.class, GsrsEntityProcessorListener.class, IndexerEntityListener.class, BackupEntityProcessorListener.class})
 public abstract class ClinicalTrialBase extends
         AbstractGsrsTablePerClassEntity
                 implements FetchableEntity, ForceUpdateDirtyMakerMixin {

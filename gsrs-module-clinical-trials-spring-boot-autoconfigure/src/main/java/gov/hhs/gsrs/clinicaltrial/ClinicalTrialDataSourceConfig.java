@@ -57,7 +57,7 @@ public class ClinicalTrialDataSourceConfig extends GSRSDataSourceConfig  {
     protected static final String NAME_DATA_SOURCE = PERSIST_UNIT + "DataSource";
     public static final String NAME_ENTITY_MANAGER = PERSIST_UNIT + "EntityManager";
     protected static final String NAME_DATA_SOURCE_PROPERTIES = PERSIST_UNIT + "DataSourceProperties";
-    protected static final String NAME_TRANSACTION_MANAGER = PERSIST_UNIT + "TransactionManager";
+    public static final String NAME_TRANSACTION_MANAGER = PERSIST_UNIT + "TransactionManager";
 
 
 

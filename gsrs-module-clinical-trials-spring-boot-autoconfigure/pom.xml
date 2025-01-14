@@ -5,7 +5,7 @@
     <parent>
         <artifactId>gsrs-module-clinical-trials</artifactId>
         <groupId>gov.nih.ncats</groupId>
-        <version>3.1.1-SNAPSHOT</version>
+        <version>3.1.2-SNAPSHOT</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
@@ -90,11 +90,6 @@
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
             <optional>true</optional>
-        </dependency>
-        <dependency>
-            <groupId>gov.nih.ncats</groupId>
-            <artifactId>gsrs-spring-boot-starter</artifactId>
-            <version>${gsrs.version}</version>
         </dependency>
         <dependency>
             <groupId>gov.nih.ncats</groupId>

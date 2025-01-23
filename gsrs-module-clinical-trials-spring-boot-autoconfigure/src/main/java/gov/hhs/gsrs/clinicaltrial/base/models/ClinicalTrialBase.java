@@ -1,5 +1,6 @@
 package gov.hhs.gsrs.clinicaltrial.base.models;
 
+import gov.hhs.gsrs.clinicaltrial.us.models.ClinicalTrialUS;
 import gsrs.BackupEntityProcessorListener;
 import gsrs.ForceUpdateDirtyMakerMixin;
 import gsrs.GsrsEntityProcessorListener;
@@ -25,7 +26,7 @@ import javax.persistence.InheritanceType;
 @Backup
 // (taking out of EventListners annotation for now and until substance indexing issue resolved)
 // BackupEntityProcessorListener.class
-@EntityListeners({AuditingEntityListener.class, GsrsEntityProcessorListener.class, IndexerEntityListener.class})
+@EntityListeners({AuditingEntityListener.class, GsrsEntityProcessorListener.class, IndexerEntityListener.class, BackupEntityProcessorListener.class})
 public abstract class ClinicalTrialBase extends
         AbstractGsrsTablePerClassEntity
                 implements FetchableEntity, ForceUpdateDirtyMakerMixin {
@@ -77,5 +78,6 @@ public abstract class ClinicalTrialBase extends
         if (this.trialNumber!=null) return this.getClass().getName() + ":" + this.trialNumber;
         return null;
     }
+
 
 }

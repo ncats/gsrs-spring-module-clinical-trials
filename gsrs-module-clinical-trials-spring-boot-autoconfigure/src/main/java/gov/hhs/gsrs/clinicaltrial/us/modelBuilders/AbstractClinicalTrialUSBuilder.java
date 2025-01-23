@@ -199,7 +199,7 @@ public abstract class AbstractClinicalTrialUSBuilder <S extends ClinicalTrialUS,
 
         String title = copy.getTitle();
         if (title != null) {
-            setKind(title);
+            setTitle(title);
         }
 
         String url = copy.getUrl();

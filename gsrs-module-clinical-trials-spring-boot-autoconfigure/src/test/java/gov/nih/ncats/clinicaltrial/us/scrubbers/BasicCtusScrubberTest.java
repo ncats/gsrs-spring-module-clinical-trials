@@ -6,7 +6,7 @@ import gov.hhs.gsrs.clinicaltrial.us.models.ClinicalTrialUSDrug;
 import gov.nih.ncats.clinicaltrial.GsrsSpringApplication;
 import gov.hhs.gsrs.clinicaltrial.us.scrubbers.BasicCtusScrubber;
 import gov.hhs.gsrs.clinicaltrial.us.scrubbers.BasicCtusScrubberParameters;
-
+import gsrs.scheduler.GsrsSchedulerTaskPropertiesConfiguration;
 // import gsrs.substances.tests.SubstanceTestUtil;
 import gsrs.api.substances.SubstanceRestApi;
 import lombok.extern.slf4j.Slf4j;
@@ -21,7 +21,7 @@ import org.springframework.test.context.TestPropertySource;
 
 import java.util.*;
 
-@SpringBootTest(classes = {GsrsSpringApplication.class, SubstancesApiConfiguration.class})
+@SpringBootTest(classes = {GsrsSpringApplication.class, SubstancesApiConfiguration.class, GsrsSchedulerTaskPropertiesConfiguration.class})
 // @WithMockUser(username = "admin", roles = "Admin")
 @Slf4j
 // @ActiveProfiles("test")
@@ -30,7 +30,8 @@ import java.util.*;
     "mygsrs.substanceAPI.baseUrl='http://localhost:9081/'",
     "gsrs.microservice.substances.api.baseUrl='http://localhost:9081/'",
     "gsrs.microservice.substances.api.headers.auth-username='admin'",
-    "gsrs.microservice.substances.api.headers.auth-key='myKey'"
+    "gsrs.microservice.substances.api.headers.auth-key='myKey'",
+    "spring.mvc.pathmatch.matching-strategy='ant_path_matcher'"
 })
 public class BasicCtusScrubberTest {
 

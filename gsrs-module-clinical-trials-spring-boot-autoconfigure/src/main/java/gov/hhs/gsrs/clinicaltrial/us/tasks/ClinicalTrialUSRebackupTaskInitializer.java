@@ -34,12 +34,12 @@ public String getDescription() {
 return description;
 }
 
-
 @Override
 public void run(SchedulerPlugin.JobStats stats, SchedulerPlugin.TaskListener l){
-backupService.reBackupAllEntitiesOfType(StaticContextAccessor.getBean(repositoryClass),
-PageRequest.of(0, 200), taskProgress -> {
-l.message(taskProgress.getCurrentCount() + "  of " + taskProgress.getTotalCount());
-});
-}
+    System.out.println("Running ClinicalTrialUSRebackupTaskInitializer");
+    backupService.reBackupAllEntitiesOfType(StaticContextAccessor.getBean(repositoryClass),
+    PageRequest.of(0, 200), taskProgress -> {
+        l.message(taskProgress.getCurrentCount() + "  of " + taskProgress.getTotalCount());
+    });
+    }
 }

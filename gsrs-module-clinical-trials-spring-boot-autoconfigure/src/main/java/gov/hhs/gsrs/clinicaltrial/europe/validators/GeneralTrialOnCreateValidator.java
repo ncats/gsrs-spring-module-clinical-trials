@@ -37,16 +37,16 @@ public class GeneralTrialOnCreateValidator implements ValidatorPlugin<ClinicalTr
         String trialNumber = objnew.getTrialNumber();
 
         if(trialNumber==null) {
-            callback.addMessage(GinasProcessingMessage.ERROR_MESSAGE(String.format(trialNumberNullErrorTemplate)));
+            callback.addMessage(GinasProcessingMessage.ERROR_MESSAGE("GeneralTrialOnCreateValidatorNullError", String.format(trialNumberNullErrorTemplate)));
         }
         boolean formatOK = trialNumberPattern.matcher(trialNumber).matches();
         if(!formatOK) {
-            callback.addMessage(GinasProcessingMessage.ERROR_MESSAGE(String.format(badlyFormattedTrialNumberTemplate, trialNumber)));
+            callback.addMessage(GinasProcessingMessage.ERROR_MESSAGE("GeneralTrialOnCreateValidatorFormatError", String.format(badlyFormattedTrialNumberTemplate, trialNumber)));
         }
 
         Optional<ClinicalTrialEurope> found = repository.findById(objnew.getTrialNumber());
         if(found.isPresent()) {
-            callback.addMessage(GinasProcessingMessage.ERROR_MESSAGE(String.format(trialNumberAlreadyExistsErrorTemplate, trialNumber)));
+            callback.addMessage(GinasProcessingMessage.ERROR_MESSAGE("GeneralTrialOnCreateValidatorExistError", String.format(trialNumberAlreadyExistsErrorTemplate, trialNumber)));
         }
     }
 }

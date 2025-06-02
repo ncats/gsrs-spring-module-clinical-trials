@@ -30,7 +30,7 @@ public class GeneralTrialSetCreateDateOnCreateIfNullValidator implements Validat
         if (objnew != null && objnew.getCreationDate() == null) {
             Date date1 = TimeUtil.getCurrentDate();
             objnew.setCreationDate(date1);
-            callback.addMessage(GinasProcessingMessage.INFO_MESSAGE(String.format(createDateAutomaticallySetOnNull)));
+            callback.addMessage(GinasProcessingMessage.INFO_MESSAGE("GeneralTrialSetCreateDateOnCreateIfNullValidatorInfo", String.format(createDateAutomaticallySetOnNull)));
         }
     }
 }

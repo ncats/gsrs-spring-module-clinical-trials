@@ -16,9 +16,9 @@ public class RequiredFieldNonNullValidator implements ValidatorPlugin<ClinicalTr
     @Override
     public void validate(ClinicalTrialUS objnew, ClinicalTrialUS objold, ValidatorCallback callback) {
         if (objnew.getTitle() == null) {
-            callback.addMessage(GinasProcessingMessage.WARNING_MESSAGE("null title"));
+            callback.addMessage(GinasProcessingMessage.WARNING_MESSAGE("RequiredFieldNonNullValidatorWarning1", "null title"));
         } else if(objnew.getTitle().trim().isEmpty()) {
-            callback.addMessage(GinasProcessingMessage.WARNING_MESSAGE("blank title"));
+            callback.addMessage(GinasProcessingMessage.WARNING_MESSAGE("RequiredFieldNonNullValidatorWarning2", "blank title"));
         }
     }
 }

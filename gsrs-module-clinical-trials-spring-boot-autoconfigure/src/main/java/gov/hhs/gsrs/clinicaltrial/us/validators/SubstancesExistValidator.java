@@ -41,7 +41,7 @@ public class SubstancesExistValidator implements ValidatorPlugin<ClinicalTrialUS
                 // Boolean b = substanceAPIService.substanceExists(ctd.getSubstanceKey());
                 Boolean b = substanceAPIService.substanceRestApiSubstanceExists(ctd.getSubstanceKey());
                 if (b == null || b != true)
-                    callback.addMessage(GinasProcessingMessage.ERROR_MESSAGE("Substance UUID not found"));
+                    callback.addMessage(GinasProcessingMessage.ERROR_MESSAGE("SubstancesExistValidatorUUIDError", "Substance UUID not found"));
             }
         }
     }

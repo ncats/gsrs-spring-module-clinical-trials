@@ -32,13 +32,13 @@ public class GeneralTrialSetCreateUpdateDateOnUpdateIfNullValidator implements V
         if (objnew != null && objnew.getCreationDate() == null) {
             Date date1 = TimeUtil.getCurrentDate();
             objnew.setCreationDate(date1);
-            callback.addMessage(GinasProcessingMessage.INFO_MESSAGE("GeneralTrialSetCreateUpdateDateOnUpdateIfNullValidatorInfo1", String.format(createDateAutomaticallySetOnNull)));
+            callback.addMessage(GinasProcessingMessage.INFO_MESSAGE(String.format(createDateAutomaticallySetOnNull)));
         }
 
         if (objnew != null && objnew.getLastModifiedDate() == null) {
             Date date2 = TimeUtil.getCurrentDate();
             objnew.setLastModifiedDate(date2);
-            callback.addMessage(GinasProcessingMessage.INFO_MESSAGE("GeneralTrialSetCreateUpdateDateOnUpdateIfNullValidatorInfo2", String.format(lastModifiedDateAutomaticallySetOnNull)));
+            callback.addMessage(GinasProcessingMessage.INFO_MESSAGE(String.format(lastModifiedDateAutomaticallySetOnNull)));
         }
 
     }

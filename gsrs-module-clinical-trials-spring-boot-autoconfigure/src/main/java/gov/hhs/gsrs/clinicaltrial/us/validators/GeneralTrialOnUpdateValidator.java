@@ -46,29 +46,29 @@ public class GeneralTrialOnUpdateValidator implements ValidatorPlugin<ClinicalTr
     @Override
     public void validate(ClinicalTrialUS objnew, ClinicalTrialUS objold, ValidatorCallback callback) {
         if (objold == null) {
-            callback.addMessage(GinasProcessingMessage.ERROR_MESSAGE("GeneralTrialOnUpdateValidatorNullError1", String.format(objoldIsNullErrorTemplate)));
+            callback.addMessage(GinasProcessingMessage.ERROR_MESSAGE(String.format(objoldIsNullErrorTemplate)));
             return;
         }
 
         if (objnew == null) {
-            callback.addMessage(GinasProcessingMessage.ERROR_MESSAGE("GeneralTrialOnUpdateValidatorNullError2", String.format(objnewIsNullErrorTemplate)));
+            callback.addMessage(GinasProcessingMessage.ERROR_MESSAGE(String.format(objnewIsNullErrorTemplate)));
             return;
         }
         String trialNumber = objnew.getTrialNumber();
         if (trialNumber == null) {
-            callback.addMessage(GinasProcessingMessage.ERROR_MESSAGE("GeneralTrialOnUpdateValidatorNullError3", String.format(trialNumberNullErrorTemplate)));
+            callback.addMessage(GinasProcessingMessage.ERROR_MESSAGE(String.format(trialNumberNullErrorTemplate)));
             return;
         }
         boolean formatOK = trialNumberPattern.matcher(trialNumber).matches();
 
         if (!formatOK) {
-            callback.addMessage(GinasProcessingMessage.ERROR_MESSAGE("GeneralTrialOnUpdateValidatorFormatError", String.format(badlyFormattedTrialNumberTemplate, trialNumber)));
+            callback.addMessage(GinasProcessingMessage.ERROR_MESSAGE(String.format(badlyFormattedTrialNumberTemplate, trialNumber)));
             return;
         }
 
         Optional<ClinicalTrialUS> found = repository.findById(objnew.getTrialNumber());
         if(!found.isPresent()) {
-            callback.addMessage(GinasProcessingMessage.ERROR_MESSAGE("GeneralTrialOnUpdateValidatorExistError", String.format(trialNumberShouldAlreadyExistErrorTemplate, trialNumber)));
+            callback.addMessage(GinasProcessingMessage.ERROR_MESSAGE(String.format(trialNumberShouldAlreadyExistErrorTemplate, trialNumber)));
             return;
         }
 
@@ -78,19 +78,19 @@ public class GeneralTrialOnUpdateValidator implements ValidatorPlugin<ClinicalTr
         Date oldLastModifiedDate = objold.getLastModifiedDate();
 
        if (newCreationDate == null) {
-            callback.addMessage(GinasProcessingMessage.ERROR_MESSAGE("GeneralTrialOnUpdateValidatorNullError4", String.format(newCreationDateNullErrorTemplate)));
+            callback.addMessage(GinasProcessingMessage.ERROR_MESSAGE(String.format(newCreationDateNullErrorTemplate)));
             return;
         }
         if (newLastModifiedDate == null) {
-            callback.addMessage(GinasProcessingMessage.ERROR_MESSAGE("GeneralTrialOnUpdateValidatorNullError5", String.format(newLastModifiedDateNullErrorTemplate)));
+            callback.addMessage(GinasProcessingMessage.ERROR_MESSAGE(String.format(newLastModifiedDateNullErrorTemplate)));
             return;
         }
         if (oldCreationDate == null) {
-            callback.addMessage(GinasProcessingMessage.ERROR_MESSAGE("GeneralTrialOnUpdateValidatorNullError6", String.format(oldCreationDateNullErrorTemplate)));
+            callback.addMessage(GinasProcessingMessage.ERROR_MESSAGE(String.format(oldCreationDateNullErrorTemplate)));
             return;
         }
         if (oldLastModifiedDate == null) {
-            callback.addMessage(GinasProcessingMessage.ERROR_MESSAGE("GeneralTrialOnUpdateValidatorNullError7",String.format(oldLastModifiedDateNullErrorTemplate)));
+            callback.addMessage(GinasProcessingMessage.ERROR_MESSAGE(String.format(oldLastModifiedDateNullErrorTemplate)));
             return;
         }
 
@@ -101,10 +101,10 @@ public class GeneralTrialOnUpdateValidator implements ValidatorPlugin<ClinicalTr
         boolean cmpc = ldtc1.isEqual(ldtc2);
         boolean cmpm = ldtm1.isEqual(ldtm2);
         if (cmpc != true) {
-            callback.addMessage(GinasProcessingMessage.ERROR_MESSAGE("GeneralTrialOnUpdateValidatorDifferentError1", String.format(newOldCreationDatesDifferentErrorTemplate)));
+            callback.addMessage(GinasProcessingMessage.ERROR_MESSAGE(String.format(newOldCreationDatesDifferentErrorTemplate)));
         }
         if (cmpm != true) {
-            callback.addMessage(GinasProcessingMessage.ERROR_MESSAGE("GeneralTrialOnUpdateValidatorDifferentError2", String.format(newOldLastModifiedDatesDifferentErrorTemplate)));
+            callback.addMessage(GinasProcessingMessage.ERROR_MESSAGE(String.format(newOldLastModifiedDatesDifferentErrorTemplate)));
         }
     }
 }

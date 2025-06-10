@@ -49,18 +49,18 @@ public class GeneralTrialOnUpdateValidator implements ValidatorPlugin<ClinicalTr
 
         String trialNumber = objnew.getTrialNumber();
         if(trialNumber==null) {
-            callback.addMessage(GinasProcessingMessage.ERROR_MESSAGE("GeneralTrialOnUpdateValidatorNullError1", String.format(trialNumberNullErrorTemplate)));
+            callback.addMessage(GinasProcessingMessage.ERROR_MESSAGE(String.format(trialNumberNullErrorTemplate)));
         }
         boolean formatOK = trialNumberPattern.matcher(trialNumber).matches();
         if(!formatOK) {
-            callback.addMessage(GinasProcessingMessage.ERROR_MESSAGE("GeneralTrialOnUpdateValidatorFormatError", String.format(badlyFormattedTrialNumberTemplate, trialNumber)));
+            callback.addMessage(GinasProcessingMessage.ERROR_MESSAGE(String.format(badlyFormattedTrialNumberTemplate, trialNumber)));
         }
         // ask danny about this? how is objold populated.
         if(objold != null) {
         }
         Optional<ClinicalTrialEurope> found = repository.findById(objnew.getTrialNumber());
         if(!found.isPresent()) {
-            callback.addMessage(GinasProcessingMessage.ERROR_MESSAGE("GeneralTrialOnUpdateValidatorExistError", String.format(trialNumberShouldAlreadyExistErrorTemplate, trialNumber)));
+            callback.addMessage(GinasProcessingMessage.ERROR_MESSAGE(String.format(trialNumberShouldAlreadyExistErrorTemplate, trialNumber)));
         } else {
             ClinicalTrialEurope ct = found.get();
             Date newCreationDate = objnew.getCreationDate();
@@ -68,16 +68,16 @@ public class GeneralTrialOnUpdateValidator implements ValidatorPlugin<ClinicalTr
             Date oldCreationDate = ct.getCreationDate();
             Date oldLastModifiedDate = ct.getLastModifiedDate();
             if (newCreationDate == null) {
-                callback.addMessage(GinasProcessingMessage.ERROR_MESSAGE("GeneralTrialOnUpdateValidatorNullError2", String.format(newCreationDateNullErrorTemplate)));
+                callback.addMessage(GinasProcessingMessage.ERROR_MESSAGE(String.format(newCreationDateNullErrorTemplate)));
             }
             if (newLastModifiedDate == null) {
-                callback.addMessage(GinasProcessingMessage.ERROR_MESSAGE("GeneralTrialOnUpdateValidatorNullError3", String.format(newLastModifiedDateNullErrorTemplate)));
+                callback.addMessage(GinasProcessingMessage.ERROR_MESSAGE(String.format(newLastModifiedDateNullErrorTemplate)));
             }
             if (oldCreationDate == null) {
-                callback.addMessage(GinasProcessingMessage.ERROR_MESSAGE("GeneralTrialOnUpdateValidatorNullError4", String.format(oldCreationDateNullErrorTemplate)));
+                callback.addMessage(GinasProcessingMessage.ERROR_MESSAGE(String.format(oldCreationDateNullErrorTemplate)));
             }
             if (oldLastModifiedDate == null) {
-                callback.addMessage(GinasProcessingMessage.ERROR_MESSAGE("GeneralTrialOnUpdateValidatorNullError5", String.format(oldLastModifiedDateNullErrorTemplate)));
+                callback.addMessage(GinasProcessingMessage.ERROR_MESSAGE(String.format(oldLastModifiedDateNullErrorTemplate)));
             }
 /*
             LocalDateTime ldt1 = TimeUtil.asLocalDateTime(newLastModifiedDate);

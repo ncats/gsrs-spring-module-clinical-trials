@@ -65,28 +65,28 @@ public class GeneralSubstancesValidator implements ValidatorPlugin<ClinicalTrial
             for(ClinicalTrialEuropeDrug ctd : ctds) {
                 String substanceKeyType = ctd.getSubstanceKeyType();
                 if(substanceKeyType == null) {
-                    callback.addMessage(GinasProcessingMessage.ERROR_MESSAGE("GeneralSubstancesValidatorNullError1", String.format(substanceKeyTypeNullErrorTemplate)));
+                    callback.addMessage(GinasProcessingMessage.ERROR_MESSAGE(String.format(substanceKeyTypeNullErrorTemplate)));
                     continue;
                 }
                 if(!substanceKeyType.equals(substanceKeyTypeValue) ) {
-                    callback.addMessage(GinasProcessingMessage.ERROR_MESSAGE("GeneralSubstancesValidatorBadValueError", String.format(substanceKeyTypeBadValueErrorTemplate)));
+                    callback.addMessage(GinasProcessingMessage.ERROR_MESSAGE(String.format(substanceKeyTypeBadValueErrorTemplate)));
                     continue;
                 }
                 String substanceKey = ctd.getSubstanceKey();
                 if(substanceKey == null) {
-                    callback.addMessage(GinasProcessingMessage.ERROR_MESSAGE("GeneralSubstancesValidatorNullError2", String.format(substanceKeyNullErrorTemplate)));
+                    callback.addMessage(GinasProcessingMessage.ERROR_MESSAGE(String.format(substanceKeyNullErrorTemplate)));
                     continue;
                 }
                 // boolean formatOK = isUuid(uuid);
                 boolean formatOK = substanceKeyPattern.matcher(substanceKey).matches();
                 if(!formatOK) {
-                    callback.addMessage(GinasProcessingMessage.ERROR_MESSAGE("GeneralSubstancesValidatorFormatError", String.format(badlyFormattedSubstanceKeyTemplate, substanceKey)));
+                    callback.addMessage(GinasProcessingMessage.ERROR_MESSAGE(String.format(badlyFormattedSubstanceKeyTemplate, substanceKey)));
                     continue;
                 }
                 if(map.get(substanceKey)==null) {
                     map.put(substanceKey, true);
                 } else {
-                    callback.addMessage(GinasProcessingMessage.ERROR_MESSAGE("GeneralSubstancesValidatorDuplicateError", String.format(duplicateSubstanceErrorTemplate,ctd.getSubstanceKey())));
+                    callback.addMessage(GinasProcessingMessage.ERROR_MESSAGE(String.format(duplicateSubstanceErrorTemplate,ctd.getSubstanceKey())));
                 }
             }
         }

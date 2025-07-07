@@ -19,15 +19,18 @@
     </properties>
     -->
     <dependencies>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter</artifactId>
-            <version>2.7.18</version>
-        </dependency>
+        <!-- CLINICAL TRIAL MODULE Autoconfigure Dependencies -->
         <dependency>
             <groupId>gov.nih.ncats</groupId>
             <artifactId>gsrs-module-clinical-trials-spring-boot-autoconfigure</artifactId>
             <version>${gsrs.clinical-trials.version}</version>
+        </dependency>
+
+        <!-- SPRING BOOT Dependencies -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter</artifactId>
+            <version>2.7.18</version>
         </dependency>
     </dependencies>
 

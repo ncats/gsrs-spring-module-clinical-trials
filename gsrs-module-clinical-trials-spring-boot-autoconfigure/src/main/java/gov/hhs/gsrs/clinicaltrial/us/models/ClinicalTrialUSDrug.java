@@ -10,7 +10,7 @@ import org.hibernate.annotations.LazyCollection;
 import org.hibernate.annotations.LazyCollectionOption;
 import org.springframework.beans.factory.annotation.Value;
 
-import javax.persistence.*;
+import jakarta.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 

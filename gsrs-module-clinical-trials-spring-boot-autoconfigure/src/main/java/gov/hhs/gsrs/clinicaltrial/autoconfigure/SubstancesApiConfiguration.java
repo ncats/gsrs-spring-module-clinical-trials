@@ -13,7 +13,7 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.orm.jpa.JpaTransactionManager;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 
-import javax.persistence.EntityManagerFactory;
+import jakarta.persistence.EntityManagerFactory;
 import javax.sql.DataSource;
 
 @Configuration

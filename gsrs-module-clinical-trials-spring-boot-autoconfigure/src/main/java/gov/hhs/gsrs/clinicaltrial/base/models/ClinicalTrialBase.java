@@ -11,8 +11,8 @@ import lombok.*;
 import lombok.experimental.SuperBuilder;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
-import javax.persistence.*;
-import javax.persistence.InheritanceType;
+import jakarta.persistence.*;
+import jakarta.persistence.InheritanceType;
 
 
 @Data

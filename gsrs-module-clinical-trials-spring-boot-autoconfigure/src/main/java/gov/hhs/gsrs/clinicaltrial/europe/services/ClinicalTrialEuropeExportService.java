@@ -5,7 +5,7 @@ import gov.hhs.gsrs.clinicaltrial.europe.models.ClinicalTrialEurope;
 import gov.hhs.gsrs.clinicaltrial.europe.repositories.ClinicalTrialEuropeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import javax.servlet.ServletContext;
+import jakarta.servlet.ServletContext;
 import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Path;

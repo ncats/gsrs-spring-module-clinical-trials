@@ -9,7 +9,7 @@ import ix.core.models.ParentReference;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
-import javax.persistence.*;
+import jakarta.persistence.*;
 
 
 @Data

@@ -2,7 +2,7 @@ package gov.hhs.gsrs.clinicaltrial.us.utils.importmapper;
 
 import gov.hhs.gsrs.clinicaltrial.us.models.ClinicalTrialUS;
 
-import javax.persistence.Column;
+import jakarta.persistence.Column;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Arrays;

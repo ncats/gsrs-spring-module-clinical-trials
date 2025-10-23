@@ -101,7 +101,7 @@ public class SubstanceAPIService {
         }
         if(response == null) return null;
 
-        HttpStatus statusCode = response.getStatusCode();
+        HttpStatus statusCode = (HttpStatus) response.getStatusCode();
         if (statusCode == null)  return null;
 
         if (statusCode.equals(HttpStatus.valueOf(404))) {
@@ -155,7 +155,7 @@ public class SubstanceAPIService {
             if (response == null) {
                 continue;
             }
-            statusCode = response.getStatusCode();
+            statusCode = (HttpStatus) response.getStatusCode();
             if (statusCode.equals(HttpStatus.valueOf(404))) {
                 qr.hasResponseError = true;
             }

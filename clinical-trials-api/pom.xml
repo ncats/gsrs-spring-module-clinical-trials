@@ -17,14 +17,14 @@
         <dependency>
             <groupId>gov.nih.ncats</groupId>
             <artifactId>gsrs-rest-api</artifactId>
-            <version>${gsrs.version}</version>
+            <version>3.1.3-SNAPSHOT</version>
         </dependency>
 
         <!-- SPRING BOOT Dependencies -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
-            <version>${spring-boot.version}</version>
+            <version>3.5.7</version>
             <scope>test</scope>
         </dependency>
 

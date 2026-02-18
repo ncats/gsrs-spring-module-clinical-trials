@@ -6,8 +6,6 @@ import gov.hhs.gsrs.clinicaltrial.base.models.ClinicalTrialBase;
 import gsrs.repository.GsrsRepository;
 import org.springframework.data.repository.NoRepositoryBean;
 import org.springframework.stereotype.Repository;
-import org.springframework.stereotype.Service;
-
 
 @Repository
 @NoRepositoryBean

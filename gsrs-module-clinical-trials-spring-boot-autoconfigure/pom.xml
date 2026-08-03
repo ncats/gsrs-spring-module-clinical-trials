@@ -10,6 +10,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>gsrs-module-clinical-trials-spring-boot-autoconfigure</artifactId>
+    <name>gsrs-module-clinical-trials-spring-boot-autoconfigure</name>
 
     <dependencies>
         <!-- NCATS Common and STARTER Dependencies -->
@@ -115,6 +116,18 @@
             <artifactId>h2</artifactId>
             <scope>runtime</scope>
         </dependency>
-    </dependencies>
 
+        <!--
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-jdbc</artifactId>
+        </dependency>
+        <dependency>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-devtools</artifactId>
+        <scope>runtime</scope>
+        <optional>true</optional>
+       </dependency>
+        -->
+    </dependencies>
 </project>

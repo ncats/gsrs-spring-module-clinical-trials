@@ -6,7 +6,7 @@ import gov.hhs.gsrs.clinicaltrial.base.repositories.ClinicalTrialBaseRepository;
 import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
 
-import javax.persistence.PersistenceContext;
+import jakarta.persistence.PersistenceContext;
 import org.springframework.transaction.annotation.Transactional;
 
 @Repository

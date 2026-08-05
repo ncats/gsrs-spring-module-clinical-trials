@@ -20,6 +20,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.json.JacksonTester;
 import org.springframework.context.annotation.Import;
 import org.springframework.test.context.ActiveProfiles;
+import tools.jackson.databind.json.JsonMapper;
 
 import java.io.File;
 import java.time.LocalDate;
@@ -51,7 +52,8 @@ public class ClinicalTrialUSMetaUpdaterServiceTest extends AbstractGsrsJpaEntity
     @BeforeEach
     public void setup() {
 
-        JacksonTester.initFields(this, objectMapper);
+        //testing this out
+        JacksonTester.initFields(this, new JsonMapper());
     }
 
     @Test

@@ -7,6 +7,7 @@ import gsrs.api.substances.SubstanceRestApi;
 import ix.core.search.bulk.EnableBulkSearch;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Primary;
 
 @EnableGsrsJpaEntities
 @EnableGsrsApi
@@ -14,8 +15,11 @@ import org.springframework.context.annotation.Bean;
 @AutoConfiguration
 public class GsrsClinicalTrialsAutoConfiguration {
 
-
-    private ObjectMapper mapper = new ObjectMapper();
+    @Bean
+    @Primary
+    public ObjectMapper objectMapper() {
+        return new ObjectMapper();
+    }
 
     @Bean
 //    public SubstanceRestApi substanceRestApi(RestTemplateBuilder builder, SubstancesApiConfiguration substancesApiConfiguration){
@@ -25,7 +29,7 @@ public class GsrsClinicalTrialsAutoConfiguration {
 //    }
 
     public SubstanceRestApi substanceRestApi( SubstancesApiConfiguration substancesApiConfiguration){
-        return new SubstanceRestApi(substancesApiConfiguration.createNewRestTemplateBuilder(), substancesApiConfiguration.getBaseURL(), mapper);
+        return new SubstanceRestApi(substancesApiConfiguration.createNewRestTemplateBuilder(), substancesApiConfiguration.getBaseURL(), objectMapper());
     }
 
 }

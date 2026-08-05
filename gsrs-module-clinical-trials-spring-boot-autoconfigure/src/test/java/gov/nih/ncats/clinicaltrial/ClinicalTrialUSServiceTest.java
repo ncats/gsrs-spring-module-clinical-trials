@@ -22,6 +22,7 @@ import org.springframework.boot.test.json.JacksonTester;
 import org.springframework.context.annotation.Import;
 // import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.ActiveProfiles;
+import tools.jackson.databind.json.JsonMapper;
 
 import java.io.File;
 import java.time.LocalDate;
@@ -51,8 +52,8 @@ public class ClinicalTrialUSServiceTest extends AbstractGsrsJpaEntityJunit5Test 
 
     @BeforeEach
     public void setup() {
-
-        JacksonTester.initFields(this, objectMapper);
+        //testing out JsonMapper
+        JacksonTester.initFields(this, new JsonMapper());
     }
     @Test
     public void noDataLoadedShouldHave0Results() throws Exception {

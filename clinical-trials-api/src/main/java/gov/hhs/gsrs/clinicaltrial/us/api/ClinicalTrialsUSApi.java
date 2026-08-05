@@ -3,8 +3,8 @@ package gov.hhs.gsrs.clinicaltrial.us.api;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import gsrs.api.AbstractLegacySearchGsrsEntityRestTemplate;
-import org.springframework.boot.web.client.RestTemplateBuilder;
-
+import org.springframework.boot.restclient.RestTemplateBuilder;
+//
 public class ClinicalTrialsUSApi extends AbstractLegacySearchGsrsEntityRestTemplate<ClinicalTrialUSDTO, String> {
     public ClinicalTrialsUSApi(RestTemplateBuilder restTemplateBuilder, String baseUrl, ObjectMapper mapper) {
         super(restTemplateBuilder, baseUrl, "clinicaltrialsus", mapper);

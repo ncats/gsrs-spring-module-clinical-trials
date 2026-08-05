@@ -3,14 +3,9 @@ package gov.hhs.gsrs.clinicaltrial.europe.models;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import gsrs.ForceUpdateDirtyMakerMixin;
 import gsrs.model.AbstractGsrsEntity;
-import gsrs.model.AbstractGsrsManualDirtyEntity;
-import gsrs.model.AbstractGsrsTablePerClassEntity;
 import ix.core.SingleParent;
 import ix.core.models.ParentReference;
 import lombok.*;
-import lombok.experimental.SuperBuilder;
-import org.hibernate.annotations.LazyCollection;
-import org.hibernate.annotations.LazyCollectionOption;
 
 import jakarta.persistence.*;
 import java.util.List;
@@ -18,14 +13,10 @@ import java.util.ArrayList;
 
 
 @Data
-// @EqualsAndHashCode(exclude="clinicalTrialEuropeDrug")
 @Entity
-// @SuperBuilder
 @SingleParent
 @AllArgsConstructor
-// @NoArgsConstructor
 @Table(name="ctrial_eu_prod")
-// @ToString
 public class ClinicalTrialEuropeProduct extends AbstractGsrsEntity implements ForceUpdateDirtyMakerMixin {
     public ClinicalTrialEuropeProduct () {}
 
@@ -66,8 +57,7 @@ public class ClinicalTrialEuropeProduct extends AbstractGsrsEntity implements Fo
 
     // @JsonIgnore
     @ToString.Exclude
-    @OneToMany(mappedBy = "owner", fetch=FetchType.LAZY, cascade = CascadeType.ALL)
-    @LazyCollection(LazyCollectionOption.FALSE)
+    @OneToMany(mappedBy = "owner", fetch=FetchType.EAGER, cascade = CascadeType.ALL)
     public List<ClinicalTrialEuropeDrug> clinicalTrialEuropeDrugList = new ArrayList<>();
 
     public void setClinicalTrialEuropeDrugList(List<ClinicalTrialEuropeDrug>  clinicalTrialEuropeDrugList) {

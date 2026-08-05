@@ -10,9 +10,4 @@ public class SpringBootTestApplication {
     public static void main(String[] args) {
         SpringApplication.run(SpringBootTestApplication.class, args);
     }
-
-    @Bean
-    public ObjectMapper objectMapper() {
-        return new ObjectMapper();
-    }
 }

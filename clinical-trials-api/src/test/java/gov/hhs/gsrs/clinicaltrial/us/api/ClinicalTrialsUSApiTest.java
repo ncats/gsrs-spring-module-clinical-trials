@@ -25,9 +25,6 @@ public class ClinicalTrialsUSApiTest {
     private MockRestServiceServer mockRestServiceServer;
 
     @Autowired
-    private ObjectMapper mapper;
-
-    @Autowired
     RestTemplateBuilder restTemplateBuilder;
 
     @Autowired

@@ -13,12 +13,6 @@
     <artifactId>gsrs-module-clinical-trials-spring-boot-starter</artifactId>
     <name>gsrs-module-clinical-trials-spring-boot-starter</name>
 
-    <!--
-    <properties>
-        <maven.compiler.source>8</maven.compiler.source>
-        <maven.compiler.target>8</maven.compiler.target>
-    </properties>
-    -->
     <dependencies>
         <!-- CLINICAL TRIAL MODULE Autoconfigure Dependencies -->
         <dependency>

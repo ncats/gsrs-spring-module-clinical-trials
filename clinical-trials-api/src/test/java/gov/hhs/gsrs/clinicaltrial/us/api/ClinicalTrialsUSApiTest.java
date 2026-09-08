@@ -1,6 +1,6 @@
 package gov.hhs.gsrs.clinicaltrial.us.api;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
+import tools.jackson.databind.json.JsonMapper;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -34,7 +34,7 @@ public class ClinicalTrialsUSApiTest {
     static class Testconfig{
         @Bean
         public ClinicalTrialsUSApi clinicalTrialsUSApi(RestTemplateBuilder restTemplateBuilder){
-            return new ClinicalTrialsUSApi(restTemplateBuilder, "http://example.com", new ObjectMapper());
+            return new ClinicalTrialsUSApi(restTemplateBuilder, "http://example.com", JsonMapper.builderWithJackson2Defaults().build());
         }
     }
 

@@ -1,6 +1,6 @@
 package gov.hhs.gsrs.clinicaltrial.europe.api;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
+import tools.jackson.databind.json.JsonMapper;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -26,7 +26,7 @@ public class ClinicalTrialsEuropeApiTest {
     @Autowired
     private MockRestServiceServer mockRestServiceServer;
 
-    private ObjectMapper mapper = new ObjectMapper();
+    private final JsonMapper mapper = JsonMapper.builderWithJackson2Defaults().build();
 
     @Autowired
     RestTemplateBuilder restTemplateBuilder;
@@ -38,7 +38,7 @@ public class ClinicalTrialsEuropeApiTest {
     static class Testconfig{
         @Bean
         public ClinicalTrialsEuropeApi clinicalTrialsEuropeApi(RestTemplateBuilder restTemplateBuilder){
-            return new ClinicalTrialsEuropeApi(restTemplateBuilder, "http://example.com", new ObjectMapper());
+            return new ClinicalTrialsEuropeApi(restTemplateBuilder, "http://example.com", JsonMapper.builderWithJackson2Defaults().build());
         }
     }
 
@@ -73,7 +73,6 @@ public class ClinicalTrialsEuropeApiTest {
         this.mockRestServiceServer
                 .expect(requestTo("/api/v1/clinicaltrialseurope/@count"))
                 .andRespond(withServerError());
-        boolean exThrown = false;
         assertThrows(IOException.class,()-> api.count());
     }
 

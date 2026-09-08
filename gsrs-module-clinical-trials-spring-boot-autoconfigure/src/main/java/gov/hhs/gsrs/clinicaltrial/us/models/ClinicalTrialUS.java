@@ -1,7 +1,5 @@
 package gov.hhs.gsrs.clinicaltrial.us.models;
 
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import gsrs.security.GsrsSecurityUtils;
 import ix.core.models.*;
 import gov.hhs.gsrs.clinicaltrial.base.models.ClinicalTrialBase;
@@ -15,6 +13,9 @@ import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
+import tools.jackson.databind.annotation.JsonDeserialize;
+import tools.jackson.databind.annotation.JsonSerialize;
+
 import java.util.*;
 
 @Data

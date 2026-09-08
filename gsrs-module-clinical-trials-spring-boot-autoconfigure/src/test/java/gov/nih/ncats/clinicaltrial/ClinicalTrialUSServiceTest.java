@@ -8,7 +8,7 @@ import gsrs.startertests.GsrsJpaTest;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.io.TempDir;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
+import tools.jackson.databind.json.JsonMapper;
 import gsrs.controller.GsrsControllerConfiguration;
 import gsrs.junit.TimeTraveller;
 import gsrs.service.AbstractGsrsEntityService;
@@ -20,9 +20,7 @@ import org.junit.jupiter.api.extension.RegisterExtension;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.json.JacksonTester;
 import org.springframework.context.annotation.Import;
-// import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.ActiveProfiles;
-import tools.jackson.databind.json.JsonMapper;
 
 import java.io.File;
 import java.time.LocalDate;
@@ -48,7 +46,7 @@ public class ClinicalTrialUSServiceTest extends AbstractGsrsJpaEntityJunit5Test 
     TimeTraveller timeTraveller = new TimeTraveller(LocalDate.of(1955, 11, 5));
 
     private JacksonTester<ClinicalTrialUS> json;
-    ObjectMapper objectMapper = new ObjectMapper();
+    JsonMapper objectMapper = JsonMapper.builderWithJackson2Defaults().build();
 
     @BeforeEach
     public void setup() {

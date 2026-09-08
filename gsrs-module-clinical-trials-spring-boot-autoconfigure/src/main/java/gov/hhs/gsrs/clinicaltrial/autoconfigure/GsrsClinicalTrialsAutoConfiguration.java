@@ -1,6 +1,7 @@
 package gov.hhs.gsrs.clinicaltrial.autoconfigure;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import tools.jackson.databind.json.JsonMapper;
 import gsrs.EnableGsrsApi;
 import gsrs.EnableGsrsJpaEntities;
 import gsrs.api.substances.SubstanceRestApi;
@@ -17,8 +18,8 @@ public class GsrsClinicalTrialsAutoConfiguration {
 
     @Bean
     @Primary
-    public ObjectMapper objectMapper() {
-        return new ObjectMapper();
+    public JsonMapper objectMapper() {
+        return JsonMapper.builderWithJackson2Defaults().build();
     }
 
     @Bean
@@ -29,7 +30,7 @@ public class GsrsClinicalTrialsAutoConfiguration {
 //    }
 
     public SubstanceRestApi substanceRestApi( SubstancesApiConfiguration substancesApiConfiguration){
-        return new SubstanceRestApi(substancesApiConfiguration.createNewRestTemplateBuilder(), substancesApiConfiguration.getBaseURL(), objectMapper());
+        return new SubstanceRestApi(substancesApiConfiguration.createNewRestTemplateBuilder(), substancesApiConfiguration.getBaseURL(), new ObjectMapper());
     }
 
 }

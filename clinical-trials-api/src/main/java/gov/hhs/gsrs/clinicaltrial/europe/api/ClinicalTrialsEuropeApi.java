@@ -1,18 +1,18 @@
 package gov.hhs.gsrs.clinicaltrial.europe.api;
 
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import tools.jackson.databind.JsonNode;
 import gsrs.api.AbstractLegacySearchGsrsEntityRestTemplate;
 import org.springframework.boot.restclient.RestTemplateBuilder;
+import tools.jackson.databind.json.JsonMapper;
 
 public class ClinicalTrialsEuropeApi extends AbstractLegacySearchGsrsEntityRestTemplate<ClinicalTrialEuropeDTO, String> {
-    public ClinicalTrialsEuropeApi(RestTemplateBuilder restTemplateBuilder, String baseUrl, ObjectMapper mapper) {
+    public ClinicalTrialsEuropeApi(RestTemplateBuilder restTemplateBuilder, String baseUrl, JsonMapper mapper) {
         super(restTemplateBuilder, baseUrl, "clinicaltrialseurope", mapper);
     }
 
     @Override
     protected ClinicalTrialEuropeDTO parseFromJson(JsonNode node) {
-        return getObjectMapper().convertValue(node, ClinicalTrialEuropeDTO.class);
+        return getMapper().convertValue(node, ClinicalTrialEuropeDTO.class);
     }
 
     @Override

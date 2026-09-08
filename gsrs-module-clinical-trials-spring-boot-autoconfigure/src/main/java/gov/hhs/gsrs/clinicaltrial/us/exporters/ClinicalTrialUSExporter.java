@@ -5,9 +5,7 @@ import gov.hhs.gsrs.clinicaltrial.us.models.ClinicalTrialUSDrug;
 import gsrs.api.substances.SubstanceRestApi;
 import gsrs.cache.GsrsCache;
 import gsrs.springUtils.StaticContextAccessor;
-import gsrs.substances.dto.LazyFetchedCollection;
 import gsrs.substances.dto.NameDTO;
-import gsrs.substances.dto.SubstanceDTO;
 import ix.ginas.exporters.*;
 import lombok.extern.slf4j.Slf4j;
 
@@ -55,7 +53,7 @@ public class ClinicalTrialUSExporter implements Exporter<ClinicalTrialUS> {
        }
     } 
     @Override
-    public void export(ClinicalTrialUS s) throws IOException {
+    public void export(ClinicalTrialUS s) {
         Spreadsheet.SpreadsheetRow row = spreadsheet.getRow( this.row++);
 
         int j=0;

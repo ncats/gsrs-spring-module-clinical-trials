@@ -1,6 +1,6 @@
 package gov.nih.ncats.clinicaltrial;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
+import tools.jackson.databind.json.JsonMapper;
 import gov.hhs.gsrs.clinicaltrial.us.models.ClinicalTrialUS;
 import gov.hhs.gsrs.clinicaltrial.us.repositories.ClinicalTrialUSRepository;
 import gov.hhs.gsrs.clinicaltrial.us.services.ClinicalTrialUSEntityService;
@@ -47,7 +47,7 @@ public class ClinicalTrialUSMetaUpdaterServiceTest extends AbstractGsrsJpaEntity
     TimeTraveller timeTraveller = new TimeTraveller(LocalDate.of(1955, 11, 5));
 
     private JacksonTester<ClinicalTrialUS> json;
-    ObjectMapper objectMapper = new ObjectMapper();
+    JsonMapper objectMapper = JsonMapper.builderWithJackson2Defaults().build();
 
     @BeforeEach
     public void setup() {

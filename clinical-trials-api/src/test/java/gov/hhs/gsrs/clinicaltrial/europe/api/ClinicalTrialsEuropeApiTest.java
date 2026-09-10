@@ -1,5 +1,6 @@
 package gov.hhs.gsrs.clinicaltrial.europe.api;
 
+import tools.jackson.databind.DeserializationFeature;
 import tools.jackson.databind.json.JsonMapper;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -26,7 +27,9 @@ public class ClinicalTrialsEuropeApiTest {
     @Autowired
     private MockRestServiceServer mockRestServiceServer;
 
-    private final JsonMapper mapper = JsonMapper.builderWithJackson2Defaults().build();
+    private final JsonMapper mapper = JsonMapper.builderWithJackson2Defaults()
+            .disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES)
+            .build();
 
     @Autowired
     RestTemplateBuilder restTemplateBuilder;

@@ -1,5 +1,6 @@
 package gov.nih.ncats.clinicaltrial;
 
+import tools.jackson.databind.DeserializationFeature;
 import tools.jackson.databind.json.JsonMapper;
 import gov.hhs.gsrs.clinicaltrial.us.models.ClinicalTrialUS;
 import gov.hhs.gsrs.clinicaltrial.us.repositories.ClinicalTrialUSRepository;
@@ -47,7 +48,9 @@ public class ClinicalTrialUSMetaUpdaterServiceTest extends AbstractGsrsJpaEntity
     TimeTraveller timeTraveller = new TimeTraveller(LocalDate.of(1955, 11, 5));
 
     private JacksonTester<ClinicalTrialUS> json;
-    JsonMapper objectMapper = JsonMapper.builderWithJackson2Defaults().build();
+    JsonMapper objectMapper = JsonMapper.builderWithJackson2Defaults()
+            .disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES)
+            .build();
 
     @BeforeEach
     public void setup() {

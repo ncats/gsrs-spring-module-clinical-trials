@@ -8,6 +8,7 @@ import gsrs.startertests.GsrsJpaTest;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.io.TempDir;
 
+import tools.jackson.databind.DeserializationFeature;
 import tools.jackson.databind.json.JsonMapper;
 import gsrs.controller.GsrsControllerConfiguration;
 import gsrs.junit.TimeTraveller;
@@ -46,7 +47,9 @@ public class ClinicalTrialUSServiceTest extends AbstractGsrsJpaEntityJunit5Test 
     TimeTraveller timeTraveller = new TimeTraveller(LocalDate.of(1955, 11, 5));
 
     private JacksonTester<ClinicalTrialUS> json;
-    JsonMapper objectMapper = JsonMapper.builderWithJackson2Defaults().build();
+    JsonMapper objectMapper = JsonMapper.builderWithJackson2Defaults()
+            .disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES)
+            .build();
 
     @BeforeEach
     public void setup() {

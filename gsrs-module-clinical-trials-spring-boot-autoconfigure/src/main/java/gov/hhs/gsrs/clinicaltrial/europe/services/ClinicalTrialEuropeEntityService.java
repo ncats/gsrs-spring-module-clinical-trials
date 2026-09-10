@@ -21,10 +21,6 @@ public class ClinicalTrialEuropeEntityService extends AbstractGsrsEntityService<
     public static final String  CONTEXT = "clinicaltrialseurope";
 
 
-    // @Value("${mygsrs.clinicaltrial.eu.ClinicalTrialEurope.trialNumberPattern}")
-    // private String trialNumberPattern;
-
-
     public ClinicalTrialEuropeEntityService() {
         super(CONTEXT, Pattern.compile("^\\d{4}-\\d{6}-\\d{2}-[A-Z]{2}$"), null, null, null);
     }
@@ -144,5 +140,3 @@ public class ClinicalTrialEuropeEntityService extends AbstractGsrsEntityService<
     }
 
 }
-
-

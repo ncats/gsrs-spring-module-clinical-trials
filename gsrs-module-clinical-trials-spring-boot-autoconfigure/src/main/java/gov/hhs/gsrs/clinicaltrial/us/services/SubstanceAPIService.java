@@ -1,9 +1,9 @@
 package gov.hhs.gsrs.clinicaltrial.us.services;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.node.ArrayNode;
+import org.springframework.beans.factory.annotation.Qualifier;
+import tools.jackson.databind.JsonNode;
+import tools.jackson.databind.json.JsonMapper;
+import tools.jackson.databind.node.ArrayNode;
 import gsrs.api.substances.SubstanceRestApi;
 import gsrs.substances.dto.SubstanceDTO;
 import lombok.extern.slf4j.Slf4j;
@@ -36,6 +36,7 @@ public class SubstanceAPIService {
         public boolean hasInputError = false;
         public String systemCode;
         public String agencyCode;
+
         public String agencyCodeType = agencyCodeCodeSystemValue;
         public String displayName;
         public String url;
@@ -43,7 +44,8 @@ public class SubstanceAPIService {
 
 
     @Autowired
-    private ObjectMapper objectMapper;
+    @Qualifier("legacyJsonMapper")
+    private JsonMapper mapper;
 
     @Autowired
     private Environment env;
@@ -101,7 +103,7 @@ public class SubstanceAPIService {
         }
         if(response == null) return null;
 
-        HttpStatus statusCode = response.getStatusCode();
+        HttpStatus statusCode = (HttpStatus) response.getStatusCode();
         if (statusCode == null)  return null;
 
         if (statusCode.equals(HttpStatus.valueOf(404))) {
@@ -110,8 +112,8 @@ public class SubstanceAPIService {
         if (statusCode.equals(HttpStatus.OK)) {
             JsonNode root = null;
             try {
-                root = objectMapper.readTree(response.getBody());
-            } catch (JsonProcessingException e) {
+                root = mapper.readTree(response.getBody());
+            } catch (Exception e) {
                 e.printStackTrace();
                 return null;
             }
@@ -155,15 +157,15 @@ public class SubstanceAPIService {
             if (response == null) {
                 continue;
             }
-            statusCode = response.getStatusCode();
+            statusCode = (HttpStatus) response.getStatusCode();
             if (statusCode.equals(HttpStatus.valueOf(404))) {
                 qr.hasResponseError = true;
             }
             if (statusCode.equals(HttpStatus.OK)) {
                 JsonNode root = null;
                 try {
-                    root = objectMapper.readTree(response.getBody());
-                } catch (JsonProcessingException e) {
+                    root = mapper.readTree(response.getBody());
+                } catch (Exception e) {
                     e.printStackTrace();
                     qr.hasResponseError = true;
                 }

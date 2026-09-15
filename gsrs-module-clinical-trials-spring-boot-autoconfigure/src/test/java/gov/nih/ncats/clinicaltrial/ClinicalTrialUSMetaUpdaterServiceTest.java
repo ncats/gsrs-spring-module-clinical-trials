@@ -1,6 +1,7 @@
 package gov.nih.ncats.clinicaltrial;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
+import tools.jackson.databind.DeserializationFeature;
+import tools.jackson.databind.json.JsonMapper;
 import gov.hhs.gsrs.clinicaltrial.us.models.ClinicalTrialUS;
 import gov.hhs.gsrs.clinicaltrial.us.repositories.ClinicalTrialUSRepository;
 import gov.hhs.gsrs.clinicaltrial.us.services.ClinicalTrialUSEntityService;
@@ -20,6 +21,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.json.JacksonTester;
 import org.springframework.context.annotation.Import;
 import org.springframework.test.context.ActiveProfiles;
+import tools.jackson.databind.json.JsonMapper;
 
 import java.io.File;
 import java.time.LocalDate;
@@ -46,12 +48,15 @@ public class ClinicalTrialUSMetaUpdaterServiceTest extends AbstractGsrsJpaEntity
     TimeTraveller timeTraveller = new TimeTraveller(LocalDate.of(1955, 11, 5));
 
     private JacksonTester<ClinicalTrialUS> json;
-    ObjectMapper objectMapper = new ObjectMapper();
+    JsonMapper objectMapper = JsonMapper.builderWithJackson2Defaults()
+            .disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES)
+            .build();
 
     @BeforeEach
     public void setup() {
 
-        JacksonTester.initFields(this, objectMapper);
+        //testing this out
+        JacksonTester.initFields(this, new JsonMapper());
     }
 
     @Test

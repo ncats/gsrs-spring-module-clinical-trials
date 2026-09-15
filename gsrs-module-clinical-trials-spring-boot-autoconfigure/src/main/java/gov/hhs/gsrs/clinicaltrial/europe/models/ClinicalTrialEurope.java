@@ -2,8 +2,6 @@ package gov.hhs.gsrs.clinicaltrial.europe.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import gov.hhs.gsrs.clinicaltrial.base.models.ClinicalTrialBase;
 import gsrs.security.GsrsSecurityUtils;
 import ix.core.models.*;
@@ -12,12 +10,13 @@ import ix.ginas.models.serialization.GsrsDateSerializer;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
 import lombok.extern.slf4j.Slf4j;
-import org.hibernate.annotations.LazyCollection;
-import org.hibernate.annotations.LazyCollectionOption;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 
-import javax.persistence.*;
+import jakarta.persistence.*;
+import tools.jackson.databind.annotation.JsonDeserialize;
+import tools.jackson.databind.annotation.JsonSerialize;
+
 import java.util.*;
 @Data
 @Entity
@@ -74,8 +73,7 @@ public class ClinicalTrialEurope extends ClinicalTrialBase {
 
         // had to add this, or I got circular references when string building.
         @ToString.Exclude
-        @OneToMany(mappedBy = "owner", fetch=FetchType.LAZY, cascade = CascadeType.ALL)
-        @LazyCollection(LazyCollectionOption.FALSE)
+        @OneToMany(mappedBy = "owner", fetch=FetchType.EAGER, cascade = CascadeType.ALL)
         public List<ClinicalTrialEuropeProduct> clinicalTrialEuropeProductList = new ArrayList<>();
 
         public void setClinicalTrialEuropeProductList(List<ClinicalTrialEuropeProduct> clinicalTrialEuropeProductList) {
@@ -96,8 +94,7 @@ public class ClinicalTrialEurope extends ClinicalTrialBase {
         }
 
         @ToString.Exclude
-        @OneToMany(mappedBy = "owner", fetch=FetchType.LAZY, cascade = CascadeType.ALL)
-        @LazyCollection(LazyCollectionOption.FALSE)
+        @OneToMany(mappedBy = "owner", fetch=FetchType.EAGER, cascade = CascadeType.ALL)
         public List<ClinicalTrialEuropeMedical> clinicalTrialEuropeMedicalList = new ArrayList<>();
 
         public void setClinicalTrialEuropeMedicalList(List<ClinicalTrialEuropeMedical> clinicalTrialEuropeMedicalList) {
@@ -112,8 +109,7 @@ public class ClinicalTrialEurope extends ClinicalTrialBase {
 
 
         @ToString.Exclude
-        @OneToMany(mappedBy = "owner", fetch=FetchType.LAZY, cascade = CascadeType.ALL)
-        @LazyCollection(LazyCollectionOption.FALSE)
+        @OneToMany(mappedBy = "owner", fetch=FetchType.EAGER, cascade = CascadeType.ALL)
         public List<ClinicalTrialEuropeMeddra> clinicalTrialEuropeMeddraList = new ArrayList<>();
 
         public void setClinicalTrialEuropeMeddraList(List<ClinicalTrialEuropeMeddra> clinicalTrialEuropeMeddraList) {

@@ -1,6 +1,7 @@
 package gov.hhs.gsrs.clinicaltrial.us.services;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
+import org.springframework.beans.factory.annotation.Qualifier;
+import tools.jackson.databind.json.JsonMapper;
 import gov.hhs.gsrs.clinicaltrial.us.models.ClinicalTrialUS;
 import gov.hhs.gsrs.clinicaltrial.us.utils.importmapper.SourceToTargetField;
 import gov.hhs.gsrs.clinicaltrial.us.utils.importmapper.SourceToTargetFieldsMapper;
@@ -26,7 +27,7 @@ public class ClinicalTrialUSMetaUpdaterService {
     private ClinicalTrialUSEntityService clinicalTrialUSEntityService;
 
     @Autowired
-    private ObjectMapper objectMapper;
+    private JsonMapper mapper;
 
     // create chunk stream either from string, file, or url-web
     // applyMetaData to existing trials or create when they don't exist
@@ -94,7 +95,7 @@ public class ClinicalTrialUSMetaUpdaterService {
             try {
                 ctNew = applyCTApiV1TsvHashMapToClinicalTrial(lhm, ctNew);
                 // Getting auth error here.
-                clinicalTrialUSEntityService.createEntity(objectMapper.valueToTree(ctNew));
+                clinicalTrialUSEntityService.createEntity(mapper.valueToTree(ctNew));
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -106,7 +107,7 @@ public class ClinicalTrialUSMetaUpdaterService {
                 );
                 if (compare.equals("DO_UPDATE") || compare.equals("DO_UPDATE_ON_DATE1_NULL")) {
                     ctNew = applyCTApiV1TsvHashMapToClinicalTrial(lhm, ctOld.orElse(null));
-                    clinicalTrialUSEntityService.updateEntity(objectMapper.valueToTree(ctNew));
+                    clinicalTrialUSEntityService.updateEntity(mapper.valueToTree(ctNew));
                 }
             } catch (Exception e) {
                 e.printStackTrace();
@@ -115,14 +116,13 @@ public class ClinicalTrialUSMetaUpdaterService {
     }
 
     public String compareLastUpdated(Date oldLastUpdated, Date newLastUpdated) {
-        String result = null;
         if (newLastUpdated == null) {
             return "SKIP_UPDATE_ON_DATE2_NULL";
         }
         if (oldLastUpdated == null) {
             return "DO_UPDATE_ON_DATE1_NULL";
         }
-        if ((int) oldLastUpdated.compareTo(newLastUpdated) < 0) {
+        if (oldLastUpdated.compareTo(newLastUpdated) < 0) {
             return "DO_UPDATE_DATE1_LT_DATE2";
         }
         return "SKIP_UPDATE";

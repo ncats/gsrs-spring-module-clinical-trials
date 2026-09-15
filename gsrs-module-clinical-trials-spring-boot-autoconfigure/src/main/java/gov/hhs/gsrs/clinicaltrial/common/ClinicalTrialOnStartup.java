@@ -1,19 +1,20 @@
 package gov.hhs.gsrs.clinicaltrial.common;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
+import tools.jackson.databind.json.JsonMapper;
 import gsrs.cv.api.ControlledVocabularyApi;
 import gsrs.cv.api.ControlledVocabularyRestApi;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.web.client.RestTemplateBuilder;
+import org.springframework.boot.restclient.RestTemplateBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.WebApplicationInitializer;
 
-import javax.servlet.ServletContext;
-import javax.servlet.ServletException;
+import jakarta.servlet.ServletContext;
+import jakarta.servlet.ServletException;
 
 @Configuration
 public class ClinicalTrialOnStartup implements WebApplicationInitializer {
+
 
     @Value("${mygsrs.clinicaltrial.cvUrl}")
     private String cvUrl;
@@ -25,6 +26,7 @@ public class ClinicalTrialOnStartup implements WebApplicationInitializer {
 
     @Bean
     public ControlledVocabularyApi controlledVocabularyApi(RestTemplateBuilder restTemplateBuilder) {
-        return new ControlledVocabularyRestApi(restTemplateBuilder, cvUrl, new ObjectMapper());
+        return new ControlledVocabularyRestApi(restTemplateBuilder, cvUrl, JsonMapper.builderWithJackson2Defaults().build());
     }
+
 }

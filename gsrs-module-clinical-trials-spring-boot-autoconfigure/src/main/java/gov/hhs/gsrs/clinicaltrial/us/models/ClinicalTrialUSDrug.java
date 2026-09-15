@@ -6,11 +6,9 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import ix.core.models.ParentReference;
 import lombok.*;
 import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
-import org.hibernate.annotations.LazyCollection;
-import org.hibernate.annotations.LazyCollectionOption;
 import org.springframework.beans.factory.annotation.Value;
 
-import javax.persistence.*;
+import jakarta.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -53,8 +51,7 @@ public class ClinicalTrialUSDrug extends AbstractGsrsEntity implements ForceUpda
 
     // @JsonIgnore
     // @ToString.Exclude
-    @OneToMany(mappedBy = "owner", fetch=FetchType.LAZY, cascade = CascadeType.ALL)
-    @LazyCollection(LazyCollectionOption.FALSE)
+    @OneToMany(mappedBy = "owner", fetch=FetchType.EAGER, cascade = CascadeType.ALL)
     public List<SubstanceRole> substanceRoles = new ArrayList<>();
 
     public void setSubstanceRoles (List<SubstanceRole>  substanceRoles) {

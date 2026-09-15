@@ -1,7 +1,5 @@
 package gov.hhs.gsrs.clinicaltrial.us.models;
 
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import gsrs.security.GsrsSecurityUtils;
 import ix.core.models.*;
 import gov.hhs.gsrs.clinicaltrial.base.models.ClinicalTrialBase;
@@ -11,12 +9,13 @@ import lombok.*;
 import lombok.experimental.SuperBuilder;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
-import org.hibernate.annotations.LazyCollection;
-import org.hibernate.annotations.LazyCollectionOption;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import javax.persistence.*;
+import jakarta.persistence.*;
+import tools.jackson.databind.annotation.JsonDeserialize;
+import tools.jackson.databind.annotation.JsonSerialize;
+
 import java.util.*;
 
 @Data
@@ -141,10 +140,8 @@ public class ClinicalTrialUS extends ClinicalTrialBase {
     @Column(name = "locations", length=4000)
     public String locations;
 
-    @OneToMany(mappedBy = "owner", cascade = CascadeType.ALL, fetch= FetchType.LAZY)
+    @OneToMany(mappedBy = "owner", cascade = CascadeType.ALL, fetch= FetchType.EAGER)
     // had to add this or I got circular references when string building.
-    // @ToString.Exclude
-    @LazyCollection(LazyCollectionOption.FALSE)
     public List<ClinicalTrialUSDrug> clinicalTrialUSDrug = new ArrayList<ClinicalTrialUSDrug>();
 
     public void setClinicalTrialUSDrug(List<ClinicalTrialUSDrug> clinicalTrialUSDrugs) {
@@ -156,9 +153,7 @@ public class ClinicalTrialUS extends ClinicalTrialBase {
         }
     }
 
-    @OneToMany(mappedBy = "owner", cascade = CascadeType.ALL, fetch= FetchType.LAZY)
-    // @ToString.Exclude
-    @LazyCollection(LazyCollectionOption.FALSE)
+    @OneToMany(mappedBy = "owner", cascade = CascadeType.ALL, fetch= FetchType.EAGER)
     public List<OutcomeResultNote> outcomeResultNotes = new ArrayList<OutcomeResultNote>();
 
     public void setOutcomeResultNotes(List<OutcomeResultNote> outcomeResultNotes) {

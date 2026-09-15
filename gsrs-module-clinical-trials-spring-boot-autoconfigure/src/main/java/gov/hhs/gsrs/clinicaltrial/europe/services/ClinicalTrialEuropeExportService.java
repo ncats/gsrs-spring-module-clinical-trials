@@ -1,11 +1,12 @@
 package gov.hhs.gsrs.clinicaltrial.europe.services;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
+import org.springframework.beans.factory.annotation.Qualifier;
+import tools.jackson.databind.json.JsonMapper;
 import gov.hhs.gsrs.clinicaltrial.europe.models.ClinicalTrialEurope;
 import gov.hhs.gsrs.clinicaltrial.europe.repositories.ClinicalTrialEuropeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import javax.servlet.ServletContext;
+import jakarta.servlet.ServletContext;
 import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Path;
@@ -22,7 +23,8 @@ public class ClinicalTrialEuropeExportService {
     private ClinicalTrialEuropeRepository clinicalTrialEuropeRepository;
 
     @Autowired
-    private ObjectMapper objectMapper;
+    @Qualifier("legacyJsonMapper")
+    private JsonMapper mapper;
 
     @Autowired
     ServletContext servletContext;

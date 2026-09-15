@@ -19,8 +19,8 @@ import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PathVariable;
 
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.PersistenceContext;
 import java.util.Hashtable;
 import java.util.Map;
 import java.util.stream.Stream;

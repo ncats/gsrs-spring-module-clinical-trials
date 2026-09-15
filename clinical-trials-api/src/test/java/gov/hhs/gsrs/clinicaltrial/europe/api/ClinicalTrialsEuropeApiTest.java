@@ -1,13 +1,14 @@
 package gov.hhs.gsrs.clinicaltrial.europe.api;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
+import tools.jackson.databind.DeserializationFeature;
+import tools.jackson.databind.json.JsonMapper;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.client.RestClientTest;
+import org.springframework.boot.restclient.RestTemplateBuilder;
+import org.springframework.boot.restclient.test.autoconfigure.RestClientTest;
 import org.springframework.boot.test.context.TestConfiguration;
-import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.client.MockRestServiceServer;
@@ -26,8 +27,9 @@ public class ClinicalTrialsEuropeApiTest {
     @Autowired
     private MockRestServiceServer mockRestServiceServer;
 
-    @Autowired
-    private ObjectMapper mapper;
+    private final JsonMapper mapper = JsonMapper.builderWithJackson2Defaults()
+            .disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES)
+            .build();
 
     @Autowired
     RestTemplateBuilder restTemplateBuilder;
@@ -39,7 +41,7 @@ public class ClinicalTrialsEuropeApiTest {
     static class Testconfig{
         @Bean
         public ClinicalTrialsEuropeApi clinicalTrialsEuropeApi(RestTemplateBuilder restTemplateBuilder){
-            return new ClinicalTrialsEuropeApi(restTemplateBuilder, "http://example.com", new ObjectMapper());
+            return new ClinicalTrialsEuropeApi(restTemplateBuilder, "http://example.com", JsonMapper.builderWithJackson2Defaults().build());
         }
     }
 
@@ -74,7 +76,6 @@ public class ClinicalTrialsEuropeApiTest {
         this.mockRestServiceServer
                 .expect(requestTo("/api/v1/clinicaltrialseurope/@count"))
                 .andRespond(withServerError());
-        boolean exThrown = false;
         assertThrows(IOException.class,()-> api.count());
     }
 

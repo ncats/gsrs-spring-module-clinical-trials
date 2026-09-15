@@ -53,7 +53,7 @@ public class ClinicalTrialEuropeExporter implements Exporter<ClinicalTrialEurope
        }
     } 
     @Override
-    public void export(ClinicalTrialEurope s) throws IOException {
+    public void export(ClinicalTrialEurope s) {
         Spreadsheet.SpreadsheetRow row = spreadsheet.getRow( this.row++);
 
         int j=0;

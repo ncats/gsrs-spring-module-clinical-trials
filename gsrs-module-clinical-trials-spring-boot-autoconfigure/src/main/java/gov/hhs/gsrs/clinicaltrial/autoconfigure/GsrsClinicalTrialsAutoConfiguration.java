@@ -1,32 +1,35 @@
 package gov.hhs.gsrs.clinicaltrial.autoconfigure;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
+import tools.jackson.databind.DeserializationFeature;
+import tools.jackson.databind.json.JsonMapper;
 import gsrs.EnableGsrsApi;
 import gsrs.EnableGsrsJpaEntities;
 import gsrs.api.substances.SubstanceRestApi;
 import ix.core.search.bulk.EnableBulkSearch;
+import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Primary;
 
 @EnableGsrsJpaEntities
 @EnableGsrsApi
 @EnableBulkSearch
-@Configuration
-// @Import({})
+@AutoConfiguration
 public class GsrsClinicalTrialsAutoConfiguration {
 
-
-    private ObjectMapper mapper = new ObjectMapper();
+    @Bean
+    @Primary
+    public JsonMapper objectMapper() {
+        return JsonMapper.builderWithJackson2Defaults()
+                .disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES)
+                .build();
+    }
 
     @Bean
-//    public SubstanceRestApi substanceRestApi(RestTemplateBuilder builder, SubstancesApiConfiguration substancesApiConfiguration){
-//        substancesApiConfiguration.configure(builder);
-//        SubstanceRestApi api = new SubstanceRestApi(builder, substancesApiConfiguration.getBaseURL(), mapper);
-//        return api;
-//    }
-
     public SubstanceRestApi substanceRestApi( SubstancesApiConfiguration substancesApiConfiguration){
-        return new SubstanceRestApi(substancesApiConfiguration.createNewRestTemplateBuilder(), substancesApiConfiguration.getBaseURL(), mapper);
+        return new SubstanceRestApi(substancesApiConfiguration.createNewRestTemplateBuilder(), substancesApiConfiguration.getBaseURL(),
+                JsonMapper.builderWithJackson2Defaults()
+                        .disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES)
+                        .build());
     }
 
 }

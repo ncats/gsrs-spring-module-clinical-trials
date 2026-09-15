@@ -1,29 +1,20 @@
 package gov.hhs.gsrs.clinicaltrial.us.services;
 
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import tools.jackson.databind.JsonNode;
+import tools.jackson.databind.json.JsonMapper;
 import gov.hhs.gsrs.clinicaltrial.us.events.ClinicalTrialCreatedEvent;
 import gov.hhs.gsrs.clinicaltrial.us.events.ClinicalTrialUSUpdateEvent;
 import gov.hhs.gsrs.clinicaltrial.us.models.ClinicalTrialUS;
-import gov.hhs.gsrs.clinicaltrial.us.models.ClinicalTrialUSDrug;
 import gov.hhs.gsrs.clinicaltrial.us.repositories.ClinicalTrialUSRepository;
 import gsrs.events.AbstractEntityCreatedEvent;
 import gsrs.events.AbstractEntityUpdatedEvent;
 import gsrs.service.AbstractGsrsEntityService;
-import gsrs.springUtils.StaticContextAccessor;
-import ix.core.util.EntityUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import org.springframework.transaction.PlatformTransactionManager;
-import org.springframework.transaction.TransactionDefinition;
-import org.springframework.transaction.annotation.Transactional;
-import org.springframework.transaction.support.TransactionTemplate;
-
-import javax.persistence.EntityManager;
 import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
@@ -45,7 +36,7 @@ public class ClinicalTrialUSEntityService extends AbstractGsrsEntityService<Clin
     private ClinicalTrialUSRepository repository;
 
     @Autowired
-    private ObjectMapper objectMapper;
+    private JsonMapper mapper;
 
     @Override
     public Class<ClinicalTrialUS> getEntityClass() {
@@ -59,7 +50,7 @@ public class ClinicalTrialUSEntityService extends AbstractGsrsEntityService<Clin
 
     @Override
     protected ClinicalTrialUS fromNewJson(JsonNode json) throws IOException {
-        return objectMapper.convertValue(json, ClinicalTrialUS.class);
+        return mapper.convertValue(json, ClinicalTrialUS.class);
 
     }
 
@@ -107,7 +98,7 @@ public class ClinicalTrialUSEntityService extends AbstractGsrsEntityService<Clin
 
     @Override
     protected ClinicalTrialUS fromUpdatedJson(JsonNode json) throws IOException {
-        return objectMapper.convertValue(json, ClinicalTrialUS.class);
+        return mapper.convertValue(json, ClinicalTrialUS.class);
 
     }
 
@@ -118,7 +109,7 @@ public class ClinicalTrialUSEntityService extends AbstractGsrsEntityService<Clin
 
     @Override
     protected JsonNode toJson(ClinicalTrialUS clinicalTrialUS) throws IOException {
-        return objectMapper.valueToTree(clinicalTrialUS);
+        return mapper.valueToTree(clinicalTrialUS);
     }
 
     @Override

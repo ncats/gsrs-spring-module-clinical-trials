@@ -1,7 +1,8 @@
 package gov.hhs.gsrs.clinicaltrial.europe.services;
 
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import org.springframework.beans.factory.annotation.Qualifier;
+import tools.jackson.databind.JsonNode;
+import tools.jackson.databind.json.JsonMapper;
 import gov.hhs.gsrs.clinicaltrial.europe.models.ClinicalTrialEurope;
 import gov.hhs.gsrs.clinicaltrial.europe.repositories.ClinicalTrialEuropeRepository;
 import gsrs.events.AbstractEntityCreatedEvent;
@@ -20,10 +21,6 @@ public class ClinicalTrialEuropeEntityService extends AbstractGsrsEntityService<
     public static final String  CONTEXT = "clinicaltrialseurope";
 
 
-    // @Value("${mygsrs.clinicaltrial.eu.ClinicalTrialEurope.trialNumberPattern}")
-    // private String trialNumberPattern;
-
-
     public ClinicalTrialEuropeEntityService() {
         super(CONTEXT, Pattern.compile("^\\d{4}-\\d{6}-\\d{2}-[A-Z]{2}$"), null, null, null);
     }
@@ -32,7 +29,8 @@ public class ClinicalTrialEuropeEntityService extends AbstractGsrsEntityService<
     private ClinicalTrialEuropeRepository repository;
 
     @Autowired
-    private ObjectMapper objectMapper;
+    @Qualifier("legacyJsonMapper")
+    private JsonMapper objectMapper;
 
     @Override
     public Class<ClinicalTrialEurope> getEntityClass() {
@@ -45,7 +43,7 @@ public class ClinicalTrialEuropeEntityService extends AbstractGsrsEntityService<
     }
 
     @Override
-    protected ClinicalTrialEurope fromNewJson(JsonNode json) throws IOException {
+    protected ClinicalTrialEurope fromNewJson(JsonNode json) {
         return objectMapper.convertValue(json, ClinicalTrialEurope.class);
 
     }
@@ -82,19 +80,19 @@ public class ClinicalTrialEuropeEntityService extends AbstractGsrsEntityService<
     }
 
     @Override
-    protected List<ClinicalTrialEurope> fromNewJsonList(JsonNode list) throws IOException {
+    protected List<ClinicalTrialEurope> fromNewJsonList(JsonNode list) {
         return null;
     }
 
 
     @Override
-    protected ClinicalTrialEurope fromUpdatedJson(JsonNode json) throws IOException {
+    protected ClinicalTrialEurope fromUpdatedJson(JsonNode json) {
         return objectMapper.convertValue(json, ClinicalTrialEurope.class);
 
     }
 
     @Override
-    protected List<ClinicalTrialEurope> fromUpdatedJsonList(JsonNode list) throws IOException {
+    protected List<ClinicalTrialEurope> fromUpdatedJsonList(JsonNode list) {
         return null;
     }
 
@@ -142,5 +140,3 @@ public class ClinicalTrialEuropeEntityService extends AbstractGsrsEntityService<
     }
 
 }
-
-
